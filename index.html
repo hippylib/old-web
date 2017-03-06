@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="./img/favicon.ico">
+
+	<title>hIPPYlib</title>
+
+        <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/highlight.css">
+        <link href="./css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-52448613-3', 'hippylib.github.io');
+            ga('send', 'pageview');
+        </script>
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href=".">hIPPYlib</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li class="active">
+                    <a href=".">Home</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorial <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="tutorial/">README</a>
+                        </li>
+                    
+                        <li >
+                            <a href="tutorials/1_FEniCS101/">FEniCS101</a>
+                        </li>
+                    
+                        <li >
+                            <a href="tutorials/2_PoissonDeterministic/">Poisson Deterministic</a>
+                        </li>
+                    
+                        <li >
+                            <a href="tutorials/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+                        </li>
+                    
+                        <li >
+                            <a href="tutorials/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+                        </li>
+                    
+                        <li >
+                            <a href="tutorials/5_HessianSpectrum/">Hessian Spectrum</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="building/">Installation</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="download/">Download</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="research/">Research</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="outreach/">Outreach</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="about/">About</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="disabled">
+                    <a rel="next" >
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="tutorial/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/hippylib/hippylib">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#hippylib-inverse-problem-python-library">hIPPYlib - Inverse Problem PYthon library</a></li>
+        
+            <li><a href="#features">Features</a></li>
+        
+            <li><a href="#latest-release">Latest Release</a></li>
+        
+            <li><a href="#contact">Contact</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="hippylib-inverse-problem-python-library">hIPPYlib - Inverse Problem PYthon library</h1>
+<p>hIPPYlib implements state-of-the-art <em>scalable</em> <em>adjoint-based</em> algorithms for PDE-based <em>deterministic and Bayesian inverse problems</em>. It builds on <a href="http://www.fenicsproject.org" target="_blank">FEniCS</a> for the discretization of the PDE and on <a href="http://www.mcs.anl.gov/petsc/" target="_blank">PETSc</a> for scalable and efficient linear algebra operations and solvers.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Friendly, compact, near-mathematical FEniCS notation to express the PDE and likelihood in weak form</li>
+<li>Automatic generation of efficient code for the discretization of weak forms using FEniCS</li>
+<li>Symbolic differentiation of weak forms to generate derivatives and adjoint information</li>
+<li>Globalized Inexact Newton-CG method to solve the inverse problem</li>
+<li>Low rank representation of the posterior covariace using randomized algorithms.</li>
+</ul>
+<p>See also our <a href="tutorial/">tutorial</a> and list of related <a href="research/">publications</a>.</p>
+<h2 id="latest-release">Latest Release</h2>
+<ul>
+<li><a href="https://github.com/hippylib/hippylib">Development version</a></li>
+<li><a href="https://goo.gl/pDb10B">Download hippylib-1.1.0.tar.gz</a></li>
+<li><a href="download/">Previous releases</a></li>
+</ul>
+<h2 id="contact">Contact</h2>
+<p>Developed by the <a href="about/">hIPPYlib team</a> at <a href="http://ices.utexas.edu" target="_blank">UT Austin</a> and <a href="http://naturalsciences.ucmerced.edu/" target="_blank">UC Merced</a>.</p>
+<p>To ask question and find answers see <a href="https://groups.google.com/forum/#!forum/hippylib-support" target="_blank">here</a>.</p>
+<p>Please cite with </p>
+<pre><code class="sh">@article{VillaPetraGhattas2016,
+title = {&quot;hIPPYlib: AN EXTENSIBLE SOFTWARE FRAMEWORK FOR LARGE-SCALE DETERMINISTIC AND LINEARIZED BAYESIAN INVERSION&quot;},
+author = {Villa U., and Petra, N., and Ghattas, O.},
+year = {2016},
+url = {http://hippylib.github.io}
+}
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="./js/jquery-1.10.2.min.js"></script>
+        <script src="./js/bootstrap-3.0.3.min.js"></script>
+        <script src="./js/highlight.pack.js"></script>
+        <script src="./js/base.js"></script>
+        <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </body>
+</html>
