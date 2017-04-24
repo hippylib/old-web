@@ -165,7 +165,11 @@
         
             <li><a href="#download-hippylib">Download hippylib</a></li>
         
-            <li><a href="#install-fenics">Install FEniCS</a></li>
+            <li><a href="#buid-fenics-from-source-using-hashdist-linux-and-macos">Buid FEniCS from source using hashdist (Linux and MacOS)</a></li>
+        
+            <li><a href="#run-fenics-from-docker-linux-macos-windows">Run FEniCS from Docker (Linux, MacOS, Windows)</a></li>
+        
+            <li><a href="#other-ways-to-build-fenics">Other ways to build FEniCS</a></li>
         
     
     </ul>
@@ -174,50 +178,128 @@
 
 <h1 id="installation">Installation</h1>
 <h2 id="download-hippylib">Download hippylib</h2>
-<p>Release 1.1.0 of hIPPYlib is available for download <a href="https://goo.gl/pDb10B">here</a>.
-Simply decompress the file hippylib-1.1.0.tgz in your working directory. There is no installation necessary.
-You can directly run the examples from the <em>application</em> folder or view the notebooks from the <em>tutorial</em> folder. </p>
+<p>Release 1.2.0 of hIPPYlib is available for download <a href="https://goo.gl/OcvROZ">here</a>.
+Simply decompress the file <code>hippylib-1.2.0.tgz</code> in your working directory.</p>
+<p>There is no installation necessary.
+You can directly run the examples from the <code>application</code> folder or view the notebooks from the <code>tutorial</code> folder. </p>
 <p>To checkout the development version of hippylib use the command</p>
 <pre><code class="sh">git clone git@github.com:hippylib/hippylib.git 
 </code></pre>
 
-<p>The current version of hIPPYlib depends on <a href="http://fenicsproject.org/">FEniCS</a> version 1.6.
-It also offers partial support for FEniCS 1.5 and 2016.1 (examples and tutorial).
-Below you can find how to install FEniCS 1.6 on your system.</p>
-<h2 id="install-fenics">Install FEniCS</h2>
+<p>hIPPYlib depends on <a href="http://fenicsproject.org/">FEniCS</a> version 1.6 or
+above.  The suggested version of FEniCS to use with hIPPYlib is
+2016.2.</p>
+<p>FEniCS needs to be built with the following dependecies:</p>
 <ul>
-<li><strong>MacOS 10.10 and 10.11 systems:</strong></li>
+<li>numpy, scipy, matplotlib</li>
+<li>PETSc and petsc4py (version 3.7.0 or above)</li>
+<li>SLEPc and slepc4py (version 3.7.0 or above)</li>
+<li>PETSc dependencies: parmetis, scotch, suitesparse, superlu_dist, ml</li>
+<li>(optional): mshr, jupyter</li>
 </ul>
-<p>Download FEniCS 1.6.0 from <a href="https://fenicsproject.org/download/osx_details.html">here</a>.
-Find  your  MacOS  version  (either  10.11  or  10.10)  and  download  the appropriate  binaries  of  FEniCS  1.6.0.
-If  you  are  running bash as default shell, you can add the following line to your profile in your home folder:</p>
-<pre><code class="sh">source /Applications/FEniCS.app/Contents/Resources/share/fenics/fenics.conf
+<h2 id="buid-fenics-from-source-using-hashdist-linux-and-macos">Buid FEniCS from source using hashdist (Linux and MacOS)</h2>
+<p>To build FEniCS from source we suggest using the scripts and profile
+files in <code>fenics-hashdist</code>.</p>
+<p>These scripts and profile files contain
+small modifications with respect to the ones provided by the FEniCS
+community to ensure that all the dependencies needed by hIPPYlib are
+installed.</p>
+<h3 id="step-by-step-build">Step-by-step build</h3>
+<ul>
+<li><em>Select the correct hashdist profile file</em></li>
+</ul>
+<p>If you are running MacOS</p>
+<pre><code class="sh">ln -s local-darwin.yaml local.yaml
 </code></pre>
 
-<p>Alternatively you can just double-click on the FEniCS icon in your Applications directory and that will generate a new shell preconfigured with the paths that FEniCS needs. Just run FEniCS from within this shell.</p>
-<ul>
-<li><strong>MacOS 10.9:</strong></li>
-</ul>
-<p>Download FEniCS 1.5.0 from <a href="http://fenicsproject.org/download/older_releases.html#older-releases">here</a>.
-Find  your  MacOS  version and  download  the appropriate  binaries  of  FEniCS  1.5.0.
-Note FEniCS 1.5.0 will not be supported by future releases of hIPPYlib</p>
-<ul>
-<li><strong>Ubuntu LTS 14.04:</strong></li>
-</ul>
-<p>Open a shell and run the following commands:</p>
-<pre><code class="sh">sudo add-apt-repository ppa:fenics-packages/fenics-1.6.x
-sudo apt-get update
-sudo apt-get install -y fenics
-sudo apt-get dist-upgrade
-sudo apt-get install -y ipython-notebook
-sudo apt-get install -y paraview
-sudo apt-get install -y git
+<p>If you are running Linux:</p>
+<pre><code class="sh">ln -s local-linux.yaml local.yaml
 </code></pre>
 
-<p>If in the future you decide to uninstall FEniCS and remove all its dependencies, you can run the following commands:</p>
-<pre><code class="sh">sudo apt-get purge --auto-remove fenics
-sudo ppa-purge ppa:fenics-packages/fenics-1.6.x
-</code></pre></div>
+<ul>
+<li><em>Build FEniCS and all its dependencies</em></li>
+</ul>
+<pre><code class="sh">chmod +x fenics-install.sh
+./fenics-install.sh
+</code></pre>
+
+<p>This can take several hours.</p>
+<p>When it completes, a file <code>fenics.custom</code> will be generated.
+This files contains all the paths you need to add to your enviroment to run FEniCS.</p>
+<ul>
+<li><em>Source the fenics configuration file</em></li>
+</ul>
+<p>Everytime you open a new shell, you will have to add all the FEniCS
+paths to your enviroment before you can use FEniCS.</p>
+<pre><code class="sh">source &lt;HIPPYLIB_BASE_DIR&gt;/fenics-hashdist/fenics.custom
+</code></pre>
+
+<p>where <code>&lt;HIPPYLIB_BASE_DIR&gt;</code> is the absolute path to the folder where
+hIPPYlib resides.</p>
+<p>See <a href="https://github.com/hippylib/hippylib/blob/v1.2.0/fenics-hashdist/README.md">fenics-hashdist/README.md</a>
+for further details.</p>
+<h2 id="run-fenics-from-docker-linux-macos-windows">Run FEniCS from Docker (Linux, MacOS, Windows)</h2>
+<p>An easy way to run FEniCS is to use their prebuilt Docker images.</p>
+<p>First you will need to install <a href="https://www.docker.com/">Docker</a> on
+your system.  MacOS and Windows users should preferably use <code>Docker
+for Mac</code> or <code>Docker for Windows</code> --- if it is compatible with their
+system --- instead of the legacy version <code>Docker Toolbox</code>.</p>
+<p>Among the many docker's workflow discussed
+<a href="http://fenics.readthedocs.io/projects/containers/en/latest/quickstart.html">here</a>,
+we suggest using the <code>Jupyter notebook</code>
+<a href="http://fenics.readthedocs.io/projects/containers/en/latest/jupyter.html">one</a>.</p>
+<h3 id="docker-for-mac-docker-for-windows-and-linux-users-setup-and-first-use">Docker for Mac, Docker for Windows and Linux users (<em>Setup and first use</em>)</h3>
+<p>We first create a new Docker container to run the <code>jupyter-notebook</code>
+command and to expose port <code>8888</code>.</p>
+<p>From a command line shell, go to the <code>hippylib</code> folder and type:</p>
+<pre><code class="sh">docker run --name hippylib-nb -w /home/fenics/hippylib -v $(pwd):/home/fenics/hippylib -d -p 127.0.0.1:8888:8888 quay.io/fenicsproject/stable:2016.2.0.r2 'jupyter-notebook --ip=0.0.0.0'
+docker logs hippylib-nb
+</code></pre>
+
+<p>The notebook will be available at
+<code>http://localhost:8888/?token=&lt;security_token_for_first_time_connection&gt;</code>
+in your web browser.</p>
+<p>From there you can run the interactive notebooks
+or create a new shell (directly from your browser) to run python
+scripts.</p>
+<h3 id="docker-toolbox-users-on-macwindows-setup-and-first-use">Docker Toolbox users on Mac/Windows (<em>Setup and first use</em>)</h3>
+<p>Docker Toolbox is for older Mac and Windows systems that do not meet
+the requirements of <code>Docker for Mac</code> or <code>Docker for Windows</code>.  Docker
+Toolbox will first create a lightweight linux virtual machine on your
+system and run docker from the virtual machine.  This has implications
+on the workflow presented above.</p>
+<p>We first create a new Docker container to run the 'jupyter-notebook' command and to expose port <code>8888</code> on the virtual machine.</p>
+<p>From a command line shell, go to the <code>hippylib</code> folder and type:</p>
+<pre><code class="sh">docker run --name hippylib-nb -w /home/fenics/hippylib -v $(pwd):/home/fenics/hippylib -d -p $(docker-machine ip $(docker-machine active)):8888:8888 quay.io/fenicsproject/stable:2016.2.0.r2 'jupyter-notebook --ip=0.0.0.0'
+docker logs hippylib-nb
+</code></pre>
+
+<p>To find out the IP of the virtual machine we type:</p>
+<pre><code class="sh">docker-machine ip $(docker-machine active)
+</code></pre>
+
+<p>The notebook will be available at <code>http://&lt;ip-of-virtual-machine&gt;:8888/?token=&lt;security_token_for_first_time_connection&gt;</code> in your web browser.
+From there you can run the interactive notebooks or create a new shell (directly from your browser) to run python scripts.</p>
+<h3 id="subsequent-uses">Subsequent uses</h3>
+<p>The docker container will continue to run in the background until we stop it:</p>
+<pre><code class="sh">docker stop hippylib-nb
+</code></pre>
+
+<p>To start it again just run:</p>
+<pre><code class="sh">docker start hippylib-nb
+</code></pre>
+
+<p>If you would like to see the log output from the Jupyter notebook server (e.g. if you need the security token) type:</p>
+<pre><code class="sh">docker logs hippylib-nb
+</code></pre>
+
+<h2 id="other-ways-to-build-fenics">Other ways to build FEniCS</h2>
+<p>For instructions on other ways to build FEniCS (e.g. using <code>Anaconda</code>
+or <code>apt-get</code> in Ubuntu), we refer to the FEniCS project <a href="https://fenicsproject.org/download/">download
+page</a>.  Note that this
+instructions always refer to the latest version of FEniCS which may or
+may not be yet supported by hIPPYlib. Always check the hIPPYlib
+website for supported FEniCS versions.</p></div>
         </div>
 
         <footer class="col-md-12">
@@ -230,6 +312,6 @@ sudo ppa-purge ppa:fenics-packages/fenics-1.6.x
         <script src="../js/bootstrap-3.0.3.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
         <script src="../js/base.js"></script>
-        <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </body>
 </html>
