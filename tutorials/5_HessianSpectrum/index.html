@@ -218,7 +218,7 @@ Find the state <script type="math/tex">u \in H^1_{\Gamma_D}(\Omega)</script> and
 </li>
 </ul>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code>import dolfin as dl
+<pre><code class="python">import dolfin as dl
 import numpy as np
 import matplotlib.pyplot as plt
 %matplotlib inline
@@ -235,7 +235,7 @@ dl.set_log_active(False)
 </code></pre>
 
 <h2 id="2-the-linear-source-inversion-problem">2. The linear source inversion problem</h2>
-<pre><code>def pde_varf(u,a,p):
+<pre><code class="python">def pde_varf(u,a,p):
     return k*dl.inner(dl.nabla_grad(u), dl.nabla_grad(p))*dl.dx \
            + dl.inner(dl.nabla_grad(u), v*p)*dl.dx \
            + c*u*p*dl.dx \
@@ -254,15 +254,15 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
         print &quot;Number of dofs: STATE={0}, PARAMETER={1}, ADJOINT={2}&quot;.format(Vh[STATE].dim(), Vh[PARAMETER].dim(), Vh[ADJOINT].dim())
 
 
-    u_bdr = dl.Expression(&quot;0.0&quot;)
-    u_bdr0 = dl.Expression(&quot;0.0&quot;)
+    u_bdr = dl.Constant(0.0)
+    u_bdr0 = dl.Constant(0.0)
     bc = dl.DirichletBC(Vh[STATE], u_bdr, u_boundary)
     bc0 = dl.DirichletBC(Vh[STATE], u_bdr0, u_boundary)
 
-    atrue = dl.interpolate( dl.Expression(&quot;exp( -50*(x[0] - .5)*(x[0] - .5) - 50*(x[1] - .5)*(x[1] - .5))&quot;), Vh[PARAMETER]).vector()
-    a0 = dl.interpolate(dl.Expression(&quot;0.0&quot;), Vh[PARAMETER]).vector()
+    atrue = dl.interpolate( dl.Expression('min(0.5,exp(-100*(pow(x[0]-0.35,2) +  pow(x[1]-0.7,2))))',degree=5), Vh[PARAMETER]).vector()
+    a0 = dl.interpolate(dl.Constant(0.0), Vh[PARAMETER]).vector()
 
-    pde = PDEVariationalProblem(Vh, pde_varf, bc, bc0)
+    pde = PDEVariationalProblem(Vh, pde_varf, bc, bc0, is_fwd_linear=True)
 
     if verbose:
         print &quot;Number of observation points: {0}&quot;.format(targets.shape[0])
@@ -345,7 +345,7 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
 </code></pre>
 
 <h2 id="3-solution-of-the-source-inversion-problem">3. Solution of the source inversion problem</h2>
-<pre><code>ndim = 2
+<pre><code class="python">ndim = 2
 nx = 32
 ny = 32
 
@@ -357,9 +357,9 @@ rel_noise = 0.01
 gamma = 70.
 delta = 1e-1
 
-k = dl.Expression(&quot;1.0&quot;)
-v = dl.Expression((&quot;0.0&quot;, &quot;0.0&quot;))
-c = dl.Expression(&quot;0.&quot;)
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(0.)
 
 d, U, Va, nit = solve(nx,ny, targets, rel_noise, gamma, delta)
 </code></pre>
@@ -367,21 +367,21 @@ d, U, Va, nit = solve(nx,ny, targets, rel_noise, gamma, delta)
 <pre><code>Number of dofs: STATE=1089, PARAMETER=1089, ADJOINT=1089
 Number of observation points: 300
 </code></pre>
-<p><img alt="png" src="./output_6_1.png" /></p>
-<pre><code>CG converged in  49  iterations.
+<p><img alt="png" src="./output_6_2.png" /></p>
+<pre><code>CG converged in  75  iterations.
 </code></pre>
-<p><img alt="png" src="./output_6_3.png" /></p>
+<p><img alt="png" src="./output_6_4.png" /></p>
 <pre><code>Double Pass Algorithm. Requested eigenvectors: 80; Oversampling 5.
 </code></pre>
-<p><img alt="png" src="./output_6_5.png" /></p>
 <p><img alt="png" src="./output_6_6.png" /></p>
+<p><img alt="png" src="./output_6_7.png" /></p>
 <h2 id="4-mesh-independence-of-the-spectrum-of-the-preconditioned-hessian">4. Mesh independence of the spectrum of the preconditioned Hessian</h2>
-<pre><code>gamma = 70.
+<pre><code class="python">gamma = 70.
 delta = 1e-1
 
-k = dl.Expression(&quot;1.0&quot;)
-v = dl.Expression((&quot;0.0&quot;, &quot;0.0&quot;))
-c = dl.Expression(&quot;0.&quot;)
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(0.)
 
 n = [16,32,64]
 d1, U1, Va1, niter1 = solve(n[0],n[0], targets, rel_noise, gamma, delta,verbose=False)
@@ -401,7 +401,7 @@ nb.plot_eigenvectors(Va3, U3, mytitle=&quot;Mesh {0} by {1} Eigen&quot;.format(n
 plt.show()
 </code></pre>
 
-<pre><code>Number of Iterations:  45 48 49
+<pre><code>Number of Iterations:  62 73 78
 </code></pre>
 <p><img alt="png" src="./output_8_1.png" /></p>
 <p><img alt="png" src="./output_8_2.png" /></p>
@@ -409,12 +409,12 @@ plt.show()
 <p><img alt="png" src="./output_8_4.png" /></p>
 <h2 id="5-dependence-on-the-noise-level">5. Dependence on the noise level</h2>
 <p>We solve the problem for different noise levels. The higher the noise level the more important becomes the effect of the regularization.</p>
-<pre><code>gamma = 70.
+<pre><code class="python">gamma = 70.
 delta = 1e-1
 
-k = dl.Expression(&quot;1.0&quot;)
-v = dl.Expression((&quot;0.0&quot;, &quot;0.0&quot;))
-c = dl.Expression(&quot;0.&quot;)
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(0.)
 
 rel_noise = [1e-3,1e-2,1e-1]
 d1, U1, Va1, niter1 = solve(nx,ny, targets, rel_noise[0], gamma, delta,verbose=False)
@@ -434,7 +434,7 @@ nb.plot_eigenvectors(Va3, U3, mytitle=&quot;rel_noise {0:g} Eigen&quot;.format(r
 plt.show()
 </code></pre>
 
-<pre><code>Number of Iterations:  112 48 18
+<pre><code>Number of Iterations:  162 75 21
 </code></pre>
 <p><img alt="png" src="./output_10_1.png" /></p>
 <p><img alt="png" src="./output_10_2.png" /></p>
@@ -443,16 +443,16 @@ plt.show()
 <h2 id="6-dependence-on-the-pde-coefficients">6. Dependence on the PDE coefficients</h2>
 <p>Assume a constant reaction term <script type="math/tex">c = 1</script>, and we consider different values for the diffusivity coefficient <script type="math/tex">k</script>.</p>
 <p>The smaller the value of <script type="math/tex">k</script> the slower the decay in the spectrum.</p>
-<pre><code>rel_noise = 0.01
+<pre><code class="python">rel_noise = 0.01
 
-k = dl.Expression(&quot;1.0&quot;)
-v = dl.Expression((&quot;0.0&quot;, &quot;0.0&quot;))
-c = dl.Expression(&quot;1.0&quot;)
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(1.0)
 
 d1, U1, Va1, niter1 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
-k = dl.Expression(&quot;0.1&quot;)
+k = dl.Constant(0.1)
 d2, U2, Va2, niter2 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
-k = dl.Expression(&quot;0.01&quot;)
+k = dl.Constant(0.01)
 d3, U3, Va3, niter3 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
 
 print &quot;Number of Iterations: &quot;, niter1, niter2, niter3
@@ -468,7 +468,7 @@ nb.plot_eigenvectors(Va3, U3, mytitle=&quot;k=0.01 Eigen&quot;, which=[0,1,5])
 plt.show()
 </code></pre>
 
-<pre><code>Number of Iterations:  61 99 158
+<pre><code>Number of Iterations:  91 148 250
 </code></pre>
 <p><img alt="png" src="./output_12_1.png" /></p>
 <p><img alt="png" src="./output_12_2.png" /></p>
