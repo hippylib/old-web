@@ -252,7 +252,7 @@ we suggest using the <code>Jupyter notebook</code>
 <p>We first create a new Docker container to run the <code>jupyter-notebook</code>
 command and to expose port <code>8888</code>.</p>
 <p>From a command line shell, go to the <code>hippylib</code> folder and type:</p>
-<pre><code class="sh">docker run --name hippylib-nb -w /home/fenics/hippylib -v $(pwd):/home/fenics/hippylib -d -p 127.0.0.1:8888:8888 quay.io/fenicsproject/stable:2016.2.0.r2 'jupyter-notebook --ip=0.0.0.0'
+<pre><code class="sh">docker run --name hippylib-nb -w /home/fenics/hippylib -v $(pwd):/home/fenics/hippylib -d -p 127.0.0.1:8888:8888 quay.io/fenicsproject/stable:2016.2.0 'jupyter-notebook --ip=0.0.0.0'
 docker logs hippylib-nb
 </code></pre>
 
@@ -270,7 +270,7 @@ system and run docker from the virtual machine.  This has implications
 on the workflow presented above.</p>
 <p>We first create a new Docker container to run the 'jupyter-notebook' command and to expose port <code>8888</code> on the virtual machine.</p>
 <p>From a command line shell, go to the <code>hippylib</code> folder and type:</p>
-<pre><code class="sh">docker run --name hippylib-nb -w /home/fenics/hippylib -v $(pwd):/home/fenics/hippylib -d -p $(docker-machine ip $(docker-machine active)):8888:8888 quay.io/fenicsproject/stable:2016.2.0.r2 'jupyter-notebook --ip=0.0.0.0'
+<pre><code class="sh">docker run --name hippylib-nb -w /home/fenics/hippylib -v $(pwd):/home/fenics/hippylib -d -p $(docker-machine ip $(docker-machine active)):8888:8888 quay.io/fenicsproject/stable:2016.2.0 'jupyter-notebook --ip=0.0.0.0'
 docker logs hippylib-nb
 </code></pre>
 
