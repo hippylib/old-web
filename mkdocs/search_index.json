@@ -392,7 +392,7 @@
         }, 
         {
             "location": "/outreach/", 
-            "text": "Outreach\n\n\nSchools and workshops\n\n\n\n\n\n\nO. Ghattas, Y. Marzouk, M. Parno, N. Petra, G. Stadler, U. Villa, \nInverse Problems:\nSystematic Integration of Data with Models under Uncertainty\n, Gene Golub SIAM Summer School, Breckenridge, CO, June 2018. \nEarly announement flyer\n; more details coming soon.\n\n\n\n\n\n\nN. Petra, \nSAMSI Optimization Program Summer School\n, Research Triangle Park, NC,  August 8-12, 2016\n\n\n\n\n\n\nN. Petra and O. Ghattas, \nIDEALab: Inverse Problems and Uncertainty Quantification\n, Brown University, Providence, RD, July 6-10, 2015\n\n\n\n\n\n\nGraduate level courses\n\n\n\n\n\n\nA. Alexanderian @NC State, \nInverse problems\n, Fall 2016\n\n\n\n\n\n\nG. Stadler @NYU, \nAdvanced Topics in Numerical Analysis: Computational and Variational Methods for Inverse Problems\n, Spring 2016 \nlink\n\n\n\n\n\n\nN. Petra @UC Merced, \nSpecial Topics: Computational and Variational Inverse Problems\n, Fall 2015 \nlink\n\n\n\n\n\n\nO. Ghattas @UT Austin, \nComputational and Variational Inverse Problems\n, Fall 2015 \nlink\n\n\n\n\n\n\nGrants\n\n\n\n\n\n\n\nPIs: O. Ghattas, M. Parno, N. Petra, Y. Marzouk, U. Villa, \nIntegrating Data with Complex Predictive Models under Uncertainty: An Extensible Software Framework for Large-Scale Bayesian Inversion\n, NSF-SSI2", 
+            "text": "Outreach\n\n\nSchools and workshops\n\n\n\n\n\n\nO. Ghattas, Y. Marzouk, M. Parno, N. Petra, G. Stadler, U. Villa, \nInverse Problems:\nSystematic Integration of Data with Models under Uncertainty\n, Gene Golub SIAM Summer School, Breckenridge, CO, June 2018. \nEarly announement flyer\n; more details coming soon.\n\n\n\n\n\n\nN. Petra, \nSAMSI Optimization Program Summer School\n, Research Triangle Park, NC,  August 8-12, 2016\n\n\n\n\n\n\nN. Petra and O. Ghattas, \nIDEALab: Inverse Problems and Uncertainty Quantification\n, Brown University, Providence, RD, July 6-10, 2015\n\n\n\n\n\n\nGraduate level courses\n\n\n\n\n\n\nO. Ghattas @UT Austin, \nComputational and Variational Inverse Problems\n, Fall 2017\n\n\n\n\n\n\nA. Alexanderian @NC State, \nInverse problems\n, Fall 2016\n\n\n\n\n\n\nG. Stadler @NYU, \nAdvanced Topics in Numerical Analysis: Computational and Variational Methods for Inverse Problems\n, Spring 2016 \nlink\n\n\n\n\n\n\nN. Petra @UC Merced, \nSpecial Topics: Computational and Variational Inverse Problems\n, Fall 2015 \nlink\n\n\n\n\n\n\nO. Ghattas @UT Austin, \nComputational and Variational Inverse Problems\n, Fall 2015 \nlink", 
             "title": "Outreach"
         }, 
         {
@@ -407,13 +407,8 @@
         }, 
         {
             "location": "/outreach/#graduate-level-courses", 
-            "text": "A. Alexanderian @NC State,  Inverse problems , Fall 2016    G. Stadler @NYU,  Advanced Topics in Numerical Analysis: Computational and Variational Methods for Inverse Problems , Spring 2016  link    N. Petra @UC Merced,  Special Topics: Computational and Variational Inverse Problems , Fall 2015  link    O. Ghattas @UT Austin,  Computational and Variational Inverse Problems , Fall 2015  link", 
+            "text": "O. Ghattas @UT Austin,  Computational and Variational Inverse Problems , Fall 2017    A. Alexanderian @NC State,  Inverse problems , Fall 2016    G. Stadler @NYU,  Advanced Topics in Numerical Analysis: Computational and Variational Methods for Inverse Problems , Spring 2016  link    N. Petra @UC Merced,  Special Topics: Computational and Variational Inverse Problems , Fall 2015  link    O. Ghattas @UT Austin,  Computational and Variational Inverse Problems , Fall 2015  link", 
             "title": "Graduate level courses"
-        }, 
-        {
-            "location": "/outreach/#grants", 
-            "text": "PIs: O. Ghattas, M. Parno, N. Petra, Y. Marzouk, U. Villa,  Integrating Data with Complex Predictive Models under Uncertainty: An Extensible Software Framework for Large-Scale Bayesian Inversion , NSF-SSI2", 
-            "title": "Grants"
         }, 
         {
             "location": "/postdoc_position/", 
@@ -432,7 +427,7 @@
         }, 
         {
             "location": "/about/", 
-            "text": "About hIPPYlib\n\n\nAuthors\n\n\n\n\nOmar Ghattas\n\n\nNoemi Petra\n\n\nUmberto Villa\n\n\n\n\nContributors\n\n\n\n\nAmal Alghamdi\n\n\nJoshua Chen\n\n\nPeng Chen\n\n\nBen Crestel\n\n\nTom O'Leary-Roseberry\n\n\nVishwas Rao\n\n\n\n\nCopyright\n\n\n 2016 The University of Texas at Austin, University of California Merced.\n\n\nLicense\n\n\n\n\nGNU General Public License version 2 (GPL)\n\n\nOlder Releases (1.2.0 or older): \nGNU General Public License version 3 (GPL)\n\n\n\n\n\n\n\n\nWebsite built with \nMkDocs\n, \nbootstrap\n, \nbootswatch\n, and \nMathJax\n.\nHosted on \nGitHub\n.", 
+            "text": "About hIPPYlib\n\n\nAuthors\n\n\n\n\nOmar Ghattas\n\n\nNoemi Petra\n\n\nUmberto Villa\n\n\n\n\nContributors\n\n\nAmal Alghamdi,\nJoshua Chen,\n\nPeng Chen\n,\nBen Crestel,\nTom O'Leary-Roseberry,\nVishwas Rao,\nSiddhant Wahal\n\n\nCopyright\n\n\n 2016-2017 The University of Texas at Austin, University of California Merced.\n\n\nSupport\n\n\n\n\n\n\nO. Ghattas, N. Petra (PIs),  U. Villa (Co-PI), \nIntegrating Data with Complex Predictive Models under Uncertainty: An Extensible Software Framework for Large-Scale Bayesian Inversion\n, NSF-SSI2, Grants No ACI-1550593, ACI-1550547 (2016-2019).\n\n\n\n\n\n\nO. Ghattas (PI); G. Biros and Y. Marzouk (Co-PIs), \nBayesian Optimal Experimental Design for Inverse Scattering\n,\nAir Force Office of Scientific Research, Computational Mathematics program, grant FA9550-12-1-81243 (2017\u20132020).\n\n\n\n\n\n\nO. Ghattas (PI), G. Biros, M. Girolami, M. Heinkenschloss, R. Moser, A. Philpott, A. Stuart, and K. Willcox (Co-PIs), \nInference, Simulation, and Optimization of Complex Systems Under Uncertainty: Theory, Algorithms, and Applications to Turbulent Combustion\n, DARPA/ARO, Grants No W911NF-15-2-0121 (2016-2017).\n\n\n\n\n\n\nLicense\n\n\n\n\nGNU General Public License version 2 (GPL)\n\n\nOlder Releases (1.2.0 or older): \nGNU General Public License version 3 (GPL)\n\n\n\n\n\n\n\n\nWebsite built with \nMkDocs\n, \nbootstrap\n, \nbootswatch\n, and \nMathJax\n.\nHosted on \nGitHub\n.", 
             "title": "About"
         }, 
         {
@@ -447,13 +442,18 @@
         }, 
         {
             "location": "/about/#contributors", 
-            "text": "Amal Alghamdi  Joshua Chen  Peng Chen  Ben Crestel  Tom O'Leary-Roseberry  Vishwas Rao", 
+            "text": "Amal Alghamdi,\nJoshua Chen, Peng Chen ,\nBen Crestel,\nTom O'Leary-Roseberry,\nVishwas Rao,\nSiddhant Wahal", 
             "title": "Contributors"
         }, 
         {
             "location": "/about/#copyright", 
-            "text": "2016 The University of Texas at Austin, University of California Merced.", 
+            "text": "2016-2017 The University of Texas at Austin, University of California Merced.", 
             "title": "Copyright"
+        }, 
+        {
+            "location": "/about/#support", 
+            "text": "O. Ghattas, N. Petra (PIs),  U. Villa (Co-PI),  Integrating Data with Complex Predictive Models under Uncertainty: An Extensible Software Framework for Large-Scale Bayesian Inversion , NSF-SSI2, Grants No ACI-1550593, ACI-1550547 (2016-2019).    O. Ghattas (PI); G. Biros and Y. Marzouk (Co-PIs),  Bayesian Optimal Experimental Design for Inverse Scattering ,\nAir Force Office of Scientific Research, Computational Mathematics program, grant FA9550-12-1-81243 (2017\u20132020).    O. Ghattas (PI), G. Biros, M. Girolami, M. Heinkenschloss, R. Moser, A. Philpott, A. Stuart, and K. Willcox (Co-PIs),  Inference, Simulation, and Optimization of Complex Systems Under Uncertainty: Theory, Algorithms, and Applications to Turbulent Combustion , DARPA/ARO, Grants No W911NF-15-2-0121 (2016-2017).", 
+            "title": "Support"
         }, 
         {
             "location": "/about/#license", 
