@@ -218,14 +218,17 @@ Find the state <script type="math/tex">u \in H^1_{\Gamma_D}(\Omega)</script> and
 </li>
 </ul>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code class="python">import dolfin as dl
+<pre><code class="python">from __future__ import absolute_import, division, print_function
+
+import dolfin as dl
 import numpy as np
 import matplotlib.pyplot as plt
 %matplotlib inline
 import nb
 
 import sys
-sys.path.append(&quot;../&quot;)
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
 from hippylib import *
 
 import logging
@@ -251,7 +254,8 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
 
     Vh = [Vh1, Vh1, Vh1]
     if verbose:
-        print &quot;Number of dofs: STATE={0}, PARAMETER={1}, ADJOINT={2}&quot;.format(Vh[STATE].dim(), Vh[PARAMETER].dim(), Vh[ADJOINT].dim())
+        print(&quot;Number of dofs: STATE={0}, PARAMETER={1}, ADJOINT={2}&quot;.format(
+            Vh[STATE].dim(), Vh[PARAMETER].dim(), Vh[ADJOINT].dim()) )
 
 
     u_bdr = dl.Constant(0.0)
@@ -265,7 +269,7 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
     pde = PDEVariationalProblem(Vh, pde_varf, bc, bc0, is_fwd_linear=True)
 
     if verbose:
-        print &quot;Number of observation points: {0}&quot;.format(targets.shape[0])
+        print(&quot;Number of observation points: {0}&quot;.format(targets.shape[0]))
 
     misfit = PointwiseStateObservation(Vh[STATE], targets)
 
@@ -310,9 +314,9 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
 
     if solver.converged:
         if verbose:
-            print &quot;CG converged in &quot;, solver.iter, &quot; iterations.&quot;
+            print(&quot;CG converged in &quot;, solver.iter, &quot; iterations.&quot;)
     else:
-        print &quot;CG did not converged.&quot;
+        print(&quot;CG did not converged.&quot;)
         raise
 
     model.solveFwd(u, x, 1e-12)
@@ -330,8 +334,8 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
     k_evec = 80
     p_evec = 5
     if verbose:
-        print &quot;Double Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k_evec,p_evec)
-    Omega = np.random.randn(a.array().shape[0], k_evec+p_evec)
+        print(&quot;Double Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k_evec,p_evec))
+    Omega = np.random.randn(get_local_size(a), k_evec+p_evec)
     d, U = doublePassG(H, reg.R, reg.Rsolver, Omega, k_evec)
 
     if verbose:
@@ -367,14 +371,14 @@ d, U, Va, nit = solve(nx,ny, targets, rel_noise, gamma, delta)
 <pre><code>Number of dofs: STATE=1089, PARAMETER=1089, ADJOINT=1089
 Number of observation points: 300
 </code></pre>
-<p><img alt="png" src="./output_6_2.png" /></p>
-<pre><code>CG converged in  75  iterations.
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_6_2.png" /></p>
+<pre><code>CG converged in  74  iterations.
 </code></pre>
-<p><img alt="png" src="./output_6_4.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_6_4.png" /></p>
 <pre><code>Double Pass Algorithm. Requested eigenvectors: 80; Oversampling 5.
 </code></pre>
-<p><img alt="png" src="./output_6_6.png" /></p>
-<p><img alt="png" src="./output_6_7.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_6_6.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_6_7.png" /></p>
 <h2 id="4-mesh-independence-of-the-spectrum-of-the-preconditioned-hessian">4. Mesh independence of the spectrum of the preconditioned Hessian</h2>
 <pre><code class="python">gamma = 70.
 delta = 1e-1
@@ -388,7 +392,7 @@ d1, U1, Va1, niter1 = solve(n[0],n[0], targets, rel_noise, gamma, delta,verbose=
 d2, U2, Va2, niter2 = solve(n[1],n[1], targets, rel_noise, gamma, delta,verbose=False)
 d3, U3, Va3, niter3 = solve(n[2],n[2], targets, rel_noise, gamma, delta,verbose=False)
 
-print &quot;Number of Iterations: &quot;, niter1, niter2, niter3
+print(&quot;Number of Iterations: &quot;, niter1, niter2, niter3)
 plt.figure(figsize=(18,4))
 nb.plot_eigenvalues(d1, mytitle=&quot;Eigenvalues Mesh {0} by {1}&quot;.format(n[0],n[0]), subplot_loc=131)
 nb.plot_eigenvalues(d2, mytitle=&quot;Eigenvalues Mesh {0} by {1}&quot;.format(n[1],n[1]), subplot_loc=132)
@@ -401,12 +405,12 @@ nb.plot_eigenvectors(Va3, U3, mytitle=&quot;Mesh {0} by {1} Eigen&quot;.format(n
 plt.show()
 </code></pre>
 
-<pre><code>Number of Iterations:  62 73 78
+<pre><code>Number of Iterations:  62 74 76
 </code></pre>
-<p><img alt="png" src="./output_8_1.png" /></p>
-<p><img alt="png" src="./output_8_2.png" /></p>
-<p><img alt="png" src="./output_8_3.png" /></p>
-<p><img alt="png" src="./output_8_4.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_8_1.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_8_2.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_8_3.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_8_4.png" /></p>
 <h2 id="5-dependence-on-the-noise-level">5. Dependence on the noise level</h2>
 <p>We solve the problem for different noise levels. The higher the noise level the more important becomes the effect of the regularization.</p>
 <pre><code class="python">gamma = 70.
@@ -421,7 +425,7 @@ d1, U1, Va1, niter1 = solve(nx,ny, targets, rel_noise[0], gamma, delta,verbose=F
 d2, U2, Va2, niter2 = solve(nx,ny, targets, rel_noise[1], gamma, delta,verbose=False)
 d3, U3, Va3, niter3 = solve(nx,ny, targets, rel_noise[2], gamma, delta,verbose=False)
 
-print &quot;Number of Iterations: &quot;, niter1, niter2, niter3
+print(&quot;Number of Iterations: &quot;, niter1, niter2, niter3)
 plt.figure(figsize=(18,4))
 nb.plot_eigenvalues(d1, mytitle=&quot;Eigenvalues rel_noise {0:g}&quot;.format(rel_noise[0]), subplot_loc=131)
 nb.plot_eigenvalues(d2, mytitle=&quot;Eigenvalues rel_noise {0:g}&quot;.format(rel_noise[1]), subplot_loc=132)
@@ -434,12 +438,12 @@ nb.plot_eigenvectors(Va3, U3, mytitle=&quot;rel_noise {0:g} Eigen&quot;.format(r
 plt.show()
 </code></pre>
 
-<pre><code>Number of Iterations:  162 75 21
+<pre><code>Number of Iterations:  161 74 21
 </code></pre>
-<p><img alt="png" src="./output_10_1.png" /></p>
-<p><img alt="png" src="./output_10_2.png" /></p>
-<p><img alt="png" src="./output_10_3.png" /></p>
-<p><img alt="png" src="./output_10_4.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_10_1.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_10_2.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_10_3.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_10_4.png" /></p>
 <h2 id="6-dependence-on-the-pde-coefficients">6. Dependence on the PDE coefficients</h2>
 <p>Assume a constant reaction term <script type="math/tex">c = 1</script>, and we consider different values for the diffusivity coefficient <script type="math/tex">k</script>.</p>
 <p>The smaller the value of <script type="math/tex">k</script> the slower the decay in the spectrum.</p>
@@ -455,7 +459,7 @@ d2, U2, Va2, niter2 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=Fals
 k = dl.Constant(0.01)
 d3, U3, Va3, niter3 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
 
-print &quot;Number of Iterations: &quot;, niter1, niter2, niter3
+print(&quot;Number of Iterations: &quot;, niter1, niter2, niter3)
 plt.figure(figsize=(18,4))
 nb.plot_eigenvalues(d1, mytitle=&quot;Eigenvalues k=1.0&quot;, subplot_loc=131)
 nb.plot_eigenvalues(d2, mytitle=&quot;Eigenvalues k=0.1&quot;, subplot_loc=132)
@@ -468,13 +472,13 @@ nb.plot_eigenvectors(Va3, U3, mytitle=&quot;k=0.01 Eigen&quot;, which=[0,1,5])
 plt.show()
 </code></pre>
 
-<pre><code>Number of Iterations:  91 148 250
+<pre><code>Number of Iterations:  88 147 256
 </code></pre>
-<p><img alt="png" src="./output_12_1.png" /></p>
-<p><img alt="png" src="./output_12_2.png" /></p>
-<p><img alt="png" src="./output_12_3.png" /></p>
-<p><img alt="png" src="./output_12_4.png" /></p>
-<p>Copyright (c) 2016, The University of Texas at Austin &amp; University of California, Merced.
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_12_1.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_12_2.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_12_3.png" /></p>
+<p><img alt="png" src="./5_HessianSpectrum_files/5_HessianSpectrum_12_4.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
 All Rights reserved.
 See file COPYRIGHT for details.</p>
 <p>This file is part of the hIPPYlib library. For more information and source code
@@ -485,7 +489,7 @@ availability see https://hippylib.github.io.</p>
         <footer class="col-md-12">
             <hr>
             
-                <center>Copyright &copy; 2016-2017 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</center>
+                <center>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</center>
             
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>

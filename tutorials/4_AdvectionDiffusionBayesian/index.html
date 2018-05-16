@@ -291,15 +291,18 @@ Navier-Stokes equation with the side walls driving the flow:</p>
 </script>
 </p>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code class="python">import dolfin as dl
+<pre><code class="python">from __future__ import absolute_import, division, print_function
+
+import dolfin as dl
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 %matplotlib inline
 import sys
-sys.path.append( &quot;../&quot; )
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
 from hippylib import *
-sys.path.append( &quot;../applications/ad_diff/&quot; )
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;..&quot;) + &quot;/applications/ad_diff/&quot; )
 from model_ad_diff import TimeDependentAD
 
 import nb
@@ -362,10 +365,10 @@ def computeVelocityField(mesh):
 <pre><code class="python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
 wind_velocity = computeVelocityField(mesh)
 Vh = dl.FunctionSpace(mesh, &quot;Lagrange&quot;, 1)
-print &quot;Number of dofs: {0}&quot;.format( Vh.dim() )
+print(&quot;Number of dofs: {0}&quot;.format( Vh.dim() ) )
 </code></pre>
 
-<p><img alt="png" src="./output_6_1.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_6_1.png" /></p>
 <pre><code>Number of dofs: 2023
 </code></pre>
 <h2 id="4-set-up-model-prior-trueproposed-initial-condition">4. Set up model (prior, true/proposed initial condition)</h2>
@@ -388,7 +391,7 @@ nb.multi1_plot(objs, mytitles)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./output_8_0.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_8_0.png" /></p>
 <h2 id="5-generate-the-synthetic-observations">5. Generate the synthetic observations</h2>
 <pre><code class="python">rel_noise = 0.001
 utrue = problem.generate_vector(STATE)
@@ -403,7 +406,7 @@ problem.noise_variance = noise_std_dev*noise_std_dev
 nb.show_solution(Vh, true_initial_condition, utrue, &quot;Solution&quot;)
 </code></pre>
 
-<p><img alt="png" src="./output_10_0.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_10_0.png" /></p>
 <h2 id="6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</h2>
 <pre><code class="python">a0 = true_initial_condition.copy()
 modelVerify(problem, a0, 1e-12, is_quadratic=True)
@@ -411,7 +414,7 @@ modelVerify(problem, a0, 1e-12, is_quadratic=True)
 
 <pre><code>(yy, H xx) - (xx, H yy) =  -4.75341826113e-14
 </code></pre>
-<p><img alt="png" src="./output_12_1.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_12_1.png" /></p>
 <h2 id="7-evaluate-the-gradient">7. Evaluate the gradient</h2>
 <pre><code class="python">[u,a,p] = problem.generate_vector()
 problem.solveFwd(u, [u,a,p], 1e-12)
@@ -419,7 +422,7 @@ problem.solveAdj(p, [u,a,p], 1e-12)
 mg = problem.generate_vector(PARAMETER)
 grad_norm = problem.evalGradientParameter([u,a,p], mg)
 
-print &quot;(g,g) = &quot;, grad_norm
+print(&quot;(g,g) = &quot;, grad_norm)
 </code></pre>
 
 <pre><code>(g,g) =  1.66716039169e+12
@@ -429,8 +432,8 @@ print &quot;(g,g) = &quot;, grad_norm
 
 k = 80
 p = 20
-print &quot;Single Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k,p)
-Omega = np.random.randn(a.array().shape[0], k+p)
+print(&quot;Single Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k,p))
+Omega = np.random.randn(get_local_size(a), k+p)
 d, U = singlePassG(H, prior.R, prior.Rsolver, Omega, k)
 
 
@@ -446,8 +449,8 @@ nb.plot_eigenvectors(Vh, U, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,2
 
 <pre><code>Single Pass Algorithm. Requested eigenvectors: 80; Oversampling 20.
 </code></pre>
-<p><img alt="png" src="./output_16_1.png" /></p>
-<p><img alt="png" src="./output_16_2.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_1.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_2.png" /></p>
 <h2 id="9-compute-the-map-point">9. Compute the MAP point</h2>
 <pre><code class="python">H.misfit_only = False
 
@@ -460,7 +463,7 @@ solver.solve(a, -mg)
 problem.solveFwd(u, [u,a,p], 1e-12)
 
 total_cost, reg_cost, misfit_cost = problem.cost([u,a,p])
-print &quot;Total cost {0:5g}; Reg Cost {1:5g}; Misfit {2:5g}&quot;.format(total_cost, reg_cost, misfit_cost)
+print(&quot;Total cost {0:5g}; Reg Cost {1:5g}; Misfit {2:5g}&quot;.format(total_cost, reg_cost, misfit_cost))
 
 posterior.mean = a
 
@@ -471,22 +474,22 @@ plt.show()
 nb.show_solution(Vh, a, u, &quot;Solution&quot;)
 </code></pre>
 
-<pre><code> Iterartion :  0  (B r, r) =  30140.7469691
- Iteration :  1  (B r, r) =  0.0653735328531
- Iteration :  2  (B r, r) =  6.27997089018e-06
- Iteration :  3  (B r, r) =  9.56996790758e-10
+<pre><code> Iterartion :  0  (B r, r) =  30140.7469425
+ Iteration :  1  (B r, r) =  0.0653733954192
+ Iteration :  2  (B r, r) =  6.28002367536e-06
+ Iteration :  3  (B r, r) =  9.57007003125e-10
 Relative/Absolute residual less than tol
-Converged in  3  iterations with final norm  3.09353647264e-05
+Converged in  3  iterations with final norm  3.09355297858e-05
 Total cost 84.2612; Reg Cost 68.8823; Misfit 15.3789
 </code></pre>
-<p><img alt="png" src="./output_18_1.png" /></p>
-<p><img alt="png" src="./output_18_2.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_1.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_2.png" /></p>
 <h2 id="10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</h2>
 <pre><code class="python">compute_trace = True
 if compute_trace:
-    post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Estimator&quot;, tol=5e-2, min_iter=20, max_iter=2000)
-    print &quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr)
-post_pw_variance, pr_pw_variance, corr_pw_variance = posterior.pointwise_variance(&quot;Exact&quot;)
+    post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=200)
+    print(&quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr))
+post_pw_variance, pr_pw_variance, corr_pw_variance = posterior.pointwise_variance(method=&quot;Randomized&quot;, r=300)
 
 objs = [dl.Function(Vh, pr_pw_variance),
         dl.Function(Vh, post_pw_variance)]
@@ -495,14 +498,14 @@ nb.multi1_plot(objs, mytitles, logscale=True)
 plt.show()
 </code></pre>
 
-<pre><code>Posterior trace 0.000465642; Prior trace 0.0284301; Correction trace 0.0279644
+<pre><code>Posterior trace 0.000602854; Prior trace 0.0285673; Correction trace 0.0279644
 </code></pre>
-<p><img alt="png" src="./output_20_1.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_20_1.png" /></p>
 <h2 id="11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</h2>
 <pre><code class="python">nsamples = 5
 noise = dl.Vector()
 posterior.init_vector(noise,&quot;noise&quot;)
-noise_size = noise.array().shape[0]
+noise_size = get_local_size(noise)
 s_prior = dl.Function(Vh, name=&quot;sample_prior&quot;)
 s_post = dl.Function(Vh, name=&quot;sample_post&quot;)
 
@@ -520,12 +523,12 @@ for i in range(nsamples):
     plt.show()
 </code></pre>
 
-<p><img alt="png" src="./output_22_0.png" /></p>
-<p><img alt="png" src="./output_22_1.png" /></p>
-<p><img alt="png" src="./output_22_2.png" /></p>
-<p><img alt="png" src="./output_22_3.png" /></p>
-<p><img alt="png" src="./output_22_4.png" /></p>
-<p>Copyright (c) 2016, The University of Texas at Austin &amp; University of California, Merced.
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_0.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_1.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_2.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_3.png" /></p>
+<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_4.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
 All Rights reserved.
 See file COPYRIGHT for details.</p>
 <p>This file is part of the hIPPYlib library. For more information and source code
@@ -536,7 +539,7 @@ availability see https://hippylib.github.io.</p>
         <footer class="col-md-12">
             <hr>
             
-                <center>Copyright &copy; 2016-2017 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</center>
+                <center>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</center>
             
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>

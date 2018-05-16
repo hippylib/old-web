@@ -364,21 +364,22 @@ The discretized Newton step: denote the vectors corresponding to the discretizat
 </ul>
 <h2 id="set-up">Set up</h2>
 <h3 id="import-dependencies">Import dependencies</h3>
-<pre><code class="python">from dolfin import *
+<pre><code class="python">from __future__ import absolute_import, division, print_function
+
+from dolfin import *
 
 import sys
-sys.path.append( &quot;../&quot; )
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
 from hippylib import *
 
 import numpy as np
-import time
 import logging
 
 import matplotlib.pyplot as plt
 %matplotlib inline
 import nb
 
-start = time.clock()
 
 logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
@@ -419,7 +420,7 @@ nb.plot(atrue,subplot_loc=122, mytitle=&quot;True parameter field&quot;)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./output_4_1.png" /></p>
+<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_4_1.png" /></p>
 <pre><code class="python"># set up dirichlet boundary conditions
 def boundary(x,on_boundary):
     return on_boundary
@@ -461,7 +462,7 @@ ud.assign(utrue)
 MAX = ud.vector().norm(&quot;linf&quot;)
 noise = Vector()
 goal_A.init_vector(noise,1)
-noise.set_local( noise_level * MAX * np.random.normal(0, 1, len(ud.vector().array())) )
+noise.set_local( noise_level * MAX * np.random.normal(0, 1, Vu.dim()))
 bc_adj.apply(noise)
 
 ud.vector().axpy(1., noise)
@@ -471,7 +472,7 @@ nb.multi1_plot([utrue, ud], [&quot;State solution with atrue&quot;, &quot;Synthe
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./output_7_0.png" /></p>
+<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_7_0.png" /></p>
 <h3 id="the-cost-function-evaluation">The cost function evaluation:</h3>
 <p>
 <script type="math/tex; mode=display">
@@ -550,7 +551,7 @@ nb.plot(u,subplot_loc=122, mytitle=&quot;u(a_ini)&quot;)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./output_13_0.png" /></p>
+<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_13_0.png" /></p>
 <h3 id="the-reduced-hessian-apply-to-a-vector-v">The reduced Hessian apply to a vector v:</h3>
 <p>Here we describe how to apply the reduced Hessian operator to a vector v. For an opportune choice of the regularization, the reduced Hessian operator evaluated in a neighborhood of the solution is positive define, whereas far from the solution the reduced Hessian may be indefinite. On the constrary, the Gauss-Newton approximation of the Hessian is always positive defined.</p>
 <p>For this reason, it is beneficial to perform a few initial Gauss-Newton steps (5 in this particular example) to accelerate the convergence of the inexact Newton-CG algorithm.</p>
@@ -686,7 +687,7 @@ R.init_vector(g,0)
 
 a_prev = Function(Va)
 
-print &quot;Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg&quot;
+print(&quot;Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg&quot;)
 
 while iter &lt;  maxiter and not converged:
 
@@ -762,9 +763,9 @@ while iter &lt;  maxiter and not converged:
     graddir = sqrt(- MG.inner(a_delta) )
 
     sp = &quot;&quot;
-    print &quot;%2d %2s %2d %3s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %5.2f %1s %5.3e&quot; % \
+    print(&quot;%2d %2s %2d %3s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %5.2f %1s %5.3e&quot; % \
         (iter, sp, Hess_Apply.cgiter, sp, cost_new, sp, misfit_new, sp, reg_new, sp, \
-         graddir, sp, gradnorm, sp, alpha, sp, tolcg)
+         graddir, sp, gradnorm, sp, alpha, sp, tolcg) )
 
     if plot_on:
         nb.multi1_plot([a,u,p], [&quot;a&quot;,&quot;u&quot;,&quot;p&quot;], same_colorbar=False)
@@ -773,15 +774,13 @@ while iter &lt;  maxiter and not converged:
     # check for convergence
     if gradnorm &lt; tol and iter &gt; 1:
         converged = True
-        print &quot;Newton's method converged in &quot;,iter,&quot;  iterations&quot;
-        print &quot;Total number of CG iterations: &quot;, total_cg_iter
+        print(&quot;Newton's method converged in &quot;,iter,&quot;  iterations&quot;)
+        print(&quot;Total number of CG iterations: &quot;, total_cg_iter)
 
     iter += 1
 
 if not converged:
-    print &quot;Newton's method did not converge in &quot;, maxiter, &quot; iterations&quot;
-
-print &quot;Time elapsed: &quot;, time.clock()-start
+    print(&quot;Newton's method did not converge in &quot;, maxiter, &quot; iterations&quot;)
 </code></pre>
 
 <pre><code>Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg
@@ -795,16 +794,15 @@ print &quot;Time elapsed: &quot;, time.clock()-start
  8    15     1.80330e-07   1.39056e-07   4.12734e-08   1.74451e-06   3.43216e-09    1.00   3.008e-03
 Newton's method converged in  8   iterations
 Total number of CG iterations:  41
-Time elapsed:  9.28313
 </code></pre>
 <pre><code class="python">nb.multi1_plot([atrue, a], [&quot;atrue&quot;, &quot;a&quot;])
 nb.multi1_plot([u,p], [&quot;u&quot;,&quot;p&quot;], same_colorbar=False)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./output_18_0.png" /></p>
-<p><img alt="png" src="./output_18_1.png" /></p>
-<p>Copyright (c) 2016, The University of Texas at Austin &amp; University of California, Merced.
+<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_18_0.png" /></p>
+<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_18_1.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
 All Rights reserved.
 See file COPYRIGHT for details.</p>
 <p>This file is part of the hIPPYlib library. For more information and source code
@@ -815,7 +813,7 @@ availability see https://hippylib.github.io.</p>
         <footer class="col-md-12">
             <hr>
             
-                <center>Copyright &copy; 2016-2017 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</center>
+                <center>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</center>
             
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>
