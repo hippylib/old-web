@@ -94,13 +94,17 @@
                             <a href="../5_HessianSpectrum/">Hessian Spectrum</a>
                         </li>
                     
+                        <li >
+                            <a href="">Version 1.x</a>
+                        </li>
+                    
                     </ul>
                 </li>
             
             
             
                 <li >
-                    <a href="../../building/">Installation</a>
+                    <a href="../../documentation/">Documentation</a>
                 </li>
             
             
@@ -251,7 +255,11 @@ import logging
 
 import matplotlib.pyplot as plt
 %matplotlib inline
-import nb
+
+import sys
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
+from hippylib import nb
 
 logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
@@ -267,12 +275,12 @@ mesh = UnitSquareMesh(n, n)
 nb.plot(mesh)
 
 Vh  = FunctionSpace(mesh, 'Lagrange', degree)
-print(&quot;dim(Vh) = &quot;, Vh.dim())
+print( &quot;dim(Vh) = &quot;, Vh.dim() )
 </code></pre>
 
 <pre><code>dim(Vh) =  289
 </code></pre>
-<p><img alt="png" src="./1_FEniCS101_files/1_FEniCS101_4_1.png" /></p>
+<p><img alt="png" src="../1_FEniCS101_files/1_FEniCS101_4_1.png" /></p>
 <h2 id="3-define-boundary-labels">3. Define boundary labels</h2>
 <p>To partition the boundary of <script type="math/tex">\Omega</script> in the subdomains <script type="math/tex">\Gamma_{\rm top}</script>, <script type="math/tex">\Gamma_{\rm bottom}</script>, <script type="math/tex">\Gamma_{\rm left}</script>, <script type="math/tex">\Gamma_{\rm right}</script> we assign a unique label <code>boundary_parts</code> to each of part of <script type="math/tex">\partial \Omega</script>.</p>
 <pre><code class="python">class TopBoundary(SubDomain):
@@ -371,7 +379,9 @@ solve(A, uh.vector(), b, &quot;cg&quot;)
 nb.plot(uh)
 </code></pre>
 
-<p><img alt="png" src="./1_FEniCS101_files/1_FEniCS101_10_2.png" /></p>
+<pre><code>&lt;matplotlib.collections.TriMesh at 0x7f9ae232f630&gt;
+</code></pre>
+<p><img alt="png" src="../1_FEniCS101_files/1_FEniCS101_10_1.png" /></p>
 <h2 id="6-compute-the-discretization-error">6. Compute the discretization error</h2>
 <p>For this problem, the exact solution is known.
 We can therefore compute the following norms of the discretization error (i.e. the of the difference between the finite element solution <script type="math/tex">u_h</script> and the exact solution <script type="math/tex">u_{\rm ex}</script>)
@@ -386,12 +396,12 @@ err_L2 = sqrt( assemble( (uh-u_e)**2*dx ) )
 err_grad = sqrt( assemble( inner(nabla_grad(uh) - grad_u_e, nabla_grad(uh) - grad_u_e)*dx ) )
 err_H1 = sqrt( err_L2**2 + err_grad**2)
 
-print(&quot;|| u_h - u_e ||_L2 = &quot;, err_L2)
-print(&quot;|| u_h - u_e ||_H1 = &quot;, err_H1)
+print (&quot;|| u_h - u_e ||_L2 = &quot;, err_L2)
+print (&quot;|| u_h - u_e ||_H1 = &quot;, err_H1)
 </code></pre>
 
-<pre><code>|| u_h - u_e ||_L2 =  0.00880525372208
-|| u_h - u_e ||_H1 =  0.396718952514
+<pre><code>|| u_h - u_e ||_L2 =  0.008805253722075487
+|| u_h - u_e ||_H1 =  0.3967189525141412
 </code></pre>
 <h2 id="7-convergence-of-the-finite-element-method">7. Convergence of the finite element method</h2>
 <p>We now verify numerically a well-known convergence result for the finite element method.</p>
@@ -454,21 +464,21 @@ for i in range(nref):
 plt.figure(figsize=(15,5))
 
 plt.subplot(121)
-plt.loglog(h, err_H1_P1, '-or', label=&quot;H1 error&quot;)
-plt.loglog(h, err_L2_P1, '-*b', label=&quot;L2 error&quot;)
-plt.loglog(h, h*.5*err_H1_P1[0]/h[0], '--g', label=&quot;First Order&quot;)
-plt.loglog(h, np.power(h,2)*.5*np.power( err_L2_P1[0]/h[0], 2), '-.k', label=&quot;Second Order&quot;)
+plt.loglog(h, err_H1_P1, '-or', label = &quot;H1 error&quot;)
+plt.loglog(h, err_L2_P1, '-*b', label = &quot;L2 error&quot;)
+plt.loglog(h, h*.5*err_H1_P1[0]/h[0], '--g', label = &quot;First Order&quot;)
+plt.loglog(h, np.power(h,2)*.5*np.power( err_L2_P1[0]/h[0], 2), '-.k', label = &quot;Second Order&quot;)
 plt.xlabel(&quot;Mesh size h&quot;)
 plt.ylabel(&quot;Error&quot;)
 plt.title(&quot;P1 Finite Element&quot;)
-plt.legend(loc = 'lower right')
+plt.legend(loc='lower right')
 
 
 plt.subplot(122)
-plt.loglog(h, err_H1_P2, '-or', label=&quot;H1 error&quot;)
-plt.loglog(h, err_L2_P2, '-*b', label=&quot;L2 error&quot;)
-plt.loglog(h, np.power(h/h[0],2)*.5*err_H1_P2[0], '--g', label=&quot;Second Order&quot;)
-plt.loglog(h, np.power(h/h[0],3)*.5*err_L2_P2[0], '-.k', label=&quot;Third Order&quot;)
+plt.loglog(h, err_H1_P2, '-or', label = &quot;H1 error&quot;)
+plt.loglog(h, err_L2_P2, '-*b', label = &quot;L2 error&quot;)
+plt.loglog(h, np.power(h/h[0],2)*.5*err_H1_P2[0], '--g', label = &quot;Second Order&quot;)
+plt.loglog(h, np.power(h/h[0],3)*.5*err_L2_P2[0], '-.k', label = &quot;Third Order&quot;)
 plt.xlabel(&quot;Mesh size h&quot;)
 plt.ylabel(&quot;Error&quot;)
 plt.title(&quot;P2 Finite Element&quot;)
@@ -477,9 +487,9 @@ plt.legend(loc='lower right')
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./1_FEniCS101_files/1_FEniCS101_14_0.png" /></p>
-<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
-All Rights reserved.
+<p><img alt="png" src="../1_FEniCS101_files/1_FEniCS101_14_0.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.<br>
+All Rights reserved.<br>
 See file COPYRIGHT for details.</p>
 <p>This file is part of the hIPPYlib library. For more information and source code
 availability see https://hippylib.github.io.</p>

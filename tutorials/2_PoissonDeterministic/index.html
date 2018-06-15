@@ -94,13 +94,17 @@
                             <a href="../5_HessianSpectrum/">Hessian Spectrum</a>
                         </li>
                     
+                        <li >
+                            <a href="">Version 1.x</a>
+                        </li>
+                    
                     </ul>
                 </li>
             
             
             
                 <li >
-                    <a href="../../building/">Installation</a>
+                    <a href="../../documentation/">Documentation</a>
                 </li>
             
             
@@ -165,13 +169,13 @@
         
             <li><a href="#the-variational-or-weak-form-of-the-state-equation">The variational (or weak) form of the state equation:</a></li>
         
-            <li><a href="#optimality-system">Optimality System:</a></li>
+            <li><a href="#gradient-evaluation">Gradient evaluation:</a></li>
+        
+            <li><a href="#hessian-action">Hessian action:</a></li>
         
             <li><a href="#inexact-newton-cg">Inexact Newton-CG:</a></li>
         
             <li><a href="#discrete-newton-system">Discrete Newton system:</a></li>
-        
-            <li><a href="#reduced-hessian-apply">Reduced Hessian apply:</a></li>
         
             <li><a href="#goals">Goals:</a></li>
         
@@ -199,145 +203,195 @@ membrane with a certain spatially varying stiffness. Let
 domain and consider the following problem:</p>
 <p>
 <script type="math/tex; mode=display">
-\min_{a} J(a):=\frac{1}{2}\int_\Omega (u-u_d)^2\, dx + \frac{\gamma}{2}\int_\Omega|\nabla a|^2\,dx,
+\min_{m} J(m):=\frac{1}{2}\int_\Omega (u-u_d)^2\, dx + \frac{\gamma}{2}\int_\Omega|\nabla m|^2\,dx,
 </script>
 </p>
 <p>where <script type="math/tex">u</script> is the solution of</p>
 <p>
 <script type="math/tex; mode=display">
 \begin{split}
-\quad -\nabla\cdot(\exp(a)\nabla u) &= f \text{ in }\Omega,\\
+\quad -\nabla\cdot(\exp(m)\nabla u) &= f \text{ in }\Omega,\\
 u &= 0 \text{ on }\partial\Omega.
 \end{split}
 </script>
 </p>
-<p>Here <script type="math/tex">a\in U_{ad}:=\{a\in H^1(\Omega) \bigcap L^{\infty}(\Omega)\}</script> the unknown coefficient field, <script type="math/tex">u_d</script> denotes (possibly noisy) data, <script type="math/tex">f\in H^{-1}(\Omega)</script> a given force, and <script type="math/tex">\gamma\ge 0</script> the regularization parameter.</p>
+<p>Here <script type="math/tex">m\in U_{ad}:=\{m\in H^1(\Omega) \bigcap L^{\infty}(\Omega)\}</script> the unknown coefficient field, <script type="math/tex">u_d</script> denotes (possibly noisy) data, <script type="math/tex">f\in H^{-1}(\Omega)</script> a given force, and <script type="math/tex">\gamma\ge 0</script> the regularization parameter.</p>
 <h3 id="the-variational-or-weak-form-of-the-state-equation">The variational (or weak) form of the state equation:</h3>
-<p>Find <script type="math/tex">u\in H_0^1(\Omega)</script> such that <script type="math/tex">(\exp(a)\nabla u,\nabla v) - (f,v) = 0, \text{ for all } v\in H_0^1(\Omega),</script>
-where <script type="math/tex">H_0^1(\Omega)</script> is the space of functions vanishing on <script type="math/tex">\partial\Omega</script> with square integrable derivatives. Here, <script type="math/tex">(\cdot\,,\cdot)</script> denotes the <script type="math/tex">L^2</script>-inner product, i.e, for scalar functions <script type="math/tex">u,v</script> defined on <script type="math/tex">\Omega</script> we denote <script type="math/tex">(u,v) := \int_\Omega u(x) v(x) \,dx</script>.</p>
-<h3 id="optimality-system">Optimality System:</h3>
-<p>The Lagrangian functional <script type="math/tex">\mathscr{L}:H^1(\Omega)\times H_0^1(\Omega)\times H_0^1(\Omega)\rightarrow \mathbb{R}</script>, which we use as a tool to derive the optimality system, is given by</p>
+<p>Find <script type="math/tex">u\in H_0^1(\Omega)</script> such that </p>
+<p>
+<script type="math/tex; mode=display">(\exp(m)\nabla u,\nabla v) - (f,v) = 0, \text{ for all } v\in H_0^1(\Omega),</script>
+</p>
+<p>where <script type="math/tex">H_0^1(\Omega)</script> is the space of functions vanishing on <script type="math/tex">\partial\Omega</script> with square integrable derivatives. Here, <script type="math/tex">(\cdot\,,\cdot)</script> denotes the <script type="math/tex">L^2</script>-inner product, i.e, for scalar functions <script type="math/tex">u,v \in L^2(\Omega)</script>  we denote </p>
+<p>
+<script type="math/tex; mode=display">(u,v) := \int_\Omega u(x) v(x) \,dx.</script>
+</p>
+<h3 id="gradient-evaluation">Gradient evaluation:</h3>
+<p>The Lagrangian functional <script type="math/tex">\mathscr{L}:H_0^1(\Omega)\times H^1(\Omega)\times H_0^1(\Omega)\rightarrow \mathbb{R}</script> is given by</p>
 <p>
 <script type="math/tex; mode=display">
-\mathscr{L}(a,u,p):= \frac{1}{2}(u-u_d,u-u_d) +
-\frac{\gamma}{2}(\nabla a, \nabla a) +  (\exp(a)\nabla u,\nabla p) - (f,p).
+\mathscr{L}(u,m,p):= \frac{1}{2}(u-u_d,u-u_d) +
+\frac{\gamma}{2}(\nabla m, \nabla m) +  (\exp(m)\nabla u,\nabla p) - (f,p).
 </script>
 </p>
-<p>The Lagrange multiplier theory shows that, at a solution all variations of the Lagrangian functional with respect to all variables must vanish. These variations of <script type="math/tex">\mathscr{L}</script> with respect to <script type="math/tex">(p,u,a)</script> in directions <script type="math/tex">(\tilde{u}, \tilde{p}, \tilde{a})</script> are given by</p>
+<p>Then the gradient of the cost functional <script type="math/tex">\mathcal{J}(m)</script> with respect to the parameter <script type="math/tex">m</script> is</p>
 <p>
 <script type="math/tex; mode=display">
-  \begin{alignat}{2}
-    \mathscr{L}_p(a,u,p)(\tilde{p})  &= (\exp(a)\nabla u, \nabla \tilde{p}) -
-    (f,\tilde{p}) &&= 0,\\
-     \mathscr{L}_u(a,u,p)(\tilde{u}) &= (\exp(a)\nabla p, \nabla \tilde{u}) +
-     (u-u_d,\tilde{u}) && = 0,\\
-     \mathscr{L}_a(a,u,p)(\tilde{a})  &= \gamma(\nabla a, \nabla \tilde{a}) +
-     (\tilde{a}\exp(a)\nabla u, \nabla p) &&= 0,
-  \end{alignat}
+    \mathcal{G}(m)(\tilde m) := \gamma(\nabla m, \nabla \tilde{m}) +
+     (\tilde{m}\exp(m)\nabla u, \nabla p) \quad \forall \tilde{m} \in H^1(\Omega),
 </script>
 </p>
-<p>where the variations <script type="math/tex">(\tilde{u}, \tilde{p}, \tilde{a})</script> are taken from the same spaces as <script type="math/tex">(u,p,a)</script>. </p>
-<p>The gradient of the cost functional <script type="math/tex">\mathcal{J}(a)</script> therefore is</p>
+<p>where <script type="math/tex">u \in H_0^1(\Omega)</script> is the solution of the forward problem,</p>
+<p>
+<script type="math/tex; mode=display"> \mathscr{L}_p(u,m,p)(\tilde{p})  := (\exp(m)\nabla u, \nabla \tilde{p}) - (f,\tilde{p}) = 0
+\quad \forall \tilde{p} \in H_0^1(\Omega), </script>
+</p>
+<p>and <script type="math/tex">p \in H_0^1(\Omega)</script> is the solution of the adjoint problem,</p>
+<p>
+<script type="math/tex; mode=display"> \mathscr{L}_u(u,m,p)(\tilde{u}) := (\exp(m)\nabla p, \nabla \tilde{u}) + (u-u_d,\tilde{u}) = 0
+\quad \forall \tilde{u} \in H_0^1(\Omega).</script>
+</p>
+<h3 id="hessian-action">Hessian action:</h3>
+<p>To evaluate the action <script type="math/tex">\mathcal{H}(m)(\hat{m})</script> of the Hessian is a given direction <script type="math/tex">\hat{m}</script> , we consider variations of the meta-Lagrangian functional</p>
 <p>
 <script type="math/tex; mode=display">
-    \mathcal{G}(a)(\tilde a) = \gamma(\nabla a, \nabla \tilde{a}) +
-     (\tilde{a}\exp(a)\nabla u, \nabla \tilde{p}).
+\begin{aligned}
+\mathscr{L}^H(u,m,p; \hat{u}, \hat{m}, \hat{p}) := & {} & {} \\
+{} & \gamma(\nabla m, \nabla \tilde{m}) + (\tilde{m}\exp(m)\nabla u, \nabla p) & \text{gradient}\\
+{} & + (\exp(m)\nabla u, \nabla \hat{p}) - (f,\hat{p}) & \text{forward eq}\\
+{} & + (\exp(m)\nabla p, \nabla \hat{u}) + (u-u_d,\hat{u}) & \text{adjoint eq}.
+\end{aligned}
 </script>
 </p>
+<p>Then action of the Hessian is a given direction <script type="math/tex">\hat{m}</script> is</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+(\tilde{m}, \mathcal{H}(m)(\hat{m}) ) & := \mathscr{L}^H_m(u,m,p; \hat{u}, \hat{m}, \hat{p})(\tilde{m}) \\
+{} & =
+(\tilde{m} \exp(m) \nabla \hat{u}, \nabla{p}) + \gamma (\nabla \hat{m}, \nabla \tilde{m}) + (\tilde{m} \hat{m} \exp(m)\nabla u, \nabla p) + (\tilde{m}\exp(m) \nabla u, \nabla \hat{p}) \quad \forall \tilde{m} \in H^1(\Omega),
+\end{aligned}
+</script>
+</p>
+<p>where </p>
+<ul>
+<li>
+<p>
+<script type="math/tex">u\in H^1_0(\Omega)</script> and <script type="math/tex">p \in H^1_0(\Omega)</script> are the solution of the forward and adjoint problem, respectively;</p>
+</li>
+<li>
+<p>
+<script type="math/tex">\hat{u} \in H^1_0(\Omega)</script> is the solution of the incremental forward problem,</p>
+</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+\mathscr{L}^H_p(u,m,p; \hat{u}, \hat{m}, \hat{p})(\tilde{p}) := (\exp(m) \nabla \hat{u}, \nabla \tilde{p}) + (\hat{m} \exp(m) \nabla u, \nabla \tilde p) = 0 \quad \forall \tilde{p} \in H_0^1(\Omega);
+</script>
+</p>
+<ul>
+<li>and <script type="math/tex">\hat{p} \in H^1_0(\Omega)</script> is the solution of the incremental adjoint problem,
+<script type="math/tex; mode=display">
+\mathscr{L}^H_u(u,m,p; \hat{u}, \hat{m}, \hat{p})(\tilde{u}) := (\hat{u}, \tilde{u}) + (\hat{m} \exp(m)\nabla p, \nabla \tilde{u}) + (\exp(m) \nabla \tilde u, \nabla \hat{p}) = 0 \quad \forall \tilde{u} \in H_0^1(\Omega).
+</script>
+</li>
+</ul>
 <h3 id="inexact-newton-cg">Inexact Newton-CG:</h3>
-<p>Newton's method requires second-order variational derivatives of the Lagrangian . Written in abstract form, it computes an update direction <script type="math/tex">(\hat a_k, \hat u_k,\hat p_k)</script> from the following Newton step for the Lagrangian functional:</p>
+<p>Written in abstract form, the Newton Method computes an update direction <script type="math/tex">\hat{m}_k</script> by solving the linear system </p>
 <p>
 <script type="math/tex; mode=display">
-\mathscr{L}''(a_k, u_k, p_k)\left[(\tilde
-  a, \tilde u, \tilde p),(\hat a_k, \hat u_k, \hat p_k)\right] =
--\mathscr{L}'(a_k,u_k,p_k)(\tilde a, \tilde u, \tilde p),
+(\tilde{m}, \mathcal{H}(m_k)(\hat{m}_k) ) = -\mathcal{G}(m_k)(\tilde m) \quad \forall \tilde{m} \in H^1(\Omega),
 </script>
 </p>
-<p>for all variations <script type="math/tex">(\tilde a, \tilde u, \tilde p)</script>, where <script type="math/tex">\mathscr{L}'</script> and <script type="math/tex">\mathscr{L}''</script> denote the first and
-second variations of the Lagrangian. For the elliptic parameter inversion problem, this Newton step (written in variatonal form) is as follows: Find <script type="math/tex">(\hat u_k, \hat a_k,\hat p_k)</script> as the solution of the linear system</p>
-<p>
-<script type="math/tex; mode=display">
-  \begin{array}{llll}
-    (\hat{u}_k, \tilde u) &+ (\hat{a}_k \exp(a_k)\nabla p_k, \nabla
-    \tilde u) &+ (\exp(a_k) \nabla \tilde u,
-    \nabla \hat p_k) &= (u_d - u_k, \tilde u)- (\exp(a_k) \nabla
-    p_k, \nabla \tilde u)\\
-    (\tilde a \exp(a_k) \nabla \hat u_k, \nabla p_k) &+ \gamma
-    (\nabla \hat a_k, \nabla \tilde a) + (\tilde a \hat a_k \exp(a_k)\nabla u, \nabla p) &+ (\tilde a
-     \exp(a_k) \nabla u_k, \nabla \hat p_k) &= - \gamma (\nabla a_k, \nabla\tilde a) - (\tilde
-      a  \exp(a_k) \nabla u_k, \nabla p_k)\\
-    (\exp(a_k) \nabla \hat u_k, \nabla \tilde p) &+ (\hat a_k \exp(a_k) \nabla u_k, \nabla
-      \tilde p) & &= - (\exp(a_k) \nabla u_k,
-    \nabla \tilde p) + (f, \tilde p),
-  \end{array}
-</script>
-</p>
-<p>for all <script type="math/tex">(\tilde u, \tilde a, \tilde p)</script>.</p>
+<p>where the evaluation of the gradient <script type="math/tex">\mathcal{G}(m_k)</script> involve the solution <script type="math/tex">u_k</script> and <script type="math/tex">p_k</script> of the forward and adjoint problem (respectively) for <script type="math/tex">m = m_k</script>.
+Similarly, the Hessian action <script type="math/tex">\mathcal{H}(m_k)(\hat{m}_k)</script> requires to additional solve the incremental forward and adjoint problems.</p>
 <h3 id="discrete-newton-system">Discrete Newton system:</h3>
 <p>
 <script type="math/tex">
 \def\tu{\tilde u}
-\def\btu{\bf \tilde u}
-\def\ta{\tilde a}
-\def\bta{\bf \tilde a}
+\def\tm{\tilde m}
 \def\tp{\tilde p}
-\def\btp{\bf \tilde p}
 \def\hu{\hat u}
-\def\bhu{\bf \hat u}
-\def\ha{\hat a}
-\def\bha{\bf \hat a}
 \def\hp{\hat p}
-\def\bhp{\bf \hat p}
-</script>
-The discretized Newton step: denote the vectors corresponding to the discretization of the functions <script type="math/tex">\ha_k,\hu_k, \hp_k</script> by <script type="math/tex">\bf \bha_k, \bhu_k</script> and <script type="math/tex">\bhp_k</script>. Then, the discretization of the above system is given by the following symmetric linear system:</p>
-<p>
-<script type="math/tex; mode=display">
-  \begin{bmatrix}
-    \bf W_{\scriptsize\mbox{uu}} & \bf W_{\scriptsize\mbox{ua}} & \bf A^T \\
-    \bf W_{\scriptsize\mbox{au}} & \bf R + \bf R_{\scriptsize\mbox{aa}}& \bf C^T \\
-    \bf A & \bf C & 0
-\end{bmatrix}
-\left[
-  \begin{array}{c}
-    \bhu_k \\
-    \bha_k \\
-    \bhp_k
-  \end{array} \right] =
--\left[
-  \begin{array}{ccc}
-    \bf{g}_u\\
-    \bf{g}_a\\
-    \bf{g}_p
-\end{array}
-  \right],
+\def\hm{\hat m}
 </script>
 </p>
-<p>where <script type="math/tex">\bf W_{\scriptsize \mbox{uu}}</script>, <script type="math/tex">\bf W_{\scriptsize\mbox{ua}}</script>, <script type="math/tex">\bf W_{\scriptsize\mbox{au}}</script>, and <script type="math/tex">\bf R</script> are the components of the Hessian matrix of the Lagrangian, <script type="math/tex">\bf A</script> and <script type="math/tex">\bf C</script> are the Jacobian of the state equation with respect to the state and the control variables, respectively and <script type="math/tex">\bf g_u</script>, <script type="math/tex">\bf g_a</script>, and <script type="math/tex">\bf g_p</script> are the discrete gradients of the Lagrangian with respect to <script type="math/tex">\bf u </script>, <script type="math/tex">\bf a</script> and <script type="math/tex">\bf p</script>, respectively.</p>
-<h3 id="reduced-hessian-apply">Reduced Hessian apply:</h3>
-<p>To eliminate the incremental state and adjoint variables, <script type="math/tex">\bhu_k</script> and <script type="math/tex">\bhp_k</script>, from the first and last equations we use</p>
 <p>
-<script type="math/tex; mode=display">
-\begin{align}
-\bhu_k &= -\bf A^{-1} \bf C \, \bha_k,\\
-\bhp_k &= -\bf A^{-T} (\bf W_{\scriptsize\mbox{uu}} \bhu_k +
-\bf W_{\scriptsize\mbox{ua}}\,\bha_k).
-\end{align}
+<script type="math/tex">
+\def\bu{{\bf u}}
+\def\bm{{\bf m}}
+\def\bp{{\bf p}}
+\def\btu{{\bf \tilde u}}
+\def\btm{{\bf \tilde m}}
+\def\btp{{\bf \tilde p}}
+\def\bhu{{\bf \hat u}}
+\def\bhm{{\bf \hat m}}
+\def\bhp{{\bf \hat p}}
+\def\bg{{\bf g}}
 </script>
 </p>
-<p>This results in the following reduced linear system for the Newton step</p>
 <p>
-<script type="math/tex; mode=display">
-  \bf H \, \bha_k = -\bf{g}_a,
+<script type="math/tex">
+\def\bA{{\bf A}}
+\def\bC{{\bf C}}
+\def\bH{{\bf H}}
+\def\bR{{\bf R}}
+\def\bW{{\bf W}}
 </script>
 </p>
-<p>with the reduced Hessian <script type="math/tex">\bf H</script> applied to a vector <script type="math/tex">\bha</script> given by</p>
+<p>Let us denote the vectors corresponding to the discretization of the functions <script type="math/tex">u_k, m_k, p_k</script> by <script type="math/tex">\bu_k, \bm_k, \bp_k</script> and of the functions <script type="math/tex">\hu_k, \hm_k, \hp_k</script> by <script type="math/tex">\bhu_k, \bhm_k,\bhp_k</script>.</p>
+<p>Then, the discretization of the above system is given by the following symmetric linear system:</p>
 <p>
 <script type="math/tex; mode=display">
-  \bf H \bha = \underbrace{(\bf R + \bf R_{\scriptsize\mbox{aa}})}_{\text{Hessian of the regularization}} \bha +
-    \underbrace{(\bf C^{T}\bf A^{-T} (\bf W_{\scriptsize\mbox{uu}}
-    \bf A^{-1} \bf C - \bf W_{\scriptsize\mbox{ua}}) -
-    \bf W_{\scriptsize\mbox{au}} \bf A^{-1}
-    \bf C)}_{\text{Hessian of the data misfit}}\;\bha.
+  \bH_k \, \bhm_k = -\bg_k.
+</script>
+</p>
+<p>The gradient <script type="math/tex">\bg_k</script> is computed using the following three steps</p>
+<ul>
+<li>Given <script type="math/tex">\bm_k</script> we solve the forward problem</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> \bA_k \bu_k = {\bf f}, </script>
+</p>
+<p>where <script type="math/tex">\bA_k \bu_k</script> stems from the discretization <script type="math/tex">(\exp(m_k)\nabla u_k, \nabla \tilde{p})</script>, and <script type="math/tex">{\bf f}</script> stands for the discretization of the right hand side <script type="math/tex">f</script>.</p>
+<ul>
+<li>Given <script type="math/tex">\bm_k</script> and <script type="math/tex">\bu_k</script> solve the adjoint problem</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> \bA_k^T \bp_k = - \bW_{\scriptsize\mbox{uu}}\,(\bu_k-\bu_d) </script>
+</p>
+<p>where <script type="math/tex">\bA_k^T \bp_k</script> stems from the discretization of <script type="math/tex">(\exp(m_k)\nabla \tilde{u}, \nabla p_k)</script>, <script type="math/tex">\bW_{\scriptsize\mbox{uu}}</script> is the mass matrix corresponding to the <script type="math/tex">L^2</script> inner product in the state space, and <script type="math/tex">\bu_d</script> stems from the data.</p>
+<ul>
+<li>Define the gradient </li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> \bg_k = \bR \bm_k + \bC_k^T \bp_k, </script>
+</p>
+<p>where <script type="math/tex">\bR</script> is the matrix stemming from discretization of the regularization operator <script type="math/tex">\gamma ( \nabla \hat{m}, \nabla \tilde{m})</script>, and <script type="math/tex">\bC_k</script> stems from discretization of the term <script type="math/tex">(\tilde{m}\exp(m_k)\nabla u_k, \nabla p_k)</script>.</p>
+<p>Similarly the action of the Hessian <script type="math/tex">\bH_k \, \bhm_k</script> in a direction <script type="math/tex">\bhm_k</script> (by using the CG algorithm we only need the action of <script type="math/tex">\bH_k</script> to solve the Newton step) is given by</p>
+<ul>
+<li>Solve the incremental forward problem</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> \bA_k \bhu_k = -\bC_k \bhm_k, </script>
+</p>
+<p>where <script type="math/tex">\bC_k \bm_k</script> stems from discretization of <script type="math/tex">(\hat{m} \exp(m_k) \nabla u_k, \nabla \tilde p)</script>.</p>
+<ul>
+<li>Solve the incremental adjoint problem</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> \bA_k^T \bhp_k = -(\bW_{\scriptsize\mbox{uu}} \bhu_k + \bW_{\scriptsize\mbox{um}}\,\bhm_k),</script>
+</p>
+<p>where <script type="math/tex">\bW_{\scriptsize\mbox{um}}\,\bhm_k</script> stems for the discretization of <script type="math/tex">(\hat{m}_k \exp(m_k)\nabla p_k, \nabla \tilde{u})</script>.</p>
+<ul>
+<li>Define the Hessian action</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+  \bH_k \, \bhm = \underbrace{(\bR + \bW_{\scriptsize\mbox{mm}})}_{\text{Hessian of the regularization}} \bhm +
+    \underbrace{(\bC_k^{T}\bA_k^{-T} (\bW_{\scriptsize\mbox{uu}}
+    \bA_k^{-1} \bC_k - \bW_{\scriptsize\mbox{um}}) -
+    \bW_{\scriptsize\mbox{mu}} \bA_k^{-1}
+    \bC_k)}_{\text{Hessian of the data misfit}}\;\bhm.
 </script>
 </p>
 <h3 id="goals">Goals:</h3>
@@ -360,7 +414,6 @@ The discretized Newton step: denote the vectors corresponding to the discretizat
 <li><a href="http://fenicsproject.org/">FEniCS</a>, a parallel finite element element library for the discretization of partial differential equations</li>
 <li><a href="http://www.mcs.anl.gov/petsc/">PETSc</a>, for scalable and efficient linear algebra operations and solvers</li>
 <li><a href="http://matplotlib.org/">Matplotlib</a>, a python package used for plotting the results</li>
-<li><a href="http://www.numpy.org/">Numpy</a>, a python package for linear algebra</li>
 </ul>
 <h2 id="set-up">Set up</h2>
 <h3 id="import-dependencies">Import dependencies</h3>
@@ -373,19 +426,14 @@ import os
 sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
 from hippylib import *
 
-import numpy as np
 import logging
 
 import matplotlib.pyplot as plt
 %matplotlib inline
-import nb
-
 
 logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
 set_log_active(False)
-
-np.random.seed(seed=1)
 </code></pre>
 
 <h3 id="model-set-up">Model set up:</h3>
@@ -394,20 +442,20 @@ np.random.seed(seed=1)
 nx = 64
 ny = 64
 mesh = UnitSquareMesh(nx, ny)
-Va = FunctionSpace(mesh, 'Lagrange', 1)
+Vm = FunctionSpace(mesh, 'Lagrange', 1)
 Vu = FunctionSpace(mesh, 'Lagrange', 2)
 
 # The true and inverted parameter
-atrue = interpolate(Expression('log(2 + 7*(pow(pow(x[0] - 0.5,2) + pow(x[1] - 0.5,2),0.5) &gt; 0.2))', degree=5),Va)
-a = interpolate(Expression(&quot;log(2.0)&quot;, degree=1),Va)
+mtrue = interpolate(Expression('log(2 + 7*(pow(pow(x[0] - 0.5,2) + pow(x[1] - 0.5,2),0.5) &gt; 0.2))', degree=5),Vm)
+m = interpolate(Expression(&quot;log(2.0)&quot;, degree=1),Vm)
 
 # define function for state and adjoint
 u = Function(Vu)
 p = Function(Vu)
 
 # define Trial and Test Functions
-u_trial, p_trial, a_trial = TrialFunction(Vu), TrialFunction(Vu), TrialFunction(Va)
-u_test, p_test, a_test = TestFunction(Vu), TestFunction(Vu), TestFunction(Va)
+u_trial, p_trial, m_trial = TrialFunction(Vu), TrialFunction(Vu), TrialFunction(Vm)
+u_test, p_test, m_test = TestFunction(Vu), TestFunction(Vu), TestFunction(Vm)
 
 # initialize input functions
 f = Constant(&quot;1.0&quot;)
@@ -416,11 +464,11 @@ u0 = Constant(&quot;0.0&quot;)
 # plot
 plt.figure(figsize=(15,5))
 nb.plot(mesh,subplot_loc=121, mytitle=&quot;Mesh&quot;, show_axis='on')
-nb.plot(atrue,subplot_loc=122, mytitle=&quot;True parameter field&quot;)
+nb.plot(mtrue,subplot_loc=122, mytitle=&quot;True parameter field&quot;)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_4_1.png" /></p>
+<p><img alt="png" src="../2_PoissonDeterministic_files/2_PoissonDeterministic_4_0.png" /></p>
 <pre><code class="python"># set up dirichlet boundary conditions
 def boundary(x,on_boundary):
     return on_boundary
@@ -431,10 +479,10 @@ bc_adj = DirichletBC(Vu, Constant(0.), boundary)
 
 <h3 id="set-up-synthetic-observations">Set up synthetic observations:</h3>
 <ul>
-<li>Propose a coefficient field <script type="math/tex">a_{\text true}</script> shown above</li>
+<li>Propose a coefficient field <script type="math/tex">m_{\rm true}</script> shown above</li>
 <li>
 <p>The weak form of the pde: 
-    Find <script type="math/tex">u\in H_0^1(\Omega)</script> such that <script type="math/tex">\underbrace{(\exp(a_{\text true})\nabla u,\nabla v)}_{\; := \; a_{pde}} - \underbrace{(f,v)}_{\; := \;L_{pde}} = 0, \text{ for all } v\in H_0^1(\Omega)</script>.</p>
+    Find <script type="math/tex">u\in H_0^1(\Omega)</script> such that <script type="math/tex">\underbrace{(\exp(m_{\rm true})\nabla u,\nabla v)}_{\; := \; a_{pde}} - \underbrace{(f,v)}_{\; := \;L_{pde}} = 0, \text{ for all } v\in H_0^1(\Omega)</script>.</p>
 </li>
 <li>
 <p>Perturb the solution: <script type="math/tex">u = u + \eta</script>, where <script type="math/tex">\eta \sim \mathcal{N}(0, \sigma)</script>
@@ -445,7 +493,7 @@ bc_adj = DirichletBC(Vu, Constant(0.), boundary)
 noise_level = 0.05
 
 # weak form for setting up the synthetic observations
-a_goal = inner(exp(atrue) * nabla_grad(u_trial), nabla_grad(u_test)) * dx
+a_goal = inner(exp(mtrue) * nabla_grad(u_trial), nabla_grad(u_test)) * dx
 L_goal = f * u_test * dx
 
 # solve the forward/state problem to generate synthetic observations
@@ -462,74 +510,57 @@ ud.assign(utrue)
 MAX = ud.vector().norm(&quot;linf&quot;)
 noise = Vector()
 goal_A.init_vector(noise,1)
-noise.set_local( noise_level * MAX * np.random.normal(0, 1, Vu.dim()))
+parRandom.normal(noise_level * MAX, noise)
 bc_adj.apply(noise)
 
 ud.vector().axpy(1., noise)
 
 # plot
-nb.multi1_plot([utrue, ud], [&quot;State solution with atrue&quot;, &quot;Synthetic observations&quot;])
+nb.multi1_plot([utrue, ud], [&quot;State solution with mtrue&quot;, &quot;Synthetic observations&quot;])
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_7_0.png" /></p>
+<p><img alt="png" src="../2_PoissonDeterministic_files/2_PoissonDeterministic_7_0.png" /></p>
 <h3 id="the-cost-function-evaluation">The cost function evaluation:</h3>
 <p>
 <script type="math/tex; mode=display">
-J(a):=\underbrace{\frac{1}{2}\int_\Omega (u-u_d)^2\, dx}_{\text misfit} + \underbrace{\frac{\gamma}{2}\int_\Omega|\nabla a|^2\,dx}_{\text reg}
+J(m):=\underbrace{\frac{1}{2}\int_\Omega (u-u_d)^2\, dx}_{\text{misfit} } + \underbrace{\frac{\gamma}{2}\int_\Omega|\nabla m|^2\,dx}_{\text{reg}}
 </script>
 </p>
-<p>In the code below, <script type="math/tex">W</script> and <script type="math/tex">R</script> are symmetric positive definite matrices that stem from finite element discretization of the misfit and regularization component of the cost functional, respectively.</p>
+<p>In the code below, <script type="math/tex">\bW</script> and <script type="math/tex">\bR</script> are symmetric positive definite matrices that stem from finite element discretization of the misfit and regularization component of the cost functional, respectively.</p>
 <pre><code class="python"># regularization parameter
 gamma = 1e-8
 
 # weak for for setting up the misfit and regularization compoment of the cost
 W_equ   = inner(u_trial, u_test) * dx
-R_equ   = gamma * inner(nabla_grad(a_trial), nabla_grad(a_test)) * dx
+R_equ   = gamma * inner(nabla_grad(m_trial), nabla_grad(m_test)) * dx
 
 W = assemble(W_equ)
 R = assemble(R_equ)
 
 # refine cost function
-def cost(u, ud, a, W, R):
+def cost(u, ud, m, W, R):
     diff = u.vector() - ud.vector()
-    reg = 0.5 * a.vector().inner(R*a.vector() ) 
+    reg = 0.5 * m.vector().inner(R*m.vector() ) 
     misfit = 0.5 * diff.inner(W * diff)
     return [reg + misfit, misfit, reg]
 </code></pre>
 
 <h3 id="setting-up-the-state-equations-right-hand-side-for-the-adjoint-and-the-necessary-matrices">Setting up the state equations, right hand side for the adjoint and the necessary matrices:</h3>
-<p>
-<script type="math/tex; mode=display">
-  \begin{array}{llll}
-    (\hat{u}_k, \tilde u) &+ (\hat{a}_k \exp(a_k)\nabla p_k, \nabla
-    \tilde u) &+ (\exp(a_k) \nabla \tilde u,
-    \nabla \hat p_k) &= (u_d - u_k, \tilde u)- (\exp(a_k) \nabla
-    p_k, \nabla \tilde u)\\
-    (\tilde a \exp(a_k) \nabla \hat u_k, \nabla p_k) &+ \gamma
-    (\nabla \hat a_k, \nabla \tilde a) + (\tilde a \hat a_k \exp(a_k)\nabla u, \nabla p) &+ (\tilde a
-     \exp(a_k) \nabla u_k, \nabla \hat p_k) &= - \gamma (\nabla a_k, \nabla\tilde a) - (\tilde
-      a  \exp(a_k) \nabla u_k, \nabla p_k)\\
-    (\exp(a_k) \nabla \hat u_k, \nabla \tilde p) &+ (\hat a_k \exp(a_k) \nabla u_k, \nabla
-      \tilde p) & &= - (\exp(a_k) \nabla u_k,
-    \nabla \tilde p) + (f, \tilde p),
-  \end{array}
-</script>
-</p>
 <pre><code class="python"># weak form for setting up the state equation
-a_state = inner(exp(a) * nabla_grad(u_trial), nabla_grad(u_test)) * dx
+a_state = inner(exp(m) * nabla_grad(u_trial), nabla_grad(u_test)) * dx
 L_state = f * u_test * dx
 
 # weak form for setting up the adjoint equation
-a_adj = inner(exp(a) * nabla_grad(p_trial), nabla_grad(p_test)) * dx
+a_adj = inner(exp(m) * nabla_grad(p_trial), nabla_grad(p_test)) * dx
 L_adj = -inner(u - ud, p_test) * dx
 
 # weak form for setting up matrices
-Wua_equ = inner(exp(a) * a_trial * nabla_grad(p_test), nabla_grad(p)) * dx
-C_equ   = inner(exp(a) * a_trial * nabla_grad(u), nabla_grad(u_test)) * dx
-Raa_equ = inner(exp(a) * a_trial * a_test *  nabla_grad(u),  nabla_grad(p)) * dx
+Wum_equ = inner(exp(m) * m_trial * nabla_grad(p_test), nabla_grad(p)) * dx
+C_equ   = inner(exp(m) * m_trial * nabla_grad(u), nabla_grad(u_test)) * dx
+Wmm_equ = inner(exp(m) * m_trial * m_test *  nabla_grad(u),  nabla_grad(p)) * dx
 
-M_equ   = inner(a_trial, a_test) * dx
+M_equ   = inner(m_trial, m_test) * dx
 
 # assemble matrix M
 M = assemble(M_equ)
@@ -542,50 +573,50 @@ state_A, state_b = assemble_system (a_state, L_state, bc_state)
 solve (state_A, u.vector(), state_b)
 
 # evaluate cost
-[cost_old, misfit_old, reg_old] = cost(u, ud, a, W, R)
+[cost_old, misfit_old, reg_old] = cost(u, ud, m, W, R)
 
 # plot
 plt.figure(figsize=(15,5))
-nb.plot(a,subplot_loc=121, mytitle=&quot;a_ini&quot;, vmin=atrue.vector().min(), vmax=atrue.vector().max())
-nb.plot(u,subplot_loc=122, mytitle=&quot;u(a_ini)&quot;)
+nb.plot(m,subplot_loc=121, mytitle=&quot;m_ini&quot;, vmin=mtrue.vector().min(), vmax=mtrue.vector().max())
+nb.plot(u,subplot_loc=122, mytitle=&quot;u(m_ini)&quot;)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_13_0.png" /></p>
-<h3 id="the-reduced-hessian-apply-to-a-vector-v">The reduced Hessian apply to a vector v:</h3>
-<p>Here we describe how to apply the reduced Hessian operator to a vector v. For an opportune choice of the regularization, the reduced Hessian operator evaluated in a neighborhood of the solution is positive define, whereas far from the solution the reduced Hessian may be indefinite. On the constrary, the Gauss-Newton approximation of the Hessian is always positive defined.</p>
+<p><img alt="png" src="../2_PoissonDeterministic_files/2_PoissonDeterministic_13_0.png" /></p>
+<h3 id="the-reduced-hessian-apply-to-a-vector-bhm">The reduced Hessian apply to a vector <script type="math/tex">\bhm</script>:</h3>
+<p>Here we describe how to apply the reduced Hessian operator to a vector <script type="math/tex">\bhm</script>. For an opportune choice of the regularization, the reduced Hessian operator evaluated in a neighborhood of the solution is positive define, whereas far from the solution the reduced Hessian may be indefinite. On the constrary, the Gauss-Newton approximation of the Hessian is always positive defined.</p>
 <p>For this reason, it is beneficial to perform a few initial Gauss-Newton steps (5 in this particular example) to accelerate the convergence of the inexact Newton-CG algorithm.</p>
 <p>The Hessian apply reads:
 <script type="math/tex; mode=display">
 \begin{align}
-\bhu &= -\bf A^{-1} \bf C \bf v\, & \text{linearized forward}\\
-\bhp &= -\bf A^{-T} (\bf W_{\scriptsize\mbox{uu}} \bhu +
-\bf W_{\scriptsize\mbox{ua}}\,\bha) & \text{adjoint}\\
-\bf H \bf v &= (\bf R + \bf R_{\scriptsize\mbox{aa}})\bf v + \bf C^T \bhp + \bf W_{\scriptsize\mbox{au}} \bhu.
+\bhu &= -\bA^{-1} \bC \bhm\, & \text{linearized forward}\\
+\bhp &= -\bA^{-T} (\bW_{\scriptsize\mbox{uu}} \bhu +
+\bW_{\scriptsize\mbox{um}}\,\bhm) & \text{adjoint}\\
+\bH \bhm &= (\bR + \bW_{\scriptsize\mbox{mm}})\bhm + \bC^T \bhp + \bW_{\scriptsize\mbox{mu}} \bhu.
 \end{align}
 </script>
 </p>
-<p>The Gauss-Newton Hessian apply is obtained by dropping the second derivatives operators <script type="math/tex">\bf W_{\scriptsize\mbox{ua}}\,\bha</script>, <script type="math/tex">\bf R_{\scriptsize\mbox{aa}}\bf v</script>, and <script type="math/tex">\bf W_{\scriptsize\mbox{au}} \bhu</script>:
+<p>The Gauss-Newton Hessian apply is obtained by dropping the second derivatives operators <script type="math/tex">\bW_{\scriptsize\mbox{um}}\,\bhm</script>, <script type="math/tex">\bW_{\scriptsize\mbox{mm}}\bf \bhm</script>, and <script type="math/tex">\bW_{\scriptsize\mbox{mu}} \bhu</script>:
 <script type="math/tex; mode=display">
 \begin{align}
-\bhu &= -\bf A^{-1} \bf C \bf v\, & \text{linearized forward}\\
-\bhp &= -\bf A^{-T} \bf W_{\scriptsize\mbox{uu}} \bhu & \text{adjoint}\\
-\bf H_{\rm GN} \bf v &= \bf R \bf v + \bf C^T \bhp.
+\bhu &= -\bA^{-1} \bC \bf \bhm\, & \text{linearized forward}\\
+\bhp &= -\bA^{-T} \bW_{\scriptsize\mbox{uu}} \bhu & \text{adjoint}\\
+\bH_{\rm GN} \bhm &= \bR \bhm + \bC^T \bhp.
 \end{align}
 </script>
 </p>
 <pre><code class="python"># Class HessianOperator to perform Hessian apply to a vector
 class HessianOperator():
     cgiter = 0
-    def __init__(self, R, Raa, C, A, adj_A, W, Wua, use_gaussnewton=False):
+    def __init__(self, R, Wmm, C, A, adj_A, W, Wum, gauss_newton_approx=False):
         self.R = R
-        self.Raa = Raa
+        self.Wmm = Wmm
         self.C = C
         self.A = A
         self.adj_A = adj_A
         self.W = W
-        self.Wua = Wua
-        self.use_gaussnewton = use_gaussnewton
+        self.Wum = Wum
+        self.gauss_newton_approx = gauss_newton_approx
 
         # incremental state
         self.du = Vector()
@@ -598,17 +629,17 @@ class HessianOperator():
         # auxiliary vectors
         self.CT_dp = Vector()
         self.C.init_vector(self.CT_dp, 1)
-        self.Wua_du = Vector()
-        self.Wua.init_vector(self.Wua_du, 1)
+        self.Wum_du = Vector()
+        self.Wum.init_vector(self.Wum_du, 1)
 
     def init_vector(self, v, dim):
         self.R.init_vector(v,dim)
 
-    # Hessian performed on x, output as generic vector y
+    # Hessian performed on v, output as generic vector y
     def mult(self, v, y):
         self.cgiter += 1
         y.zero()
-        if self.use_gaussnewton:
+        if self.gauss_newton_approx:
             self.mult_GaussNewton(v,y)
         else:
             self.mult_Newton(v,y)
@@ -642,32 +673,32 @@ class HessianOperator():
         solve (self.A, self.du, rhs)
 
         #incremental adjoint
-        rhs = -(self.W * self.du) -  self.Wua * v
+        rhs = -(self.W * self.du) -  self.Wum * v
         bc_adj.apply(rhs)
         solve (self.adj_A, self.dp, rhs)
 
         #Reg/Prior term
         self.R.mult(v,y)
-        y.axpy(1., Raa*v)
+        y.axpy(1., self.Wmm*v)
 
         #Misfit term
         self.C.transpmult(self.dp, self.CT_dp)
         y.axpy(1., self.CT_dp)
-        self.Wua.transpmult(self.du, self.Wua_du)
-        y.axpy(1., self.Wua_du)
+        self.Wum.transpmult(self.du, self.Wum_du)
+        y.axpy(1., self.Wum_du)
 </code></pre>
 
 <h2 id="the-inexact-newton-cg-optimization-with-armijo-line-search">The inexact Newton-CG optimization with Armijo line search:</h2>
 <p>We solve the constrained optimization problem using the inexact Newton-CG method with Armijo line search.</p>
 <p>The stopping criterion is based on a relative reduction of the norm of the gradient (i.e. <script type="math/tex">\frac{\|g_{n}\|}{\|g_{0}\|} \leq \tau</script>).</p>
-<p>First, we compute the gradient by solving the state and adjoint equation for the current parameter <script type="math/tex">a</script>, and then substituing the current state <script type="math/tex">u</script>, parameter <script type="math/tex">a</script> and adjoint <script type="math/tex">p</script> variables in the weak form expression of the gradient:
-<script type="math/tex; mode=display"> (g, \tilde{a}) = \gamma(\nabla a, \nabla \tilde{a}) +(\tilde{a}\nabla u, \nabla p).</script>
+<p>First, we compute the gradient by solving the state and adjoint equation for the current parameter <script type="math/tex">m</script>, and then substituing the current state <script type="math/tex">u</script>, parameter <script type="math/tex">m</script> and adjoint <script type="math/tex">p</script> variables in the weak form expression of the gradient:
+<script type="math/tex; mode=display"> (g, \tilde{m}) = \gamma(\nabla m, \nabla \tilde{m}) +(\tilde{m}\nabla u, \nabla p).</script>
 </p>
-<p>Then, we compute the Newton direction <script type="math/tex">\delta a</script> by iteratively solving <script type="math/tex">{\bf H} {\delta a} = - {\bf g}</script>.
+<p>Then, we compute the Newton direction <script type="math/tex">\hat m</script> by iteratively solving <script type="math/tex">\mathcal{H} {\hat m} = -g</script>.
 The Newton system is solved inexactly by early termination of conjugate gradient iterations via Eisenstat–Walker (to prevent oversolving) and Steihaug  (to avoid negative curvature) criteria.</p>
 <p>Finally, the Armijo line search uses backtracking to find <script type="math/tex">\alpha</script> such that a sufficient reduction in the cost functional is achieved.
 More specifically, we use backtracking to find <script type="math/tex">\alpha</script> such that:
-<script type="math/tex; mode=display">J( a + \alpha \delta a ) \leq J(a) + \alpha c_{\rm armijo} (\delta a,g). </script>
+<script type="math/tex; mode=display">J( m + \alpha \hat m ) \leq J(m) + \alpha c_{\rm armijo} (\hat m,g). </script>
 </p>
 <pre><code class="python"># define parameters for the optimization
 tol = 1e-8
@@ -681,13 +712,13 @@ total_cg_iter = 0
 converged = False
 
 # initializations
-g, a_delta = Vector(), Vector()
-R.init_vector(a_delta,0)
+g, m_delta = Vector(), Vector()
+R.init_vector(m_delta,0)
 R.init_vector(g,0)
 
-a_prev = Function(Va)
+m_prev = Function(Vm)
 
-print(&quot;Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg&quot;)
+print (&quot;Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg&quot;)
 
 while iter &lt;  maxiter and not converged:
 
@@ -699,14 +730,14 @@ while iter &lt;  maxiter and not converged:
     solve(adjoint_A, p.vector(), adjoint_RHS)
 
     # assemble W_ua and R
-    Wua = assemble (Wua_equ)
-    Raa = assemble (Raa_equ)
+    Wum = assemble (Wum_equ)
+    Wmm = assemble (Wmm_equ)
 
     # evaluate the  gradient
     CT_p = Vector()
     C.init_vector(CT_p,1)
     C.transpmult(p.vector(), CT_p)
-    MG = CT_p + R * a.vector()
+    MG = CT_p + R * m.vector()
     solve(M, g, MG)
 
     # calculate the norm of the gradient
@@ -719,7 +750,7 @@ while iter &lt;  maxiter and not converged:
     tolcg = min(0.5, sqrt(gradnorm/gradnorm_ini))
 
     # define the Hessian apply operator (with preconditioner)
-    Hess_Apply = HessianOperator(R, Raa, C, state_A, adjoint_A, W, Wua, use_gaussnewton=(iter&lt;6) )
+    Hess_Apply = HessianOperator(R, Wmm, C, state_A, adjoint_A, W, Wum, gauss_newton_approx=(iter&lt;6) )
     P = R + gamma * M
     Psolver = PETScKrylovSolver(&quot;cg&quot;, amg_method())
     Psolver.set_operator(P)
@@ -732,78 +763,78 @@ while iter &lt;  maxiter and not converged:
     solver.parameters[&quot;print_level&quot;] = -1
 
     # solve the Newton system H a_delta = - MG
-    solver.solve(a_delta, -MG)
+    solver.solve(m_delta, -MG)
     total_cg_iter += Hess_Apply.cgiter
 
     # linesearch
     alpha = 1
     descent = 0
     no_backtrack = 0
-    a_prev.assign(a)
+    m_prev.assign(m)
     while descent == 0 and no_backtrack &lt; 10:
-        a.vector().axpy(alpha, a_delta )
+        m.vector().axpy(alpha, m_delta )
 
         # solve the state/forward problem
         state_A, state_b = assemble_system(a_state, L_state, bc_state)
         solve(state_A, u.vector(), state_b)
 
         # evaluate cost
-        [cost_new, misfit_new, reg_new] = cost(u, ud, a, W, R)
+        [cost_new, misfit_new, reg_new] = cost(u, ud, m, W, R)
 
         # check if Armijo conditions are satisfied
-        if cost_new &lt; cost_old + alpha * c * MG.inner(a_delta):
+        if cost_new &lt; cost_old + alpha * c * MG.inner(m_delta):
             cost_old = cost_new
             descent = 1
         else:
             no_backtrack += 1
             alpha *= 0.5
-            a.assign(a_prev)  # reset a
+            m.assign(m_prev)  # reset a
 
     # calculate sqrt(-G * D)
-    graddir = sqrt(- MG.inner(a_delta) )
+    graddir = sqrt(- MG.inner(m_delta) )
 
     sp = &quot;&quot;
-    print(&quot;%2d %2s %2d %3s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %5.2f %1s %5.3e&quot; % \
+    print( &quot;%2d %2s %2d %3s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %8.5e %1s %5.2f %1s %5.3e&quot; % \
         (iter, sp, Hess_Apply.cgiter, sp, cost_new, sp, misfit_new, sp, reg_new, sp, \
          graddir, sp, gradnorm, sp, alpha, sp, tolcg) )
 
     if plot_on:
-        nb.multi1_plot([a,u,p], [&quot;a&quot;,&quot;u&quot;,&quot;p&quot;], same_colorbar=False)
+        nb.multi1_plot([m,u,p], [&quot;m&quot;,&quot;u&quot;,&quot;p&quot;], same_colorbar=False)
         plt.show()
 
     # check for convergence
     if gradnorm &lt; tol and iter &gt; 1:
         converged = True
-        print(&quot;Newton's method converged in &quot;,iter,&quot;  iterations&quot;)
-        print(&quot;Total number of CG iterations: &quot;, total_cg_iter)
+        print( &quot;Newton's method converged in &quot;,iter,&quot;  iterations&quot;)
+        print( &quot;Total number of CG iterations: &quot;, total_cg_iter)
 
     iter += 1
 
 if not converged:
-    print(&quot;Newton's method did not converge in &quot;, maxiter, &quot; iterations&quot;)
+    print( &quot;Newton's method did not converge in &quot;, maxiter, &quot; iterations&quot;)
 </code></pre>
 
 <pre><code>Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg
- 1     1     1.12708e-05   1.12708e-05   1.33979e-11   1.56540e-02   3.79427e-04    1.00   5.000e-01
- 2     1     7.79732e-07   7.79695e-07   3.67737e-11   4.68278e-03   5.35002e-05    1.00   3.755e-01
- 3     1     3.10620e-07   3.10571e-07   4.91259e-11   9.71633e-04   7.13895e-06    1.00   1.372e-01
- 4     5     1.92183e-07   1.62405e-07   2.97780e-08   4.51694e-04   1.00276e-06    1.00   5.141e-02
- 5     1     1.86913e-07   1.57119e-07   2.97941e-08   1.02668e-04   6.12750e-07    1.00   4.019e-02
- 6    12     1.80408e-07   1.37719e-07   4.26890e-08   1.15975e-04   2.24111e-07    1.00   2.430e-02
- 7     5     1.80331e-07   1.38935e-07   4.13963e-08   1.23223e-05   4.17399e-08    1.00   1.049e-02
- 8    15     1.80330e-07   1.39056e-07   4.12734e-08   1.74451e-06   3.43216e-09    1.00   3.008e-03
+ 1     1     1.12816e-05   1.12816e-05   1.34063e-11   1.56576e-02   3.79516e-04    1.00   5.000e-01
+ 2     1     7.82345e-07   7.82308e-07   3.68084e-11   4.68471e-03   5.35131e-05    1.00   3.755e-01
+ 3     1     3.12377e-07   3.12328e-07   4.91890e-11   9.72528e-04   7.14277e-06    1.00   1.372e-01
+ 4     6     1.91931e-07   1.61602e-07   3.03286e-08   4.54949e-04   1.00710e-06    1.00   5.151e-02
+ 5     1     1.86508e-07   1.56163e-07   3.03445e-08   1.04154e-04   6.18455e-07    1.00   4.037e-02
+ 6    12     1.80489e-07   1.37364e-07   4.31244e-08   1.11510e-04   2.15007e-07    1.00   2.380e-02
+ 7     5     1.80421e-07   1.38523e-07   4.18984e-08   1.15380e-05   3.88978e-08    1.00   1.012e-02
+ 8    15     1.80420e-07   1.38637e-07   4.17830e-08   1.64609e-06   3.27512e-09    1.00   2.938e-03
 Newton's method converged in  8   iterations
-Total number of CG iterations:  41
+Total number of CG iterations:  42
 </code></pre>
-<pre><code class="python">nb.multi1_plot([atrue, a], [&quot;atrue&quot;, &quot;a&quot;])
+<pre><code class="python">nb.multi1_plot([mtrue, m], [&quot;mtrue&quot;, &quot;m&quot;])
 nb.multi1_plot([u,p], [&quot;u&quot;,&quot;p&quot;], same_colorbar=False)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_18_0.png" /></p>
-<p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_18_1.png" /></p>
-<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
-All Rights reserved.
+<p><img alt="png" src="../2_PoissonDeterministic_files/2_PoissonDeterministic_18_0.png" /></p>
+<p><img alt="png" src="../2_PoissonDeterministic_files/2_PoissonDeterministic_18_1.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.<br>
+All Rights reserved.<br>
 See file COPYRIGHT for details.</p>
 <p>This file is part of the hIPPYlib library. For more information and source code
 availability see https://hippylib.github.io.</p>
