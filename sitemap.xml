@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,37 +13,37 @@
         
     <url>
      <loc>None/tutorial/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/tutorials/1_FEniCS101/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/tutorials/2_PoissonDeterministic/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/tutorials/3_SubsurfaceBayesian/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/tutorials/4_AdvectionDiffusionBayesian/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/tutorials/5_HessianSpectrum/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -58,7 +58,7 @@
     
     <url>
      <loc>None/documentation/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -66,7 +66,7 @@
     
     <url>
      <loc>None/download/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -74,7 +74,7 @@
     
     <url>
      <loc>None/research/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -82,7 +82,7 @@
     
     <url>
      <loc>None/outreach/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -90,7 +90,7 @@
     
     <url>
      <loc>None/about/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
