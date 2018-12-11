@@ -887,7 +887,7 @@
         },
         {
             "location": "/documentation/",
-            "text": "Documentation\n\n\nInstallation\n\n\nhIPPYlib\n depends on \nFEniCS\n versions 1.6, 2016.1, 2016.2, 2017.1, 2017.2.\n\n\nWe recommend using \nFEniCS 2017.2\n with \nhIPPYlib\n. \nNote\n: \nFEniCS 2018.1\n is not supported by \nhIPPYlib\n.\n\n\nFEniCS\n needs to be built with the following dependecies:\n\n\n\n\nnumpy\n, \nscipy\n, \nmatplotlib\n, \nmpi4py\n\n\nPETSc\n and \npetsc4py\n (version 3.7.0 or above)\n\n\nSLEPc\n and \nslepc4py\n (version 3.7.0 or above)\n\n\nPETSc dependencies: \nparmetis\n, \nscotch\n, \nsuitesparse\n, \nsuperlu_dist\n, \nml\n, \nhypre\n\n\n(optional): \nmshr\n, \njupyter\n\n\n\n\nFor detailed installation instructions see \nhere\n.\n\n\nDocker\n\n\nA Docker image \nhIPPYlib\n, \nFEniCS\n and their dependencies preinstalled is available \nhere\n. The username is \nuser1\n and password \nBreckenridge1_g2s3\n.\n\n\nDocumentation\n\n\nThe complete API reference of \nhIPPYlib\n is available at \nreadthedocs\n.",
+            "text": "Documentation\n\n\nInstallation\n\n\nhIPPYlib\n depends on \nFEniCS\n versions 1.6, 2016.1, 2016.2, 2017.1, 2017.2.\n\n\nWe recommend using \nFEniCS 2017.2\n with \nhIPPYlib\n. \nNote\n: \nFEniCS 2018.1\n is not supported by \nhIPPYlib\n.\n\n\nFEniCS\n needs to be built with the following dependecies:\n\n\n\n\nnumpy\n, \nscipy\n, \nmatplotlib\n, \nmpi4py\n\n\nPETSc\n and \npetsc4py\n (version 3.7.0 or above)\n\n\nSLEPc\n and \nslepc4py\n (version 3.7.0 or above)\n\n\nPETSc dependencies: \nparmetis\n, \nscotch\n, \nsuitesparse\n, \nsuperlu_dist\n, \nml\n, \nhypre\n\n\n(optional): \nmshr\n, \njupyter\n\n\n\n\n\n\nFor detailed installation instructions see \nhere\n.\n\n\n\n\nhiPPYlib Docker container\n\n\nA Docker image \nhIPPYlib\n, \nFEniCS\n and their dependencies preinstalled is available \nhere\n. The username is \nuser1\n and password \nBreckenridge1_g2s3\n.\n\n\nDocumentation\n\n\nThe complete API reference of \nhIPPYlib\n is available at \nreadthedocs\n.",
             "title": "Documentation"
         },
         {
@@ -897,13 +897,13 @@
         },
         {
             "location": "/documentation/#installation",
-            "text": "hIPPYlib  depends on  FEniCS  versions 1.6, 2016.1, 2016.2, 2017.1, 2017.2.  We recommend using  FEniCS 2017.2  with  hIPPYlib .  Note :  FEniCS 2018.1  is not supported by  hIPPYlib .  FEniCS  needs to be built with the following dependecies:   numpy ,  scipy ,  matplotlib ,  mpi4py  PETSc  and  petsc4py  (version 3.7.0 or above)  SLEPc  and  slepc4py  (version 3.7.0 or above)  PETSc dependencies:  parmetis ,  scotch ,  suitesparse ,  superlu_dist ,  ml ,  hypre  (optional):  mshr ,  jupyter   For detailed installation instructions see  here .",
+            "text": "hIPPYlib  depends on  FEniCS  versions 1.6, 2016.1, 2016.2, 2017.1, 2017.2.  We recommend using  FEniCS 2017.2  with  hIPPYlib .  Note :  FEniCS 2018.1  is not supported by  hIPPYlib .  FEniCS  needs to be built with the following dependecies:   numpy ,  scipy ,  matplotlib ,  mpi4py  PETSc  and  petsc4py  (version 3.7.0 or above)  SLEPc  and  slepc4py  (version 3.7.0 or above)  PETSc dependencies:  parmetis ,  scotch ,  suitesparse ,  superlu_dist ,  ml ,  hypre  (optional):  mshr ,  jupyter    For detailed installation instructions see  here .",
             "title": "Installation"
         },
         {
-            "location": "/documentation/#docker",
+            "location": "/documentation/#hippylib-docker-container",
             "text": "A Docker image  hIPPYlib ,  FEniCS  and their dependencies preinstalled is available  here . The username is  user1  and password  Breckenridge1_g2s3 .",
-            "title": "Docker"
+            "title": "hiPPYlib Docker container"
         },
         {
             "location": "/documentation/#documentation_1",
