@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/",
-            "text": "hIPPYlib - Inverse Problem PYthon library\n\n\n\n\n\n\n \n\n\nhIPPYlib implements state-of-the-art \nscalable\n \nadjoint-based\n algorithms for PDE-based \ndeterministic and Bayesian inverse problems\n. It builds on \nFEniCS\n for the discretization of the PDE and on \nPETSc\n for scalable and efficient linear algebra operations and solvers.\n\n\nFeatures\n\n\n\n\nFriendly, compact, near-mathematical FEniCS notation to express the PDE and likelihood in weak form\n\n\nAutomatic generation of efficient code for the discretization of weak forms using FEniCS\n\n\nSymbolic differentiation of weak forms to generate derivatives and adjoint information\n\n\nGlobalized Inexact Newton-CG method to solve the inverse problem\n\n\nLow rank representation of the posterior covariace using randomized algorithms\n\n\n\n\nSee also our \ntutorial\n and list of related \npublications\n. For additional resources and tutorials please see the teaching material for the \n2018 Gene Golub SIAM Summer School\n on \nInverse Problems: Systematic Integration of Data with Models under Uncertainty\n available \nhere\n.\n\n\nThe complete API reference is available \nhere\n.\n\n\nLatest Release\n\n\n\n\nDevelopment version\n\n\nDownload \nhippylib-2.1.1.zip\n\n\nPrevious releases\n\n\n\n\nContact\n\n\nDeveloped by the \nhIPPYlib team\n at \nUT Austin\n and \nUC Merced\n.\n\n\nPlease cite as \n\n\n@article{VillaPetraGhattas2016,\ntitle = \"{hIPPYlib: an Extensible Software Framework for Large-scale Deterministic and Bayesian Inverse Problems}\",\nauthor = {Villa, U. and Petra, N. and Ghattas, O.},\nyear = {2016},\nurl = {http://hippylib.github.io},\ndoi = {10.5281/zenodo.596931}\n}\n\n@article{VillaPetraGhattas2018,\ntitle = \"{hIPPYlib: an Extensible Software Framework for Large-scale Deterministic and Bayesian Inverse Problems}\",\nauthor = {Villa, U. and Petra, N. and Ghattas, O.},\njournal = {Journal of Open Source Software},\nvolume = {3},\nnumber = {30},\npage = {940},\ndoi  = {10.21105/joss.00940},\nyear = {2018}\n}",
+            "text": "hIPPYlib - Inverse Problem PYthon library\n\n\n\n\n\n\n \n\n\nhIPPYlib implements state-of-the-art \nscalable\n \nadjoint-based\n algorithms for PDE-based \ndeterministic and Bayesian inverse problems\n. It builds on \nFEniCS\n for the discretization of the PDE and on \nPETSc\n for scalable and efficient linear algebra operations and solvers.\n\n\nFeatures\n\n\n\n\nFriendly, compact, near-mathematical FEniCS notation to express the PDE and likelihood in weak form\n\n\nAutomatic generation of efficient code for the discretization of weak forms using FEniCS\n\n\nSymbolic differentiation of weak forms to generate derivatives and adjoint information\n\n\nGlobalized Inexact Newton-CG method to solve the inverse problem\n\n\nLow rank representation of the posterior covariace using randomized algorithms\n\n\n\n\nSee also our \ntutorial\n and list of related \npublications\n. For additional resources and tutorials please see the teaching material for the \n2018 Gene Golub SIAM Summer School\n on \nInverse Problems: Systematic Integration of Data with Models under Uncertainty\n available \nhere\n.\n\n\nThe complete API reference is available \nhere\n.\n\n\nLatest Release\n\n\n\n\nDevelopment version\n\n\nDownload \nhippylib-2.1.1.zip\n\n\nPrevious releases\n\n\n\n\nNews\n\n\n\n\nPost-Doctoral Scholar position\n opening in Prof. Petra group at UC Merced.\n\n\n\n\nContact\n\n\nDeveloped by the \nhIPPYlib team\n at \nUT Austin\n and \nUC Merced\n.\n\n\nPlease cite as \n\n\n@article{VillaPetraGhattas2016,\ntitle = \"{hIPPYlib: an Extensible Software Framework for Large-scale Deterministic and Bayesian Inverse Problems}\",\nauthor = {Villa, U. and Petra, N. and Ghattas, O.},\nyear = {2016},\nurl = {http://hippylib.github.io},\ndoi = {10.5281/zenodo.596931}\n}\n\n@article{VillaPetraGhattas2018,\ntitle = \"{hIPPYlib: an Extensible Software Framework for Large-scale Deterministic and Bayesian Inverse Problems}\",\nauthor = {Villa, U. and Petra, N. and Ghattas, O.},\njournal = {Journal of Open Source Software},\nvolume = {3},\nnumber = {30},\npage = {940},\ndoi  = {10.21105/joss.00940},\nyear = {2018}\n}",
             "title": "Home"
         },
         {
@@ -19,6 +19,11 @@
             "location": "/#latest-release",
             "text": "Development version  Download  hippylib-2.1.1.zip  Previous releases",
             "title": "Latest Release"
+        },
+        {
+            "location": "/#news",
+            "text": "Post-Doctoral Scholar position  opening in Prof. Petra group at UC Merced.",
+            "title": "News"
         },
         {
             "location": "/#contact",
@@ -982,13 +987,13 @@
         },
         {
             "location": "/postdoc_position/",
-            "text": "Announcements\n\n\nOpen Postdoc Position at UC Merced\n\n\nThere is an opening for a postdoc position in Professor \nNoemi Petra\n's\nresearch group in the \nSchool of Natural Sciences\n at the \nUniversity of\nCalifornia, Merced\n.\n\n\nThe postdoctoral researcher will work under an\nNSF-funded Collaborative Research (with UC Merced, UT Austin and MIT)\nentitled: \nIntegrating Data with Complex Predictive Models under\nUncertainty: An Extensible Software Framework for Large-Scale Bayesian\nInversion\n (see \nhere\n for a general overview of the project).\n\n\nThe postdoctoral researcher will perform research in the\nfield of large-scale Bayesian inverse problems, and on the\nimplementation of new features in hIPPYlib. The postdoc will contribute to\nthe research dissemination and will also help build the user/developer\ncommunity by attending and speaking at conferences, workshops and\nsummer schools at local and international events.\n\n\nInterested candidates should contact Noemi Petra at\n\nnpetra@ucmerced.edu\n.\n\n\nApply at \nhttps://aprecruit.ucmerced.edu/apply/JPF00738\n.",
+            "text": "Openings\n\n\nOpen Postdoc Position at UC Merced\n\n\nThere is an opening for a postdoc position in Professor \nNoemi Petra\n's\nresearch group in the \nSchool of Natural Sciences\n at the \nUniversity of\nCalifornia, Merced\n.\n\n\nThe postdoctoral researcher will work under an\nNSF-funded Collaborative Research (with UC Merced, UT Austin and MIT)\nentitled: \nIntegrating Data with Complex Predictive Models under\nUncertainty: An Extensible Software Framework for Large-Scale Bayesian\nInversion\n (see \nhere\n for a general overview of the project).\n\n\nThe postdoctoral researcher will perform research in the\nfield of large-scale Bayesian inverse problems, and on the\nimplementation of new features in hIPPYlib. The postdoc will contribute to\nthe research dissemination and will also help build the user/developer\ncommunity by attending and speaking at conferences, workshops and\nsummer schools at local and international events.\n\n\nInterested candidates should contact Noemi Petra at\n\nnpetra@ucmerced.edu\n.\n\n\nApply at \nhttps://aprecruit.ucmerced.edu/apply/JPF00738\n.",
             "title": "Openings"
         },
         {
-            "location": "/postdoc_position/#announcements",
+            "location": "/postdoc_position/#openings",
             "text": "",
-            "title": "Announcements"
+            "title": "Openings"
         },
         {
             "location": "/postdoc_position/#open-postdoc-position-at-uc-merced",
