@@ -887,7 +887,7 @@
         },
         {
             "location": "/documentation/",
-            "text": "Documentation\n\n\nInstallation\n\n\nhIPPYlib\n depends on \nFEniCS\n versions 1.6, 2016.1, 2016.2, 2017.1, 2017.2.\n\n\nWe recommend using \nFEniCS 2017.2\n with \nhIPPYlib\n.\n\n\nFEniCS\n needs to be built with the following dependecies:\n\n\n\n\nnumpy\n, \nscipy\n, \nmatplotlib\n, \nmpi4py\n\n\nPETSc\n and \npetsc4py\n (version 3.7.0 or above)\n\n\nSLEPc\n and \nslepc4py\n (version 3.7.0 or above)\n\n\nPETSc dependencies: \nparmetis\n, \nscotch\n, \nsuitesparse\n, \nsuperlu_dist\n, \nml\n, \nhypre\n\n\n(optional): \nmshr\n, \njupyter\n\n\n\n\n\n\nFor detailed installation instructions see \nhere\n.\n\n\n\n\nFEniCS 2019.1.0\n\n\nhIPPYlib\n now offers experimental support for \nFEniCS 2019.1.0\n, although it requires a customized \nFEniCS docker image\n. See branch \n2019.1-dev2\n for details.\n\n\nhiPPYlib Docker container\n\n\nA Docker image \nhIPPYlib\n, \nFEniCS\n and their dependencies preinstalled is available \nhere\n. The username is \nuser1\n and password \nBreckenridge1_g2s3\n.\n\n\nDocumentation\n\n\nThe complete API reference of \nhIPPYlib\n is available at \nreadthedocs\n.",
+            "text": "Documentation\n\n\nInstallation of stable releases\n\n\nThe latest \nhIPPYlib\n release depends on \nFEniCS\n versions 2016.1, 2016.2, 2017.1, 2017.2.\n\n\nWe recommend using \nFEniCS 2017.2\n with the latest \nhIPPYlib\n release.\n\n\nFEniCS\n needs to be built with the following dependecies:\n\n\n\n\nnumpy\n, \nscipy\n, \nmatplotlib\n, \nmpi4py\n\n\nPETSc\n and \npetsc4py\n (version 3.7.0 or above)\n\n\nSLEPc\n and \nslepc4py\n (version 3.7.0 or above)\n\n\nPETSc dependencies: \nparmetis\n, \nscotch\n, \nsuitesparse\n, \nsuperlu_dist\n, \nml\n, \nhypre\n\n\n(optional): \nmshr\n, \njupyter\n\n\n\n\n\n\nFor detailed installation instructions of the latest stable release see \nhere\n.\n\n\n\n\nInstallation of developement version (with FEniCS 2019.1.0 support)\n\n\nThe \ndevelopment version\n of \nhIPPYlib\n offers experimental support for \nFEniCS 2019.1.0\n. However, a customized \nFEniCS docker image\n or customized \nconda packages\n is required at this time.\n\n\n\n\nFor detailed installation instructions of the development version see \nhere\n.\n\n\n\n\nhiPPYlib Docker container\n\n\nA Docker image \nhIPPYlib\n, \nFEniCS\n and their dependencies preinstalled is available \nhere\n. The username is \nuser1\n and password \nBreckenridge1_g2s3\n.\n\n\nDocumentation\n\n\nThe complete API reference of \nhIPPYlib\n is available at \nreadthedocs\n.",
             "title": "Documentation"
         },
         {
@@ -896,14 +896,14 @@
             "title": "Documentation"
         },
         {
-            "location": "/documentation/#installation",
-            "text": "hIPPYlib  depends on  FEniCS  versions 1.6, 2016.1, 2016.2, 2017.1, 2017.2.  We recommend using  FEniCS 2017.2  with  hIPPYlib .  FEniCS  needs to be built with the following dependecies:   numpy ,  scipy ,  matplotlib ,  mpi4py  PETSc  and  petsc4py  (version 3.7.0 or above)  SLEPc  and  slepc4py  (version 3.7.0 or above)  PETSc dependencies:  parmetis ,  scotch ,  suitesparse ,  superlu_dist ,  ml ,  hypre  (optional):  mshr ,  jupyter    For detailed installation instructions see  here .",
-            "title": "Installation"
+            "location": "/documentation/#installation-of-stable-releases",
+            "text": "The latest  hIPPYlib  release depends on  FEniCS  versions 2016.1, 2016.2, 2017.1, 2017.2.  We recommend using  FEniCS 2017.2  with the latest  hIPPYlib  release.  FEniCS  needs to be built with the following dependecies:   numpy ,  scipy ,  matplotlib ,  mpi4py  PETSc  and  petsc4py  (version 3.7.0 or above)  SLEPc  and  slepc4py  (version 3.7.0 or above)  PETSc dependencies:  parmetis ,  scotch ,  suitesparse ,  superlu_dist ,  ml ,  hypre  (optional):  mshr ,  jupyter    For detailed installation instructions of the latest stable release see  here .",
+            "title": "Installation of stable releases"
         },
         {
-            "location": "/documentation/#fenics-201910",
-            "text": "hIPPYlib  now offers experimental support for  FEniCS 2019.1.0 , although it requires a customized  FEniCS docker image . See branch  2019.1-dev2  for details.",
-            "title": "FEniCS 2019.1.0"
+            "location": "/documentation/#installation-of-developement-version-with-fenics-201910-support",
+            "text": "The  development version  of  hIPPYlib  offers experimental support for  FEniCS 2019.1.0 . However, a customized  FEniCS docker image  or customized  conda packages  is required at this time.   For detailed installation instructions of the development version see  here .",
+            "title": "Installation of developement version (with FEniCS 2019.1.0 support)"
         },
         {
             "location": "/documentation/#hippylib-docker-container",
