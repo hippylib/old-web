@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Subsurface Bayesian - hIPPYlib</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../../js/highlight.pack.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-52448613-3', 'hippylib.github.io');
+            ga('send', 'pageview');
+        </script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../..">hIPPYlib</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorial <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../../tutorial/">README</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/1_FEniCS101/">FEniCS101</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+                            
+  <li class="dropdown-submenu">
+    <a href="#">Version 1.x</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../tutorial_v1.6.0/">README</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/1_FEniCS101/">FEniCS101</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+    </ul>
+  </li>
+                            
+  <li class="dropdown-submenu">
+    <a href="#">Version 2.x</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../tutorial_v2.3.0/">README</a>
+</li>
+            
+<li >
+    <a href="../../1_FEniCS101/1_FEniCS101/">FEniCS101</a>
+</li>
+            
+<li >
+    <a href="../../2_PoissonDeterministic/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+            
+<li class="active">
+    <a href="./">Subsurface Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../4_AdvectionDiffusionBayesian/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../5_HessianSpectrum/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+    </ul>
+  </li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="../../../documentation/">Documentation</a>
+                    </li>
+                    <li >
+                        <a href="../../../download/">Download</a>
+                    </li>
+                    <li >
+                        <a href="../../../research/">Research</a>
+                    </li>
+                    <li >
+                        <a href="../../../outreach/">Outreach</a>
+                    </li>
+                    <li >
+                        <a href="../../../postdoc_position/">Openings</a>
+                    </li>
+                    <li >
+                        <a href="../../../about/">About</a>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../../2_PoissonDeterministic/2_PoissonDeterministic/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../../4_AdvectionDiffusionBayesian/4_AdvectionDiffusionBayesian/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/hippylib/hippylib"><i class="fa fa-github"></i> GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#bayesian-quantification-of-parameter-uncertainty">Bayesian quantification of parameter uncertainty:</a></li>
+            <li><a href="#estimating-the-gaussian-approximation-of-posterior-pdf-of-the-coefficient-parameter-field-in-an-elliptic-pde">Estimating the Gaussian approximation of posterior pdf of the coefficient parameter field in an elliptic PDE</a></li>
+            <li><a href="#this-tutorial-shows">This tutorial shows:</a></li>
+            <li><a href="#goals">Goals:</a></li>
+            <li><a href="#mathematical-tools-used">Mathematical tools used:</a></li>
+            <li><a href="#list-of-software-used">List of software used:</a></li>
+            <li><a href="#1-load-modules">1. Load modules</a></li>
+            <li><a href="#2-generate-the-true-parameter">2. Generate the true parameter</a></li>
+            <li><a href="#3-set-up-the-mesh-and-finite-element-spaces">3. Set up the mesh and finite element spaces</a></li>
+            <li><a href="#4-set-up-the-forward-problem">4. Set up the forward problem</a></li>
+            <li><a href="#4-set-up-the-prior">4. Set up the prior</a></li>
+            <li><a href="#5-set-up-the-misfit-functional-and-generate-synthetic-observations">5. Set up the misfit functional and generate synthetic observations</a></li>
+            <li><a href="#6-set-up-the-model-and-test-gradient-and-hessian">6. Set up the model and test gradient and Hessian</a></li>
+            <li><a href="#7-compute-the-map-point">7. Compute the MAP point</a></li>
+            <li><a href="#8-compute-the-low-rank-gaussian-approximation-of-the-posterior">8. Compute the low rank Gaussian approximation of the posterior</a></li>
+            <li><a href="#9-prior-and-posterior-pointwise-variance-fields">9. Prior and posterior pointwise variance fields</a></li>
+            <li><a href="#10-generate-samples-from-prior-and-posterior">10. Generate samples from Prior and Posterior</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<p>
+<script type="math/tex; mode=display">\def\data{ {\bf d}_\rm{obs}}
+\def\vec{\bf}
+\def\m{ {\bf m}}
+\def\map{{\bf m}_{\text{MAP}}}
+\def\postcov{{\bf \Gamma}_{\text{post}}}
+\def\prcov{{\bf \Gamma}_{\text{prior}}}
+\def\matrix{\bf}
+\def\Hmisfit{{\bf H}_{\text{misfit}}}
+\def\HT{{\tilde{\bf H}}_{\text{misfit}}}
+\def\diag{\operatorname{diag}}
+\def\Vr{{\matrix V}_r}
+\def\Wr{{\matrix W}_r}
+\def\Ir{{\matrix I}_r}
+\def\Dr{{\matrix D}_r}
+\def\H{{\matrix H} }
+</script>
+</p>
+<h1 id="bayesian-quantification-of-parameter-uncertainty">Bayesian quantification of parameter uncertainty:</h1>
+<h2 id="estimating-the-gaussian-approximation-of-posterior-pdf-of-the-coefficient-parameter-field-in-an-elliptic-pde">Estimating the Gaussian approximation of posterior pdf of the coefficient parameter field in an elliptic PDE</h2>
+<p>In this example we tackle the problem of quantifying the
+uncertainty in the solution of an inverse problem governed by an
+elliptic PDE via the Bayesian inference framework. 
+Hence, we state the inverse problem as a
+problem of statistical inference over the space of uncertain
+parameters, which are to be inferred from data and a physical
+model.  The resulting solution to the statistical inverse problem
+is a posterior distribution that assigns to any candidate set of
+parameter fields our belief (expressed as a probability) that a
+member of this candidate set is the ``true'' parameter field that
+gave rise to the observed data.</p>
+<p>For simplicity, in what follows we give finite-dimensional expressions (i.e., after
+discretization of the parameter space) for the Bayesian
+formulation of the inverse problem.</p>
+<h3 id="bayes-theorem">Bayes' Theorem:</h3>
+<p>The posterior probability distribution combines the prior pdf
+<script type="math/tex">\pi_{\text{prior}}(\m)</script> over the parameter space, which encodes
+any knowledge or assumptions about the parameter space that we may
+wish to impose before the data are considered, with a likelihood pdf
+<script type="math/tex">\pi_{\text{like}}(\data \; | \; \m)</script>, which explicitly
+represents the probability that a given set of parameters <script type="math/tex">\m</script>
+might give rise to the observed data <script type="math/tex">\data \in
+\mathbb{R}^m</script>, namely:</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align}
+\pi_{\text{post}}(\m | \data) \propto
+\pi_{\text{prior}}(\m) \pi_{\text{like}}(\data | \m).
+\end{align}
+</script>
+</p>
+<p>Note that infinite-dimensional analog of Bayes' formula requires the use Radon-Nikodym derivatives instead of probability density functions.</p>
+<h3 id="gaussian-prior-and-noise">Gaussian prior and noise:</h3>
+<h4 id="the-prior">The prior:</h4>
+<p>We consider a Gaussian prior with mean <script type="math/tex">{\vec m}_{\text{prior}}</script> and covariance <script type="math/tex">\prcov</script>. The covariance is given by the discretization of the inverse of differential operator <script type="math/tex">\mathcal{A}^{-2} = (-\gamma \Delta + \delta I)^{-2}</script>, where <script type="math/tex">\gamma</script>, <script type="math/tex">\delta > 0</script> control the correlation length and the variance of the prior operator. This choice of prior ensures that it is a trace-class operator, guaranteeing bounded pointwise variance and a well-posed infinite-dimensional Bayesian inverse problem.</p>
+<h4 id="the-likelihood">The likelihood:</h4>
+<p>
+<script type="math/tex; mode=display">
+\data =  {\bf f}(\m) + {\bf e }, \;\;\;  {\bf e} \sim \mathcal{N}({\bf 0}, {\bf \Gamma}_{\text{noise}} )
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\pi_{\text{like}}(\data \; | \; \m)  = \exp \left( - \tfrac{1}{2} ({\bf f}(\m) - \data)^T {\bf \Gamma}_{\text{noise}}^{-1} ({\bf f}(\m) - \data)\right)
+</script>
+</p>
+<p>Here <script type="math/tex">{\bf f}</script> is the parameter-to-observable map that takes a parameter vector <script type="math/tex">\m</script> and maps
+it to the space observation vector <script type="math/tex">\data</script>.</p>
+<h4 id="the-posterior">The posterior:</h4>
+<p>
+<script type="math/tex; mode=display">
+\pi_{\text{post}}(\m \; | \; \data)  \propto \exp \left( - \tfrac{1}{2} \parallel {\bf f}(\m) - \data \parallel^{2}_{{\bf \Gamma}_{\text{noise}}^{-1}} \! - \tfrac{1}{2}\parallel \m - \m_{\text prior} \parallel^{2}_{\prcov^{-1}} \right)
+</script>
+</p>
+<h3 id="the-gaussian-approximation-of-the-posterior-mathcalnvec-mapbf-postcov">The Gaussian approximation of the posterior: <script type="math/tex">\mathcal{N}({\vec \map},\bf \postcov)</script>
+</h3>
+<p>The mean of this posterior distribution, <script type="math/tex">{\vec \map}</script>, is the
+parameter vector maximizing the posterior, and
+is known as the maximum a posteriori (MAP) point.  It can be found
+by minimizing the negative log of the posterior, which amounts to
+solving a deterministic inverse problem with appropriately weighted norms,</p>
+<p>
+<script type="math/tex; mode=display">
+\map := \underset{\m}{\arg \min} \; \mathcal{J}(\m) \;:=\;
+\Big( 
+\frac{1}{2} \| {\bf f}(\m) - \data \|^2_{ {\bf \Gamma}_{\text{noise}}^{-1}} 
++\frac{1}{2} \| \m -\m_{\text prior} \|^2_{\prcov^{-1}} 
+\Big).
+</script>
+</p>
+<p>The posterior covariance matrix is then given by the inverse of
+the Hessian matrix of <script type="math/tex">\mathcal{J}</script> at <script type="math/tex">\map</script>, namely</p>
+<p>
+<script type="math/tex; mode=display">
+\postcov = \left(\Hmisfit(\map) + \prcov^{-1} \right)^{-1}
+</script>
+</p>
+<h4 id="the-generalized-eigenvalue-problem">The generalized eigenvalue problem:</h4>
+<p>
+<script type="math/tex; mode=display">
+ \Hmisfit {\matrix V} = \prcov^{-1} {\matrix V} {\matrix \Lambda},
+</script>
+</p>
+<p>where <script type="math/tex">{\matrix \Lambda} = \diag(\lambda_i) \in \mathbb{R}^{n\times n}</script>
+contains the generalized eigenvalues and the columns of <script type="math/tex">{\matrix V}\in
+\mathbb R^{n\times n}</script> the generalized eigenvectors such that 
+<script type="math/tex">{\matrix V}^T \prcov^{-1} {\matrix V} = {\matrix I}</script>.</p>
+<h4 id="randomized-eigensolvers-to-construct-the-approximate-spectral-decomposition">Randomized eigensolvers to construct the approximate spectral decomposition:</h4>
+<p>When the generalized eigenvalues <script type="math/tex">\{\lambda_i\}</script> decay rapidly, we can
+extract a low-rank approximation of <script type="math/tex">\Hmisfit</script> by retaining only the <script type="math/tex">r</script>
+largest eigenvalues and corresponding eigenvectors,</p>
+<p>
+<script type="math/tex; mode=display">
+ \Hmisfit = \prcov^{-1} \Vr {\matrix{\Lambda}}_r \Vr^T \prcov^{-1},
+</script>
+</p>
+<p>Here, <script type="math/tex">\Vr \in \mathbb{R}^{n\times r}</script> contains only the <script type="math/tex">r</script>
+generalized eigenvectors of <script type="math/tex">\Hmisfit</script> that correspond to the <script type="math/tex">r</script> largest eigenvalues,
+which are assembled into the diagonal matrix <script type="math/tex">{\matrix{\Lambda}}_r = \diag
+(\lambda_i) \in \mathbb{R}^{r \times r}</script>.</p>
+<h4 id="the-approximate-posterior-covariance">The approximate posterior covariance:</h4>
+<p>Using the Sherman–Morrison–Woodbury formula, we write</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align}
+  \notag \postcov = \left(\Hmisfit+ \prcov^{-1}\right)^{-1}
+  = \prcov-\Vr {\matrix{D}}_r \Vr^T +
+  \mathcal{O}\left(\sum_{i=r+1}^{n} \frac{\lambda_i}{\lambda_i +
+    1}\right),
+\end{align}
+</script>
+</p>
+<p>where <script type="math/tex">{\matrix{D}}_r :=\diag(\lambda_i/(\lambda_i+1)) \in
+\mathbb{R}^{r\times r}</script>. The last term in this expression captures the
+error due to truncation in terms of the discarded eigenvalues; this
+provides a criterion for truncating the spectrum, namely that <script type="math/tex">r</script> is
+chosen such that <script type="math/tex">\lambda_r</script> is small relative to 1. </p>
+<p>Therefore we can approximate the posterior covariance as</p>
+<p>
+<script type="math/tex; mode=display">
+\postcov \approx \prcov - \Vr {\matrix{D}}_r \Vr^T
+</script>
+</p>
+<h4 id="drawing-samples-from-a-gaussian-distribution-with-covariance-h-1">Drawing samples from a Gaussian distribution with covariance <script type="math/tex">\H^{-1}</script>
+</h4>
+<p>Let <script type="math/tex">{\bf x}</script> be a sample for the prior distribution, i.e. <script type="math/tex">{\bf x} \sim \mathcal{N}({\bf 0}, \prcov)</script>, then, using the low rank approximation of the posterior covariance, we compute a sample <script type="math/tex">{\bf v} \sim \mathcal{N}({\bf 0}, \H^{-1})</script> as</p>
+<p>
+<script type="math/tex; mode=display">
+  {\bf v} = \big\{ \Vr \big[ ({\matrix{\Lambda}}_r +
+    \Ir)^{-1/2} - \Ir \big] \Vr^T\prcov^{-1}  + {\bf I} \big\} {\bf x} 
+</script>
+</p>
+<h2 id="this-tutorial-shows">This tutorial shows:</h2>
+<ul>
+<li>Description of the inverse problem (the forward problem, the prior, and the misfit functional)</li>
+<li>Convergence of the inexact Newton-CG algorithm</li>
+<li>Low-rank-based approximation of the posterior covariance (built on a low-rank
+approximation of the Hessian of the data misfit) </li>
+<li>How to construct the low-rank approximation of the Hessian of the data misfit</li>
+<li>How to apply the inverse and square-root inverse Hessian to a vector efficiently</li>
+<li>Samples from the Gaussian approximation of the posterior</li>
+</ul>
+<h2 id="goals">Goals:</h2>
+<p>By the end of this notebook, you should be able to:</p>
+<ul>
+<li>Understand the Bayesian inverse framework</li>
+<li>Visualise and understand the results</li>
+<li>Modify the problem and code</li>
+</ul>
+<h2 id="mathematical-tools-used">Mathematical tools used:</h2>
+<ul>
+<li>Finite element method</li>
+<li>Derivation of gradient and Hessian via the adjoint method</li>
+<li>inexact Newton-CG</li>
+<li>Armijo line search</li>
+<li>Bayes' formula</li>
+<li>randomized eigensolvers</li>
+</ul>
+<h2 id="list-of-software-used">List of software used:</h2>
+<ul>
+<li><a href="http://fenicsproject.org/">FEniCS</a>, a parallel finite element element library for the discretization of partial differential equations</li>
+<li><a href="http://www.mcs.anl.gov/petsc/">PETSc</a>, for scalable and efficient linear algebra operations and solvers</li>
+<li><a href="http://matplotlib.org/">Matplotlib</a>, A great python package that I used for plotting many of the results</li>
+<li><a href="http://www.numpy.org/">Numpy</a>, A python package for linear algebra.  While extensive, this is mostly used to compute means and sums in this notebook.</li>
+</ul>
+<h2 id="1-load-modules">1. Load modules</h2>
+<pre><code class="python">from __future__ import absolute_import, division, print_function
+
+import dolfin as dl
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+import sys
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
+from hippylib import *
+
+import logging
+logging.getLogger('FFC').setLevel(logging.WARNING)
+logging.getLogger('UFL').setLevel(logging.WARNING)
+dl.set_log_active(False)
+
+np.random.seed(seed=1)
+</code></pre>
+
+<h2 id="2-generate-the-true-parameter">2. Generate the true parameter</h2>
+<p>This function generates a random field with a prescribed anysotropic covariance function.</p>
+<pre><code class="python">def true_model(prior):
+    noise = dl.Vector()
+    prior.init_vector(noise,&quot;noise&quot;)
+    parRandom.normal(1., noise)
+    mtrue = dl.Vector()
+    prior.init_vector(mtrue, 0)
+    prior.sample(noise,mtrue)
+    return mtrue
+</code></pre>
+
+<h2 id="3-set-up-the-mesh-and-finite-element-spaces">3. Set up the mesh and finite element spaces</h2>
+<p>We compute a two dimensional mesh of a unit square with nx by ny elements.
+We define a P2 finite element space for the <em>state</em> and <em>adjoint</em> variable and P1 for the <em>parameter</em>.</p>
+<pre><code class="python">ndim = 2
+nx = 64
+ny = 64
+mesh = dl.UnitSquareMesh(nx, ny)
+Vh2 = dl.FunctionSpace(mesh, 'Lagrange', 2)
+Vh1 = dl.FunctionSpace(mesh, 'Lagrange', 1)
+Vh = [Vh2, Vh1, Vh2]
+print( &quot;Number of dofs: STATE={0}, PARAMETER={1}, ADJOINT={2}&quot;.format(
+    Vh[STATE].dim(), Vh[PARAMETER].dim(), Vh[ADJOINT].dim()) )
+</code></pre>
+
+<pre><code>Number of dofs: STATE=16641, PARAMETER=4225, ADJOINT=16641
+</code></pre>
+<h2 id="4-set-up-the-forward-problem">4. Set up the forward problem</h2>
+<p>To set up the forward problem we use the <code>PDEVariationalProblem</code> class, which requires the following inputs
+- the finite element spaces for the state, parameter, and adjoint variables <code>Vh</code>
+- the pde in weak form <code>pde_varf</code>
+- the boundary conditions <code>bc</code> for the forward problem and <code>bc0</code> for the adjoint and incremental problems.</p>
+<p>The <code>PDEVariationalProblem</code> class offer the following functionality:
+- solving the forward/adjoint and incremental problems
+- evaluate first and second partial derivative of the forward problem with respect to the state, parameter, and adojnt variables.</p>
+<pre><code class="python">def u_boundary(x, on_boundary):
+    return on_boundary and ( x[1] &lt; dl.DOLFIN_EPS or x[1] &gt; 1.0 - dl.DOLFIN_EPS)
+
+u_bdr = dl.Expression(&quot;x[1]&quot;, degree=1)
+u_bdr0 = dl.Constant(0.0)
+bc = dl.DirichletBC(Vh[STATE], u_bdr, u_boundary)
+bc0 = dl.DirichletBC(Vh[STATE], u_bdr0, u_boundary)
+
+f = dl.Constant(0.0)
+
+def pde_varf(u,m,p):
+    return dl.exp(m)*dl.inner(dl.nabla_grad(u), dl.nabla_grad(p))*dl.dx - f*p*dl.dx
+
+pde = PDEVariationalProblem(Vh, pde_varf, bc, bc0, is_fwd_linear=True)
+</code></pre>
+
+<h2 id="4-set-up-the-prior">4. Set up the prior</h2>
+<p>To obtain the synthetic true paramter <script type="math/tex">m_{\rm true}</script> we generate a realization from the prior distribution. Here we assume a Gaussian prior with zero average and covariance matrix <script type="math/tex">\mathcal{C} = \mathcal{A}^{-2}</script>. The action of <script type="math/tex">\mathcal{A}</script> on a field <script type="math/tex">m</script> is given by</p>
+<p>
+<script type="math/tex; mode=display"> \mathcal{A}m = 
+\left\{
+\begin{array}{rl}
+\gamma \nabla \cdot \left( \Theta\nabla m\right)+ \delta m & \text{in } \Omega\\
+\left( \Theta\, \nabla m\right) \cdot \boldsymbol{n} + \beta m & \text{on } \partial\Omega,
+\end{array}
+\right.
+</script>
+where <script type="math/tex">\beta \propto \sqrt{\gamma\delta}</script> is chosen to minimize boundary artifacts.
+Here <script type="math/tex">\Theta</script> is an s.p.d. anisotropic tensor of the form</p>
+<p>
+<script type="math/tex; mode=display"> \Theta =
+\begin{bmatrix}
+\theta_1 \sin(\alpha)^2 & (\theta_1-\theta_2) \sin(\alpha) \cos{\alpha} \\
+(\theta_1-\theta_2) \sin(\alpha) \cos{\alpha} & \theta_2 \cos(\alpha)^2
+\end{bmatrix}. </script>
+</p>
+<pre><code class="python">gamma = .1
+delta = .5
+
+anis_diff = dl.Expression(code_AnisTensor2D, degree=1)
+anis_diff.theta0 = 2.
+anis_diff.theta1 = .5
+anis_diff.alpha = math.pi/4
+
+prior = BiLaplacianPrior(Vh[PARAMETER], gamma, delta, anis_diff, robin_bc=True)
+mtrue = true_model(prior)
+
+print(&quot;Prior regularization: (delta_x - gamma*Laplacian)^order: delta={0}, gamma={1}, order={2}&quot;.format(delta, gamma,2))    
+
+objs = [dl.Function(Vh[PARAMETER],mtrue), dl.Function(Vh[PARAMETER],prior.mean)]
+mytitles = [&quot;True Parameter&quot;, &quot;Prior mean&quot;]
+nb.multi1_plot(objs, mytitles)
+plt.show()
+
+model = Model(pde,prior, misfit)
+</code></pre>
+
+<pre><code>Prior regularization: (delta_x - gamma*Laplacian)^order: delta=0.5, gamma=0.1, order=2
+</code></pre>
+<p><img alt="png" src="../output_10_1.png" /></p>
+<h2 id="5-set-up-the-misfit-functional-and-generate-synthetic-observations">5. Set up the misfit functional and generate synthetic observations</h2>
+<p>To setup the observation operator <script type="math/tex">\mathcal{B}: \mathcal{V} \mapsto \mathbb{R}^{n_t}</script>, we generate <script type="math/tex">n_t</script> (<code>ntargets</code> in the code below) random locations where to evaluate the value of the state.</p>
+<p>Under the assumption of Gaussian additive noise, the likelihood function <script type="math/tex">\pi_{\rm like}</script> has the form</p>
+<p>
+<script type="math/tex; mode=display">\pi_{\rm like}( \data \,| \, m ) \propto \exp\left( -\frac{1}{2}\|\mathcal{B}\,u(m) - \data \|^2_{\Gamma_{\rm noise}^{-1}}\right), </script>
+</p>
+<p>where <script type="math/tex">u(m)</script> denotes the solution of the forward model at a given parameter <script type="math/tex">m</script>.</p>
+<p>The class <code>PointwiseStateObservation</code> implements the evaluation of the log-likelihood function and of its partial derivatives w.r.t. the state <script type="math/tex">u</script> and parameter <script type="math/tex">m</script>.</p>
+<p>To generate the synthetic observation, we first solve the forward problem using the true parameter <script type="math/tex">m_{\rm true}</script>. Synthetic observations are obtained by perturbing the state variable at the observation points with a random Gaussian noise.
+<code>rel_noise</code> is the signal to noise ratio.</p>
+<pre><code class="python">ntargets = 50
+rel_noise = 0.01
+
+#Targets only on the bottom
+targets_x = np.random.uniform(0.1,0.9, [ntargets] )
+targets_y = np.random.uniform(0.1,0.5, [ntargets] )
+targets = np.zeros([ntargets, ndim])
+targets[:,0] = targets_x
+targets[:,1] = targets_y
+#targets everywhere
+#targets = np.random.uniform(0.1,0.9, [ntargets, ndim] )
+print( &quot;Number of observation points: {0}&quot;.format(ntargets) )
+misfit = PointwiseStateObservation(Vh[STATE], targets)
+
+utrue = pde.generate_state()
+x = [utrue, mtrue, None]
+pde.solveFwd(x[STATE], x, 1e-9)
+misfit.B.mult(x[STATE], misfit.d)
+MAX = misfit.d.norm(&quot;linf&quot;)
+noise_std_dev = rel_noise * MAX
+parRandom.normal_perturb(noise_std_dev, misfit.d)
+misfit.noise_variance = noise_std_dev*noise_std_dev
+
+vmax = max( utrue.max(), misfit.d.max() )
+vmin = min( utrue.min(), misfit.d.min() )
+
+plt.figure(figsize=(15,5))
+nb.plot(dl.Function(Vh[STATE], utrue), mytitle=&quot;True State&quot;, subplot_loc=121, vmin=vmin, vmax=vmax)
+nb.plot_pts(targets, misfit.d, mytitle=&quot;Observations&quot;, subplot_loc=122, vmin=vmin, vmax=vmax)
+plt.show()
+</code></pre>
+
+<pre><code>Number of observation points: 50
+</code></pre>
+<p><img alt="png" src="../output_12_1.png" /></p>
+<h2 id="6-set-up-the-model-and-test-gradient-and-hessian">6. Set up the model and test gradient and Hessian</h2>
+<p>The model is defined by three component:
+- the <code>PDEVariationalProblem</code> <code>pde</code> which provides methods for the solution of the forward problem, adjoint problem, and incremental forward and adjoint problems.
+- the <code>Prior</code> <code>prior</code> which provides methods to apply the regularization (<em>precision</em>) operator to a vector or to apply the prior covariance operator (i.e. to solve linear system with the regularization operator)
+- the <code>Misfit</code> <code>misfit</code> which provides methods to compute the cost functional and its partial derivatives with respect to the state and parameter variables.</p>
+<p>To test gradient and the Hessian of the model we use forward finite differences.</p>
+<pre><code class="python">model = Model(pde, prior, misfit)
+
+m0 = dl.interpolate(dl.Expression(&quot;sin(x[0])&quot;, degree=5), Vh[PARAMETER])
+_ = modelVerify(model, m0.vector(), 1e-12)
+</code></pre>
+
+<pre><code>(yy, H xx) - (xx, H yy) =  -2.8560765074414784e-14
+</code></pre>
+<p><img alt="png" src="../output_14_1.png" /></p>
+<h2 id="7-compute-the-map-point">7. Compute the MAP point</h2>
+<p>We used the globalized Newtown-CG method to compute the MAP point.</p>
+<pre><code class="python">m = prior.mean.copy()
+solver = ReducedSpaceNewtonCG(model)
+solver.parameters[&quot;rel_tolerance&quot;] = 1e-6
+solver.parameters[&quot;abs_tolerance&quot;] = 1e-12
+solver.parameters[&quot;max_iter&quot;]      = 25
+solver.parameters[&quot;inner_rel_tolerance&quot;] = 1e-15
+solver.parameters[&quot;GN_iter&quot;] = 5
+solver.parameters[&quot;globalization&quot;] = &quot;LS&quot;
+solver.parameters[&quot;LS&quot;][&quot;c_armijo&quot;] = 1e-4
+
+
+x = solver.solve([None, m, None])
+
+if solver.converged:
+    print( &quot;\nConverged in &quot;, solver.it, &quot; iterations.&quot;)
+else:
+    print( &quot;\nNot Converged&quot;)
+
+print( &quot;Termination reason: &quot;, solver.termination_reasons[solver.reason] )
+print( &quot;Final gradient norm: &quot;, solver.final_grad_norm )
+print( &quot;Final cost: &quot;, solver.final_cost )
+
+plt.figure(figsize=(15,5))
+nb.plot(dl.Function(Vh[STATE], x[STATE]), subplot_loc=121,mytitle=&quot;State&quot;)
+nb.plot(dl.Function(Vh[PARAMETER], x[PARAMETER]), subplot_loc=122,mytitle=&quot;Parameter&quot;)
+plt.show()
+</code></pre>
+
+<pre><code>It  cg_it cost            misfit          reg             (g,dm)          ||g||L2        alpha          tolcg         
+  1   2    5.676752e+02    5.665943e+02    1.080947e+00   -1.487693e+04   4.008143e+04   1.000000e+00   5.000000e-01
+  2   2    1.315109e+02    1.292859e+02    2.225043e+00   -8.730801e+02   7.040800e+03   1.000000e+00   4.191210e-01
+  3   4    5.827697e+01    5.504162e+01    3.235343e+00   -1.565905e+02   2.115036e+03   1.000000e+00   2.297139e-01
+  4   1    5.257433e+01    4.934371e+01    3.230622e+00   -1.142190e+01   1.827983e+03   1.000000e+00   2.135573e-01
+  5   6    3.958923e+01    3.507197e+01    4.517257e+00   -3.227624e+01   9.179935e+02   1.000000e+00   1.513381e-01
+  6   2    3.681315e+01    3.218885e+01    4.624304e+00   -5.501178e+00   7.541736e+02   1.000000e+00   1.371716e-01
+  7  11    3.276506e+01    2.530117e+01    7.463891e+00   -9.109597e+00   4.788040e+02   1.000000e+00   1.092968e-01
+  8   1    3.225207e+01    2.478982e+01    7.462243e+00   -1.027328e+00   4.890796e+02   1.000000e+00   1.104634e-01
+  9  10    3.216228e+01    2.445226e+01    7.710018e+00   -1.799343e-01   7.389810e+01   1.000000e+00   4.293832e-02
+ 10  12    3.216003e+01    2.438903e+01    7.770998e+00   -4.481802e-03   1.291573e+01   1.000000e+00   1.795097e-02
+ 11  18    3.215993e+01    2.438404e+01    7.775888e+00   -2.010595e-04   2.284805e+00   1.000000e+00   7.550105e-03
+ 12  19    3.215993e+01    2.438428e+01    7.775646e+00   -8.282645e-08   6.202767e-02   1.000000e+00   1.244002e-03
+
+Converged in  12  iterations.
+Termination reason:  Norm of the gradient less than tolerance
+Final gradient norm:  0.0006914733735650482
+Final cost:  32.15992905025892
+</code></pre>
+<p><img alt="png" src="../output_16_1.png" /></p>
+<h2 id="8-compute-the-low-rank-gaussian-approximation-of-the-posterior">8. Compute the low rank Gaussian approximation of the posterior</h2>
+<p>We used the <em>double pass</em> algorithm to compute a low-rank decomposition of the Hessian Misfit.
+In particular, we solve</p>
+<p>
+<script type="math/tex; mode=display"> \Hmisfit {\bf v}_i = \lambda_i \prcov^{-1} {\bf v}_i. </script>
+</p>
+<p>The Figure shows the largest <em>k</em> generalized eigenvectors of the Hessian misfit.
+The effective rank of the Hessian misfit is the number of eigenvalues above the red line (<script type="math/tex">y=1</script>).
+The effective rank is independent of the mesh size.</p>
+<pre><code class="python">model.setPointForHessianEvaluations(x, gauss_newton_approx=False)
+Hmisfit = ReducedHessian(model, solver.parameters[&quot;inner_rel_tolerance&quot;], misfit_only=True)
+k = 50
+p = 20
+print( &quot;Single/Double Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k,p) )
+
+Omega = MultiVector(x[PARAMETER], k+p)
+parRandom.normal(1., Omega)
+lmbda, V = doublePassG(Hmisfit, prior.R, prior.Rsolver, Omega, k)
+
+posterior = GaussianLRPosterior(prior, lmbda, V)
+posterior.mean = x[PARAMETER]
+
+plt.plot(range(0,k), lmbda, 'b*', range(0,k+1), np.ones(k+1), '-r')
+plt.yscale('log')
+plt.xlabel('number')
+plt.ylabel('eigenvalue')
+
+nb.plot_eigenvectors(Vh[PARAMETER], V, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,15])
+</code></pre>
+
+<pre><code>Single/Double Pass Algorithm. Requested eigenvectors: 50; Oversampling 20.
+</code></pre>
+<p><img alt="png" src="../output_18_1.png" /></p>
+<p><img alt="png" src="../output_18_2.png" /></p>
+<h2 id="9-prior-and-posterior-pointwise-variance-fields">9. Prior and posterior pointwise variance fields</h2>
+<pre><code class="python">compute_trace = True
+if compute_trace:
+    post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=200)
+    print( &quot;Posterior trace {0:5e}; Prior trace {1:5e}; Correction trace {2:5e}&quot;.format(post_tr, prior_tr, corr_tr) )
+post_pw_variance, pr_pw_variance, corr_pw_variance = posterior.pointwise_variance(method=&quot;Randomized&quot;, r=200)
+
+objs = [dl.Function(Vh[PARAMETER], pr_pw_variance),
+        dl.Function(Vh[PARAMETER], post_pw_variance)]
+mytitles = [&quot;Prior variance&quot;, &quot;Posterior variance&quot;]
+nb.multi1_plot(objs, mytitles, logscale=False)
+plt.show()
+</code></pre>
+
+<pre><code>Posterior trace 1.014727e+00; Prior trace 1.797376e+00; Correction trace 7.826486e-01
+</code></pre>
+<p><img alt="png" src="../output_20_1.png" /></p>
+<h2 id="10-generate-samples-from-prior-and-posterior">10. Generate samples from Prior and Posterior</h2>
+<pre><code class="python">nsamples = 5
+noise = dl.Vector()
+posterior.init_vector(noise,&quot;noise&quot;)
+s_prior = dl.Function(Vh[PARAMETER], name=&quot;sample_prior&quot;)
+s_post = dl.Function(Vh[PARAMETER], name=&quot;sample_post&quot;)
+
+pr_max   =  2.5*math.sqrt( pr_pw_variance.max() ) + prior.mean.max()
+pr_min   = -2.5*math.sqrt( pr_pw_variance.max() ) + prior.mean.min()
+ps_max   =  2.5*math.sqrt( post_pw_variance.max() ) + posterior.mean.max()
+ps_min   = -2.5*math.sqrt( post_pw_variance.max() ) + posterior.mean.min()
+
+for i in range(nsamples):
+    parRandom.normal(1., noise)
+    posterior.sample(noise, s_prior.vector(), s_post.vector())
+    plt.figure(figsize=(15,5))
+    nb.plot(s_prior, subplot_loc=121,mytitle=&quot;Prior sample&quot;, vmin=pr_min, vmax=pr_max)
+    nb.plot(s_post, subplot_loc=122,mytitle=&quot;Posterior sample&quot;, vmin=ps_min, vmax=ps_max)
+    plt.show()
+</code></pre>
+
+<p><img alt="png" src="../output_22_0.png" /></p>
+<p><img alt="png" src="../output_22_1.png" /></p>
+<p><img alt="png" src="../output_22_2.png" /></p>
+<p><img alt="png" src="../output_22_3.png" /></p>
+<p><img alt="png" src="../output_22_4.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.<br>
+All Rights reserved.<br>
+See file COPYRIGHT for details.</p>
+<p>This file is part of the hIPPYlib library. For more information and source code
+availability see https://hippylib.github.io.</p>
+<p>hIPPYlib is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License (as published by the Free Software Foundation) version 2.0 dated June 1991.</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</p>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../../..';</script>
+        <script src="../../../js/base.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../search/require.js"></script>
+        <script src="../../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>

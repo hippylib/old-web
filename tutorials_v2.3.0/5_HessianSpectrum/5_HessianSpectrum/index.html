@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Hessian Spectrum - hIPPYlib</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../../js/highlight.pack.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-52448613-3', 'hippylib.github.io');
+            ga('send', 'pageview');
+        </script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../..">hIPPYlib</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorial <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../../tutorial/">README</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/1_FEniCS101/">FEniCS101</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+                            
+  <li class="dropdown-submenu">
+    <a href="#">Version 1.x</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../tutorial_v1.6.0/">README</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/1_FEniCS101/">FEniCS101</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+    </ul>
+  </li>
+                            
+  <li class="dropdown-submenu">
+    <a href="#">Version 2.x</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../tutorial_v2.3.0/">README</a>
+</li>
+            
+<li >
+    <a href="../../1_FEniCS101/1_FEniCS101/">FEniCS101</a>
+</li>
+            
+<li >
+    <a href="../../2_PoissonDeterministic/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+            
+<li >
+    <a href="../../3_SubsurfaceBayesian/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../4_AdvectionDiffusionBayesian/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li class="active">
+    <a href="./">Hessian Spectrum</a>
+</li>
+    </ul>
+  </li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="../../../documentation/">Documentation</a>
+                    </li>
+                    <li >
+                        <a href="../../../download/">Download</a>
+                    </li>
+                    <li >
+                        <a href="../../../research/">Research</a>
+                    </li>
+                    <li >
+                        <a href="../../../outreach/">Outreach</a>
+                    </li>
+                    <li >
+                        <a href="../../../postdoc_position/">Openings</a>
+                    </li>
+                    <li >
+                        <a href="../../../about/">About</a>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../../4_AdvectionDiffusionBayesian/4_AdvectionDiffusionBayesian/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../../../documentation/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/hippylib/hippylib"><i class="fa fa-github"></i> GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#spectrum-of-the-preconditioned-hessian-misfit-operator">Spectrum of the preconditioned Hessian misfit operator</a></li>
+            <li><a href="#the-linear-source-inversion-problem">The linear source inversion problem</a></li>
+            <li><a href="#1-load-modules">1. Load modules</a></li>
+            <li><a href="#2-the-linear-source-inversion-problem">2. The linear source inversion problem</a></li>
+            <li><a href="#3-solution-of-the-source-inversion-problem">3. Solution of the source inversion problem</a></li>
+            <li><a href="#4-mesh-independence-of-the-spectrum-of-the-preconditioned-hessian-misfit">4. Mesh independence of the spectrum of the preconditioned Hessian misfit</a></li>
+            <li><a href="#5-dependence-on-the-noise-level">5. Dependence on the noise level</a></li>
+            <li><a href="#6-dependence-on-the-pde-coefficients">6. Dependence on the PDE coefficients</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="spectrum-of-the-preconditioned-hessian-misfit-operator">Spectrum of the preconditioned Hessian misfit operator</h1>
+<h2 id="the-linear-source-inversion-problem">The linear source inversion problem</h2>
+<p>We consider the following linear source inversion problem.
+Find the state <script type="math/tex">u \in H^1_{\Gamma_D}(\Omega)</script> and the source (<em>parameter</em>) <script type="math/tex">m \in H^1(\Omega)</script> that solves</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+{} & \min_m \frac{1}{2\sigma^2} \| Bu - u_d \|^2 + \frac{1}{2} \int_\Omega \left[ \delta|m-m_0|^2 + \gamma|\nabla (m - m_0)|^2 \right] dx & {}\\
+{\rm s.t.} & {} &{} \\
+{} & -{\rm div}(k \nabla u) + {\bf v}\cdot \nabla u + cu = m & {\rm in} \; \Omega\\
+{} & u = 0 & {\rm on } \; \Gamma_D\\
+{} & k \frac{\partial u}{\partial n} = 0 & {\rm on } \; \Gamma_N\\
+\end{aligned}
+</script>
+</p>
+<p>Here:</p>
+<ul>
+<li>
+<p>
+<script type="math/tex">u_d</script> is a <script type="math/tex">n_{\rm obs}</script> finite dimensional vector that denotes noisy observations of the state <script type="math/tex">u</script> in <script type="math/tex">n_{\rm obs}</script> locations <script type="math/tex">\{ {\bf x}_i\}_{i=1}^{n_{\rm obs}}</script>. Specifically, <script type="math/tex">u_d(i) = u_{\rm true}( {\bf x}_i ) + \eta_i</script>, where <script type="math/tex">\eta_i</script> are i.i.d. <script type="math/tex">\mathcal{N}(0, \sigma^2)</script>.</p>
+</li>
+<li>
+<p>
+<script type="math/tex">B: H^1_0(\Omega) \rightarrow \mathbb{R}^{n_{\rm obs}}</script> is the linear operator that evaluates the state <script type="math/tex">u</script> at the observation locations <script type="math/tex">\{ {\bf x}_i\}_{i=1}^{n_{\rm obs}}</script>.</p>
+</li>
+<li>
+<p>
+<script type="math/tex">\delta</script> and <script type="math/tex">\gamma</script> are the parameters of the regularization penalizing the <script type="math/tex">L^2(\Omega)</script> and <script type="math/tex">H^1(\Omega)</script> norm of <script type="math/tex">m-m_0</script>, respectively.</p>
+</li>
+<li>
+<p>
+<script type="math/tex">k</script>, <script type="math/tex">{\bf v}</script>, <script type="math/tex">c</script> are given coefficients representing the diffusivity coefficient, the advective velocity and the reaction term, respectively.</p>
+</li>
+<li>
+<p>
+<script type="math/tex">\Gamma_D \subset \partial \Omega</script>, <script type="math/tex">\Gamma_N \subset \partial \Omega</script> represents the subdomain of <script type="math/tex">\partial\Omega</script> where we impose Dirichlet or Neumann boundary conditions, respectively.</p>
+</li>
+</ul>
+<h2 id="1-load-modules">1. Load modules</h2>
+<pre><code class="python">from __future__ import absolute_import, division, print_function
+
+import dolfin as dl
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+import sys
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
+from hippylib import *
+
+import logging
+logging.getLogger('FFC').setLevel(logging.WARNING)
+logging.getLogger('UFL').setLevel(logging.WARNING)
+dl.set_log_active(False)
+</code></pre>
+
+<h2 id="2-the-linear-source-inversion-problem">2. The linear source inversion problem</h2>
+<pre><code class="python">def pde_varf(u,m,p):
+    return k*dl.inner(dl.nabla_grad(u), dl.nabla_grad(p))*dl.dx \
+           + dl.inner(dl.nabla_grad(u), v*p)*dl.dx \
+           + c*u*p*dl.dx \
+           - m*p*dl.dx
+
+def u_boundary(x, on_boundary):
+    return on_boundary and x[1] &lt; dl.DOLFIN_EPS
+
+def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
+    myRandom = Random()
+    mesh = dl.UnitSquareMesh(nx, ny)
+    Vh1 = dl.FunctionSpace(mesh, 'Lagrange', 1)
+
+    Vh = [Vh1, Vh1, Vh1]
+    if verbose:
+        print( &quot;Number of dofs: STATE={0}, PARAMETER={1}, ADJOINT={2}&quot;.format(Vh[STATE].dim(), Vh[PARAMETER].dim(), Vh[ADJOINT].dim()) )
+
+
+    u_bdr = dl.Constant(0.0)
+    u_bdr0 = dl.Constant(0.0)
+    bc = dl.DirichletBC(Vh[STATE], u_bdr, u_boundary)
+    bc0 = dl.DirichletBC(Vh[STATE], u_bdr0, u_boundary)
+
+    mtrue = dl.interpolate( dl.Expression('min(0.5,exp(-100*(pow(x[0]-0.35,2) +  pow(x[1]-0.7,2))))',degree=5), Vh[PARAMETER]).vector()
+    m0 = dl.interpolate(dl.Constant(0.0), Vh[PARAMETER]).vector()
+
+    pde = PDEVariationalProblem(Vh, pde_varf, bc, bc0, is_fwd_linear=True)
+
+    if verbose:
+        print( &quot;Number of observation points: {0}&quot;.format(targets.shape[0]) )
+
+    misfit = PointwiseStateObservation(Vh[STATE], targets)
+
+    reg = LaplacianPrior(Vh[PARAMETER], gamma, delta)
+
+    #Generate synthetic observations
+    utrue = pde.generate_state()
+    x = [utrue, mtrue, None]
+    pde.solveFwd(x[STATE], x, 1e-9)
+    misfit.B.mult(x[STATE], misfit.d)
+    MAX = misfit.d.norm(&quot;linf&quot;)
+    noise_std_dev = rel_noise * MAX
+    myRandom.normal_perturb(noise_std_dev, misfit.d)
+    misfit.noise_variance = noise_std_dev*noise_std_dev
+
+    if verbose:
+        plt.figure(figsize=(18,4))
+        nb.plot(dl.Function(Vh[PARAMETER], mtrue), mytitle = &quot;True source&quot;, subplot_loc=131)
+        nb.plot(dl.Function(Vh[STATE], utrue), mytitle=&quot;True state&quot;, subplot_loc=132)
+        nb.plot_pts(targets, misfit.d,mytitle=&quot;Observations&quot;, subplot_loc=133)
+        plt.show()
+
+    model = Model(pde, reg, misfit)
+    u = model.generate_vector(STATE)
+    m = m0.copy()
+    p = model.generate_vector(ADJOINT)
+    x = [u,m,p]
+    mg = model.generate_vector(PARAMETER)
+    model.solveFwd(u, x)
+    model.solveAdj(p, x)
+    model.evalGradientParameter(x, mg)
+    model.setPointForHessianEvaluations(x, gauss_newton_approx=False)
+
+    H = ReducedHessian(model, 1e-12)
+
+    solver = CGSolverSteihaug()
+    solver.set_operator(H)
+    solver.set_preconditioner( reg.Rsolver )
+    solver.parameters[&quot;print_level&quot;] = -1
+    solver.parameters[&quot;rel_tolerance&quot;] = 1e-9
+    solver.solve(m, -mg)
+
+    if solver.converged:
+        if verbose:
+            print( &quot;CG converged in &quot;, solver.iter, &quot; iterations.&quot; )
+    else:
+        print( &quot;CG did not converged.&quot; )
+        raise
+
+    model.solveFwd(u, x, 1e-12)
+
+    total_cost, reg_cost, misfit_cost = model.cost(x)
+
+    if verbose:
+        plt.figure(figsize=(18,4))
+        nb.plot(dl.Function(Vh[PARAMETER], m), mytitle = &quot;Reconstructed source&quot;, subplot_loc=131)
+        nb.plot(dl.Function(Vh[STATE], u), mytitle=&quot;Reconstructed state&quot;, subplot_loc=132)
+        nb.plot_pts(targets, misfit.B*u - misfit.d, mytitle=&quot;Misfit&quot;, subplot_loc=133)
+        plt.show()
+
+    H.misfit_only = True
+    k_evec = 80
+    p_evec = 5
+    if verbose:
+        print( &quot;Double Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k_evec,p_evec) )
+    Omega = MultiVector(x[PARAMETER], k_evec+p_evec)
+    myRandom.normal(1., Omega)
+    lmbda, V = doublePassG(H, reg.R, reg.Rsolver, Omega, k_evec)
+
+    if verbose:
+        plt.figure()
+        nb.plot_eigenvalues(lmbda, mytitle=&quot;Generalized Eigenvalues&quot;)
+        nb.plot_eigenvectors(Vh[PARAMETER], V, mytitle=&quot;Eigenvectors&quot;, which=[0,1,2,5,10,15])
+        plt.show()
+
+    return lmbda, V, Vh[PARAMETER], solver.iter
+
+</code></pre>
+
+<h2 id="3-solution-of-the-source-inversion-problem">3. Solution of the source inversion problem</h2>
+<pre><code class="python">ndim = 2
+nx = 32
+ny = 32
+
+ntargets = 300
+np.random.seed(seed=1)
+targets = np.random.uniform(0.1,0.9, [ntargets, ndim] )
+rel_noise = 0.01
+
+gamma = 70.
+delta = 1e-1
+
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(0.)
+
+lmbda, V, Vm, nit = solve(nx,ny, targets, rel_noise, gamma, delta)
+</code></pre>
+
+<pre><code>Number of dofs: STATE=1089, PARAMETER=1089, ADJOINT=1089
+Number of observation points: 300
+</code></pre>
+<p><img alt="png" src="../output_6_1.png" /></p>
+<pre><code>CG converged in  70  iterations.
+</code></pre>
+<p><img alt="png" src="../output_6_3.png" /></p>
+<pre><code>Double Pass Algorithm. Requested eigenvectors: 80; Oversampling 5.
+</code></pre>
+<p><img alt="png" src="../output_6_5.png" /></p>
+<p><img alt="png" src="../output_6_6.png" /></p>
+<h2 id="4-mesh-independence-of-the-spectrum-of-the-preconditioned-hessian-misfit">4. Mesh independence of the spectrum of the preconditioned Hessian misfit</h2>
+<pre><code class="python">gamma = 70.
+delta = 1e-1
+
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(0.)
+
+n = [16,32,64]
+lmbda1, V1, Vm1, niter1 = solve(n[0],n[0], targets, rel_noise, gamma, delta,verbose=False)
+lmbda2, V2, Vm2, niter2 = solve(n[1],n[1], targets, rel_noise, gamma, delta,verbose=False)
+lmbda3, V3, Vm3, niter3 = solve(n[2],n[2], targets, rel_noise, gamma, delta,verbose=False)
+
+print( &quot;Number of Iterations: &quot;, niter1, niter2, niter3 )
+plt.figure(figsize=(18,4))
+nb.plot_eigenvalues(lmbda1, mytitle=&quot;Eigenvalues Mesh {0} by {1}&quot;.format(n[0],n[0]), subplot_loc=131)
+nb.plot_eigenvalues(lmbda2, mytitle=&quot;Eigenvalues Mesh {0} by {1}&quot;.format(n[1],n[1]), subplot_loc=132)
+nb.plot_eigenvalues(lmbda3, mytitle=&quot;Eigenvalues Mesh {0} by {1}&quot;.format(n[2],n[2]), subplot_loc=133)
+
+nb.plot_eigenvectors(Vm1, V1, mytitle=&quot;Mesh {0} by {1} Eigen&quot;.format(n[0],n[0]), which=[0,1,5])
+nb.plot_eigenvectors(Vm2, V2, mytitle=&quot;Mesh {0} by {1} Eigen&quot;.format(n[1],n[1]), which=[0,1,5])
+nb.plot_eigenvectors(Vm3, V3, mytitle=&quot;Mesh {0} by {1} Eigen&quot;.format(n[2],n[2]), which=[0,1,5])
+
+plt.show()
+</code></pre>
+
+<pre><code>Number of Iterations:  69 68 67
+</code></pre>
+<p><img alt="png" src="../output_8_1.png" /></p>
+<p><img alt="png" src="../output_8_2.png" /></p>
+<p><img alt="png" src="../output_8_3.png" /></p>
+<p><img alt="png" src="../output_8_4.png" /></p>
+<h2 id="5-dependence-on-the-noise-level">5. Dependence on the noise level</h2>
+<p>We solve the problem for different noise levels. The higher the noise level the more important becomes the effect of the regularization.</p>
+<pre><code class="python">gamma = 70.
+delta = 1e-1
+
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(0.)
+
+rel_noise = [1e-3,1e-2,1e-1]
+lmbda1, V1, Vm1, niter1 = solve(nx,ny, targets, rel_noise[0], gamma, delta,verbose=False)
+lmbda2, V2, Vm2, niter2 = solve(nx,ny, targets, rel_noise[1], gamma, delta,verbose=False)
+lmbda3, V3, Vm3, niter3 = solve(nx,ny, targets, rel_noise[2], gamma, delta,verbose=False)
+
+print( &quot;Number of Iterations: &quot;, niter1, niter2, niter3 )
+plt.figure(figsize=(18,4))
+nb.plot_eigenvalues(lmbda1, mytitle=&quot;Eigenvalues rel_noise {0:g}&quot;.format(rel_noise[0]), subplot_loc=131)
+nb.plot_eigenvalues(lmbda2, mytitle=&quot;Eigenvalues rel_noise {0:g}&quot;.format(rel_noise[1]), subplot_loc=132)
+nb.plot_eigenvalues(lmbda3, mytitle=&quot;Eigenvalues rel_noise {0:g}&quot;.format(rel_noise[2]), subplot_loc=133)
+
+nb.plot_eigenvectors(Vm1, V1, mytitle=&quot;rel_noise {0:g} Eigen&quot;.format(rel_noise[0]), which=[0,1,5])
+nb.plot_eigenvectors(Vm2, V2, mytitle=&quot;rel_noise {0:g} Eigen&quot;.format(rel_noise[1]), which=[0,1,5])
+nb.plot_eigenvectors(Vm3, V3, mytitle=&quot;rel_noise {0:g} Eigen&quot;.format(rel_noise[2]), which=[0,1,5])
+
+plt.show()
+</code></pre>
+
+<pre><code>Number of Iterations:  166 69 23
+</code></pre>
+<p><img alt="png" src="../output_10_1.png" /></p>
+<p><img alt="png" src="../output_10_2.png" /></p>
+<p><img alt="png" src="../output_10_3.png" /></p>
+<p><img alt="png" src="../output_10_4.png" /></p>
+<h2 id="6-dependence-on-the-pde-coefficients">6. Dependence on the PDE coefficients</h2>
+<p>Assume a constant reaction term <script type="math/tex">c = 1</script>, and we consider different values for the diffusivity coefficient <script type="math/tex">k</script>.</p>
+<p>The smaller the value of <script type="math/tex">k</script> the slower the decay in the spectrum.</p>
+<pre><code class="python">rel_noise = 0.01
+
+k = dl.Constant(1.0)
+v = dl.Constant((0.0, 0.0))
+c = dl.Constant(1.0)
+
+lmbda1, V1, Vm1, niter1 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
+k = dl.Constant(0.1)
+lmbda2, V2, Vm2, niter2 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
+k = dl.Constant(0.01)
+lmbda3, V3, Vm3, niter3 = solve(nx,ny, targets, rel_noise, gamma, delta,verbose=False)
+
+print( &quot;Number of Iterations: &quot;, niter1, niter2, niter3 )
+plt.figure(figsize=(18,4))
+nb.plot_eigenvalues(lmbda1, mytitle=&quot;Eigenvalues k=1.0&quot;, subplot_loc=131)
+nb.plot_eigenvalues(lmbda2, mytitle=&quot;Eigenvalues k=0.1&quot;, subplot_loc=132)
+nb.plot_eigenvalues(lmbda3, mytitle=&quot;Eigenvalues k=0.01&quot;, subplot_loc=133)
+
+nb.plot_eigenvectors(Vm1, V1, mytitle=&quot;k=1. Eigen&quot;, which=[0,1,5])
+nb.plot_eigenvectors(Vm2, V2, mytitle=&quot;k=0.1 Eigen&quot;, which=[0,1,5])
+nb.plot_eigenvectors(Vm3, V3, mytitle=&quot;k=0.01 Eigen&quot;, which=[0,1,5])
+
+plt.show()
+</code></pre>
+
+<pre><code>Number of Iterations:  80 148 256
+</code></pre>
+<p><img alt="png" src="../output_12_1.png" /></p>
+<p><img alt="png" src="../output_12_2.png" /></p>
+<p><img alt="png" src="../output_12_3.png" /></p>
+<p><img alt="png" src="../output_12_4.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.<br>
+All Rights reserved.<br>
+See file COPYRIGHT for details.</p>
+<p>This file is part of the hIPPYlib library. For more information and source code
+availability see https://hippylib.github.io.</p>
+<p>hIPPYlib is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License (as published by the Free Software Foundation) version 2.0 dated June 1991.</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</p>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../../..';</script>
+        <script src="../../../js/base.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../search/require.js"></script>
+        <script src="../../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>

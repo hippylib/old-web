@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Advection-Diffusion Bayesian - hIPPYlib</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../../js/highlight.pack.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-52448613-3', 'hippylib.github.io');
+            ga('send', 'pageview');
+        </script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../..">hIPPYlib</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorial <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../../tutorial/">README</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/1_FEniCS101/">FEniCS101</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+                            
+<li >
+    <a href="../../../tutorials/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+                            
+  <li class="dropdown-submenu">
+    <a href="#">Version 1.x</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../tutorial_v1.6.0/">README</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/1_FEniCS101/">FEniCS101</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../../tutorials_v1.6.0/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+    </ul>
+  </li>
+                            
+  <li class="dropdown-submenu">
+    <a href="#">Version 2.x</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../tutorial_v2.3.0/">README</a>
+</li>
+            
+<li >
+    <a href="../../1_FEniCS101/1_FEniCS101/">FEniCS101</a>
+</li>
+            
+<li >
+    <a href="../../2_PoissonDeterministic/2_PoissonDeterministic/">Poisson Deterministic</a>
+</li>
+            
+<li >
+    <a href="../../3_SubsurfaceBayesian/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+            
+<li class="active">
+    <a href="./">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../5_HessianSpectrum/5_HessianSpectrum/">Hessian Spectrum</a>
+</li>
+    </ul>
+  </li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="../../../documentation/">Documentation</a>
+                    </li>
+                    <li >
+                        <a href="../../../download/">Download</a>
+                    </li>
+                    <li >
+                        <a href="../../../research/">Research</a>
+                    </li>
+                    <li >
+                        <a href="../../../outreach/">Outreach</a>
+                    </li>
+                    <li >
+                        <a href="../../../postdoc_position/">Openings</a>
+                    </li>
+                    <li >
+                        <a href="../../../about/">About</a>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../../3_SubsurfaceBayesian/3_SubsurfaceBayesian/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../../5_HessianSpectrum/5_HessianSpectrum/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/hippylib/hippylib"><i class="fa fa-github"></i> GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#bayesian-initial-condition-inversion-in-an-advection-diffusion-problem">Bayesian initial condition inversion in an advection-diffusion problem</a></li>
+            <li><a href="#the-bayesian-inverse-problem">The Bayesian inverse problem:</a></li>
+            <li><a href="#the-forward-problem">The forward problem:</a></li>
+            <li><a href="#the-adjoint-problem">The adjoint problem:</a></li>
+            <li><a href="#1-load-modules">1. Load modules</a></li>
+            <li><a href="#2-construct-the-velocity-field">2. Construct the velocity field</a></li>
+            <li><a href="#3-set-up-the-mesh-and-finite-element-spaces">3. Set up the mesh and finite element spaces</a></li>
+            <li><a href="#4-set-up-model-prior-trueproposed-initial-condition">4. Set up model (prior, true/proposed initial condition)</a></li>
+            <li><a href="#5-generate-the-synthetic-observations">5. Generate the synthetic observations</a></li>
+            <li><a href="#6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</a></li>
+            <li><a href="#7-evaluate-the-gradient">7. Evaluate the gradient</a></li>
+            <li><a href="#8-the-gaussian-posterior">8. The Gaussian posterior</a></li>
+            <li><a href="#9-compute-the-map-point">9. Compute the MAP point</a></li>
+            <li><a href="#10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</a></li>
+            <li><a href="#11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<p>
+<script type="math/tex">
+\def\D{\Omega}
+\def\ipar{m}
+\def\R{\mathbb{R}}
+\def\del{\partial}
+\def\vec{\bf}
+\def\priorm{\mu_0}
+\def\C{\mathcal{C}}
+\def\Acal{\mathcal{A}}
+\def\postm{\mu_{\rm{post}}}
+\def\iparpost{\ipar_\text{post}}
+\def\obs{ {\vec d}} 
+\def\yobs{\obs^{\text{obs}}}
+\def\obsop{\mathcal{B}}
+\def\dd{\vec{\bar{d}}}
+\def\iFF{\mathcal{F}}
+\def\iFFadj{\mathcal{F}^*}
+\def\ncov{\Gamma_{\mathrm{noise}}}
+</script>
+</p>
+<h1 id="bayesian-initial-condition-inversion-in-an-advection-diffusion-problem">Bayesian initial condition inversion in an advection-diffusion problem</h1>
+<p>In this example we tackle the problem of quantifying the uncertainty in the solution of an inverse problem governed by a parabolic PDE via the Bayesian inference framework. The underlying PDE is a time-dependent advection-diffusion equation in which we seek to infer an unknown initial condition from spatio-temporal point measurements.</p>
+<h3 id="the-bayesian-inverse-problem">The Bayesian inverse problem:</h3>
+<p>Following the Bayesian framework, we utilize 
+a Gaussian prior measure <script type="math/tex">\priorm = \mathcal{N}(\ipar_0,\C_0)</script>,
+with <script type="math/tex">\C_0=\Acal^{-2}</script> where <script type="math/tex">\Acal</script> is an elliptic differential operator as 
+described in the PoissonBayesian example, and use an additive
+Gaussian noise model. Therefore, the solution of the Bayesian inverse
+problem is the posterior measure, <script type="math/tex">\postm = \mathcal{N}(\iparpost,\C_\text{post})</script> with
+<script type="math/tex">\iparpost</script> and <script type="math/tex">\C_\text{post}</script>.</p>
+<ul>
+<li>The posterior mean <script type="math/tex">\iparpost</script> is characterized as the minimizer of</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \mathcal{J}(\ipar) :=
+  \frac{1}{2} \left\| \obsop u(\ipar) -\obs  \right\|^2_{\ncov^{-1}}
+  + \frac 12 \left\| \Acal(\ipar - \ipar_0 \right)\|^2_{L^2(\D)},
+\end{aligned}
+</script>
+</p>
+<p>which can also be interpreted as the regularized functional to be
+minimized in deterministic inversion. The observation operator <script type="math/tex">\mathcal{B}</script> extracts the values of the forward solution <script type="math/tex">u</script> on a set of
+locations <script type="math/tex">\{{\vec{x}}_1, \ldots, {\vec{x}}_n\} \subset \D</script> at
+times <script type="math/tex">\{t_1, \ldots, t_N\} \subset [0, T]</script>.</p>
+<ul>
+<li>The posterior covariance <script type="math/tex">\C_{\text{post}}</script> is the inverse of the Hessian of <script type="math/tex">\mathcal{J}(\ipar)</script>, i.e.,</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+\C_{\text{post}} = (\iFFadj \ncov^{-1} \iFF + \C_0^{-1})^{-1}.
+</script>
+</p>
+<h3 id="the-forward-problem">The forward problem:</h3>
+<p>The parameter-to-observable map <script type="math/tex">\iFF \,\ipar := \obsop\, u(\ipar)</script> maps an initial condition <script type="math/tex">\ipar \in L^2(\D)</script> to pointwise spatiotemporal observations of the concentration field <script type="math/tex">u({\vec x},t)</script> through solution of the advection-diffusion equation given by</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+u_t - \kappa\Delta u + {\vec v} \cdot \nabla u &= 0     & \quad \text{in } \D\times(0,T),\\
+                                 u(\cdot, 0) &= \ipar & \quad \text{in } \D,\\
+                \kappa \nabla u\cdot {\vec{n}} &= 0     & \quad \text{on } \partial\D \times (0,T).
+\end{split}
+</script>
+</p>
+<p>Here, <script type="math/tex">\D \subset \R^d</script> (<script type="math/tex">d \in \{2, 3\}</script>) is a bounded domain, <script type="math/tex">\kappa > 0</script> is the diffusion coefficient and <script type="math/tex">T > 0</script> is the final
+time. The velocity field
+<script type="math/tex">\vec{v}</script> is computed by solving the following steady-state
+Navier-Stokes equation with the side walls driving the flow:</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+- \frac{1}{\operatorname{Re}} \Delta {\vec v} + \nabla q + {\vec v} \cdot \nabla {\vec v} &= 0 &\quad&\text{ in }\D,\\
+\nabla \cdot {\vec v} &= 0 &&\text{ in }\D,\\
+{\vec v} &= {\vec g} &&\text{ on } \partial\D.
+\end{aligned}
+</script>
+</p>
+<p>Here, <script type="math/tex">q</script> is pressure, <script type="math/tex">\text{Re}</script> is the Reynolds number. The Dirichlet boundary data
+<script type="math/tex">{\vec g} \in \R^d</script> is given by 
+<script type="math/tex">{\vec g} = {\vec e}_2</script> on the left wall of the domain, 
+<script type="math/tex">{\vec g}=-{\vec e}_2</script> on the right wall,  and <script type="math/tex">{\vec g} = {\vec 0}</script> everywhere else.</p>
+<h3 id="the-adjoint-problem">The adjoint problem:</h3>
+<p>The adjoint problem is a final value problem, since <script type="math/tex">p</script> is specified at <script type="math/tex">t = T</script> rather than at <script type="math/tex">t = 0</script>. Thus, it is solved backwards in time, which amounts to the solution of the advection-diffusion equation</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+-p_t - \nabla \cdot (p {\vec v}) - \kappa \Delta p  &= -\obsop^* (\obsop u - \obs) & \quad &\text{ in } \D\times (0,T),\\
+                                      p(\cdot, T) &= 0             &       &\text{ in } \D,\\ 
+({ \vec{v} }p+\kappa\nabla p)\cdot {\vec{n}}            &= 0             &       &\text{ on } \partial\D\times (0,T).
+\end{aligned}
+</script>
+</p>
+<p>Then, the adjoint of the parameter to observable map <script type="math/tex">\iFF^*</script> is defined by setting <script type="math/tex">\iFF^*\obs = p({\vec x}, 0).</script>
+</p>
+<h2 id="1-load-modules">1. Load modules</h2>
+<pre><code class="python">from __future__ import absolute_import, division, print_function
+
+import dolfin as dl
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+import sys
+import os
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
+from hippylib import *
+sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;..&quot;) + &quot;/applications/ad_diff/&quot; )
+from model_ad_diff import TimeDependentAD, SpaceTimePointwiseStateObservation
+
+import logging
+logging.getLogger('FFC').setLevel(logging.WARNING)
+logging.getLogger('UFL').setLevel(logging.WARNING)
+dl.set_log_active(False)
+</code></pre>
+
+<h2 id="2-construct-the-velocity-field">2. Construct the velocity field</h2>
+<pre><code class="python">def v_boundary(x,on_boundary):
+    return on_boundary
+
+def q_boundary(x,on_boundary):
+    return x[0] &lt; dl.DOLFIN_EPS and x[1] &lt; dl.DOLFIN_EPS
+
+def computeVelocityField(mesh):
+    Xh = dl.VectorFunctionSpace(mesh,'Lagrange', 2)
+    Wh = dl.FunctionSpace(mesh, 'Lagrange', 1)
+    if dlversion() &lt;= (1,6,0):
+        XW = dl.MixedFunctionSpace([Xh, Wh])
+    else:
+        mixed_element = dl.MixedElement([Xh.ufl_element(), Wh.ufl_element()])
+        XW = dl.FunctionSpace(mesh, mixed_element)
+
+    Re = 1e2
+
+    g = dl.Expression(('0.0','(x[0] &lt; 1e-14) - (x[0] &gt; 1 - 1e-14)'), degree=1)
+    bc1 = dl.DirichletBC(XW.sub(0), g, v_boundary)
+    bc2 = dl.DirichletBC(XW.sub(1), dl.Constant(0), q_boundary, 'pointwise')
+    bcs = [bc1, bc2]
+
+    vq = dl.Function(XW)
+    (v,q) = dl.split(vq)
+    (v_test, q_test) = dl.TestFunctions (XW)
+
+    def strain(v):
+        return dl.sym(dl.nabla_grad(v))
+
+    F = ( (2./Re)*dl.inner(strain(v),strain(v_test))+ dl.inner (dl.nabla_grad(v)*v, v_test)
+           - (q * dl.div(v_test)) + ( dl.div(v) * q_test) ) * dl.dx
+
+    dl.solve(F == 0, vq, bcs, solver_parameters={&quot;newton_solver&quot;:
+                                         {&quot;relative_tolerance&quot;:1e-4, &quot;maximum_iterations&quot;:100}})
+
+    plt.figure(figsize=(15,5))
+    vh = dl.project(v,Xh)
+    qh = dl.project(q,Wh)
+    nb.plot(nb.coarsen_v(vh), subplot_loc=121,mytitle=&quot;Velocity&quot;)
+    nb.plot(qh, subplot_loc=122,mytitle=&quot;Pressure&quot;)
+    plt.show()
+
+    return v
+</code></pre>
+
+<h2 id="3-set-up-the-mesh-and-finite-element-spaces">3. Set up the mesh and finite element spaces</h2>
+<pre><code class="python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
+wind_velocity = computeVelocityField(mesh)
+Vh = dl.FunctionSpace(mesh, &quot;Lagrange&quot;, 1)
+print( &quot;Number of dofs: {0}&quot;.format( Vh.dim() ) )
+</code></pre>
+
+<p><img alt="png" src="../output_6_0.png" /></p>
+<pre><code>Number of dofs: 2023
+</code></pre>
+<h2 id="4-set-up-model-prior-trueproposed-initial-condition">4. Set up model (prior, true/proposed initial condition)</h2>
+<pre><code class="python">ic_expr = dl.Expression('min(0.5,exp(-100*(pow(x[0]-0.35,2) +  pow(x[1]-0.7,2))))', element=Vh.ufl_element())
+true_initial_condition = dl.interpolate(ic_expr, Vh).vector()
+
+
+gamma = 1.
+delta = 8.
+prior = BiLaplacianPrior(Vh, gamma, delta, robin_bc=True)
+print( &quot;Prior regularization: (delta - gamma*Laplacian)^order: delta={0}, gamma={1}, order={2}&quot;.format(delta, gamma,2) )
+prior.mean = dl.interpolate(dl.Constant(0.25), Vh).vector()
+
+t_init         = 0.
+t_final        = 4.
+t_1            = 1.
+dt             = .1
+observation_dt = .2
+
+simulation_times = np.arange(t_init, t_final+.5*dt, dt)
+observation_times = np.arange(t_1, t_final+.5*dt, observation_dt)
+
+targets = np.loadtxt('targets.txt')
+print (&quot;Number of observation points: {0}&quot;.format(targets.shape[0]) )
+misfit = SpaceTimePointwiseStateObservation(Vh, observation_times, targets)
+
+problem = TimeDependentAD(mesh, [Vh,Vh,Vh], prior, misfit, simulation_times, wind_velocity, True)
+
+objs = [dl.Function(Vh,true_initial_condition),
+        dl.Function(Vh,prior.mean)]
+mytitles = [&quot;True Initial Condition&quot;, &quot;Prior mean&quot;]
+nb.multi1_plot(objs, mytitles)
+plt.show()
+</code></pre>
+
+<pre><code>Prior regularization: (delta - gamma*Laplacian)^order: delta=8.0, gamma=1.0, order=2
+Number of observation points: 80
+</code></pre>
+<p><img alt="png" src="../output_8_1.png" /></p>
+<h2 id="5-generate-the-synthetic-observations">5. Generate the synthetic observations</h2>
+<pre><code class="python">rel_noise = 0.01
+utrue = problem.generate_vector(STATE)
+x = [utrue, true_initial_condition, None]
+problem.solveFwd(x[STATE], x, 1e-9)
+misfit.observe(x, misfit.d)
+MAX = misfit.d.norm(&quot;linf&quot;, &quot;linf&quot;)
+noise_std_dev = rel_noise * MAX
+parRandom.normal_perturb(noise_std_dev,misfit.d)
+misfit.noise_variance = noise_std_dev*noise_std_dev
+
+nb.show_solution(Vh, true_initial_condition, utrue, &quot;Solution&quot;)
+</code></pre>
+
+<p><img alt="png" src="../output_10_0.png" /></p>
+<h2 id="6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</h2>
+<pre><code class="python">m0 = true_initial_condition.copy()
+_ = modelVerify(problem, m0, 1e-12, is_quadratic=True)
+</code></pre>
+
+<pre><code>(yy, H xx) - (xx, H yy) =  -1.174447494183385e-13
+</code></pre>
+<p><img alt="png" src="../output_12_1.png" /></p>
+<h2 id="7-evaluate-the-gradient">7. Evaluate the gradient</h2>
+<pre><code class="python">[u,m,p] = problem.generate_vector()
+problem.solveFwd(u, [u,m,p], 1e-12)
+problem.solveAdj(p, [u,m,p], 1e-12)
+mg = problem.generate_vector(PARAMETER)
+grad_norm = problem.evalGradientParameter([u,m,p], mg)
+
+print( &quot;(g,g) = &quot;, grad_norm)
+</code></pre>
+
+<pre><code>(g,g) =  2395071437584061.5
+</code></pre>
+<h2 id="8-the-gaussian-posterior">8. The Gaussian posterior</h2>
+<pre><code class="python">H = ReducedHessian(problem, 1e-12, misfit_only=True) 
+
+k = 80
+p = 20
+print( &quot;Single Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k,p) )
+Omega = MultiVector(x[PARAMETER], k+p)
+parRandom.normal(1., Omega)
+lmbda, V = singlePassG(H, prior.R, prior.Rsolver, Omega, k)
+
+
+posterior = GaussianLRPosterior( prior, lmbda, V )
+
+plt.plot(range(0,k), lmbda, 'b*', range(0,k+1), np.ones(k+1), '-r')
+plt.yscale('log')
+plt.xlabel('number')
+plt.ylabel('eigenvalue')
+
+nb.plot_eigenvectors(Vh, V, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,20,30,45,60])
+</code></pre>
+
+<pre><code>Single Pass Algorithm. Requested eigenvectors: 80; Oversampling 20.
+</code></pre>
+<p><img alt="png" src="../output_16_1.png" /></p>
+<p><img alt="png" src="../output_16_2.png" /></p>
+<h2 id="9-compute-the-map-point">9. Compute the MAP point</h2>
+<pre><code class="python">H.misfit_only = False
+
+solver = CGSolverSteihaug()
+solver.set_operator(H)
+solver.set_preconditioner( posterior.Hlr )
+solver.parameters[&quot;print_level&quot;] = 1
+solver.parameters[&quot;rel_tolerance&quot;] = 1e-6
+solver.solve(m, -mg)
+problem.solveFwd(u, [u,m,p], 1e-12)
+
+total_cost, reg_cost, misfit_cost = problem.cost([u,m,p])
+print( &quot;Total cost {0:5g}; Reg Cost {1:5g}; Misfit {2:5g}&quot;.format(total_cost, reg_cost, misfit_cost) )
+
+posterior.mean = m
+
+plt.figure(figsize=(7.5,5))
+nb.plot(dl.Function(Vh, m), mytitle=&quot;Initial Condition&quot;)
+plt.show()
+
+nb.show_solution(Vh, m, u, &quot;Solution&quot;)
+</code></pre>
+
+<pre><code> Iterartion :  0  (B r, r) =  1225123.9338492027
+ Iteration :  1  (B r, r) =  74.94198007028052
+ Iteration :  2  (B r, r) =  0.4132940000407347
+ Iteration :  3  (B r, r) =  0.005765443940190191
+ Iteration :  4  (B r, r) =  2.243708962553132e-05
+ Iteration :  5  (B r, r) =  1.4026897765563288e-07
+Relative/Absolute residual less than tol
+Converged in  5  iterations with final norm  0.0003745250027109444
+Total cost 782.818; Reg Cost 153.671; Misfit 629.147
+</code></pre>
+<p><img alt="png" src="../output_18_1.png" /></p>
+<p><img alt="png" src="../output_18_2.png" /></p>
+<h2 id="10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</h2>
+<pre><code class="python">compute_trace = True
+if compute_trace:
+    post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=300)
+    print( &quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr) )
+post_pw_variance, pr_pw_variance, corr_pw_variance = posterior.pointwise_variance(method=&quot;Randomized&quot;, r=300)
+
+objs = [dl.Function(Vh, pr_pw_variance),
+        dl.Function(Vh, post_pw_variance)]
+mytitles = [&quot;Prior Variance&quot;, &quot;Posterior Variance&quot;]
+nb.multi1_plot(objs, mytitles, logscale=False)
+plt.show()
+</code></pre>
+
+<pre><code>Posterior trace 0.000269147; Prior trace 0.00809706; Correction trace 0.00782792
+</code></pre>
+<p><img alt="png" src="../output_20_1.png" /></p>
+<h2 id="11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</h2>
+<pre><code class="python">nsamples = 5
+noise = dl.Vector()
+posterior.init_vector(noise,&quot;noise&quot;)
+s_prior = dl.Function(Vh, name=&quot;sample_prior&quot;)
+s_post = dl.Function(Vh, name=&quot;sample_post&quot;)
+
+pr_max =  2.5*math.sqrt( pr_pw_variance.max() ) + prior.mean.max()
+pr_min = -2.5*math.sqrt( pr_pw_variance.min() ) + prior.mean.min()
+ps_max =  2.5*math.sqrt( post_pw_variance.max() ) + posterior.mean.max()
+ps_min = -2.5*math.sqrt( post_pw_variance.max() ) + posterior.mean.min()
+
+for i in range(nsamples):
+    parRandom.normal(1., noise)
+    posterior.sample(noise, s_prior.vector(), s_post.vector())
+    plt.figure(figsize=(15,5))
+    nb.plot(s_prior, subplot_loc=121,mytitle=&quot;Prior sample&quot;, vmin=pr_min, vmax=pr_max)
+    nb.plot(s_post, subplot_loc=122,mytitle=&quot;Posterior sample&quot;, vmin=ps_min, vmax=ps_max)
+    plt.show()
+</code></pre>
+
+<p><img alt="png" src="../output_22_0.png" /></p>
+<p><img alt="png" src="../output_22_1.png" /></p>
+<p><img alt="png" src="../output_22_2.png" /></p>
+<p><img alt="png" src="../output_22_3.png" /></p>
+<p><img alt="png" src="../output_22_4.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.<br>
+All Rights reserved.<br>
+See file COPYRIGHT for details.</p>
+<p>This file is part of the hIPPYlib library. For more information and source code
+availability see https://hippylib.github.io.</p>
+<p>hIPPYlib is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License (as published by the Free Software Foundation) version 2.0 dated June 1991.</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</p>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../../..';</script>
+        <script src="../../../js/base.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../search/require.js"></script>
+        <script src="../../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>
