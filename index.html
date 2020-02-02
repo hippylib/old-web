@@ -135,9 +135,6 @@
                         <a href="outreach/">Outreach</a>
                     </li>
                     <li >
-                        <a href="postdoc_position/">Openings</a>
-                    </li>
-                    <li >
                         <a href="about/">About</a>
                     </li>
                 </ul>
@@ -172,7 +169,6 @@
         <li class="main active"><a href="#hippylib-inverse-problem-python-library">hIPPYlib - Inverse Problem PYthon library</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#latest-release">Latest Release</a></li>
-            <li><a href="#news">News</a></li>
             <li><a href="#contact">Contact</a></li>
     </ul>
 </div></div>
@@ -185,23 +181,41 @@
 <p>hIPPYlib implements state-of-the-art <em>scalable</em> <em>adjoint-based</em> algorithms for PDE-based <em>deterministic and Bayesian inverse problems</em>. It builds on <a href="http://www.fenicsproject.org" target="_blank">FEniCS</a> for the discretization of the PDE and on <a href="http://www.mcs.anl.gov/petsc/" target="_blank">PETSc</a> for scalable and efficient linear algebra operations and solvers.</p>
 <h2 id="features">Features</h2>
 <ul>
-<li>Friendly, compact, near-mathematical FEniCS notation to express the PDE and likelihood in weak form</li>
-<li>Automatic generation of efficient code for the discretization of weak forms using FEniCS</li>
-<li>Symbolic differentiation of weak forms to generate derivatives and adjoint information</li>
-<li>Globalized Inexact Newton-CG method to solve the inverse problem</li>
-<li>Low rank representation of the posterior covariace using randomized algorithms</li>
+<li>
+<p>Friendly, compact, near-mathematical FEniCS notation to
+express, differentiate, and discretize the PDE forward model and
+likelihood function</p>
+</li>
+<li>
+<p>Large scale optimization algorithms, such as globalized inexact
+Newton-CG method, to solve the inverse problem</p>
+</li>
+<li>
+<p>Randomized algorithms for trace estimation, eigenvalues and singular values decomposition.</p>
+</li>
+<li>
+<p>Scalable sampling of Gaussian random fields</p>
+</li>
+<li>
+<p>Linearized Bayesian inversion with low rank-based
+representation of the posterior covariance</p>
+</li>
+<li>
+<p>Hessian informed MCMC algorithms to explore the posterior
+  distribution</p>
+</li>
+<li>
+<p>Forward propagation of uncertainty capabilities using Monte
+  Carlo and Taylor expansion control variates</p>
+</li>
 </ul>
 <p>See also our <a href="tutorial.md">tutorial</a> and list of related <a href="research/">publications</a>. For additional resources and tutorials please see the teaching material for the <em>2018 Gene Golub SIAM Summer School</em> on <em>Inverse Problems: Systematic Integration of Data with Models under Uncertainty</em> available <a href="https://g2s3-2018.github.io/labs">here</a>.</p>
 <p>The complete API reference is available <a href="http://hippylib.readthedocs.io/en/latest/index.html">here</a>.</p>
 <h2 id="latest-release">Latest Release</h2>
 <ul>
-<li><a href="https://github.com/hippylib/hippylib">Development version</a> (supports FEniCS-2019.1)</li>
-<li>Download <a href="https://zenodo.org/record/3401577/files/hippylib/hippylib-2.3.0.zip?download=1">hippylib-2.3.0.zip</a></li>
+<li><a href="https://github.com/hippylib/hippylib">Development version</a></li>
+<li>Download <a href="https://zenodo.org/record/3634136/files/hippylib/hippylib-3.0.0.zip?download=1">hippylib-3.0.0.zip</a></li>
 <li><a href="download/">Previous releases</a></li>
-</ul>
-<h2 id="news">News</h2>
-<ul>
-<li><a href="postdoc_position/">Post-Doctoral Scholar position</a> opening in Prof. Petra group at UC Merced.</li>
 </ul>
 <h2 id="contact">Contact</h2>
 <p>Developed by the <a href="about/">hIPPYlib team</a> at <a href="http://ices.utexas.edu" target="_blank">UT Austin</a>, <a href="http://naturalsciences.ucmerced.edu/" target="_blank">UC Merced</a>, and <a href="https://ese.wustl.edu/Pages/default.aspx" target="_blank">WUSTL</a>.</p>
@@ -238,7 +252,7 @@ doi = {10.5281/zenodo.596931}
 
         <footer class="col-md-12">
             <hr>
-                <p>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> Copyright &copy; 2018 The University of Texas at Austin, University of California Merced, Washington University in St. Louis. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</p>
+                <p>Copyright &copy; 2016-2018 The University of Texas at Austin, University of California Merced. <br> Copyright &copy; 2018-2020 The University of Texas at Austin, University of California Merced, Washington University in St. Louis. <br> This material is based on work partially supported by the National Science Foundation under Grants No ACI-1550593, ACI-1550547.</p>
             <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>var base_url = '.';</script>
@@ -317,5 +331,5 @@ doi = {10.5281/zenodo.596931}
 
 <!--
 MkDocs version : 0.17.2
-Build Date UTC : 2020-01-28 15:12:13
+Build Date UTC : 2020-02-02 23:40:46
 -->
