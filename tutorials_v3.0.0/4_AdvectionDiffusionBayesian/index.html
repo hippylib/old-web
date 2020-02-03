@@ -70,23 +70,23 @@
 </li>
             
 <li >
-    <a href="../../tutorials_v3.0.0/1_FEniCS101/">FEniCS101</a>
+    <a href="../1_FEniCS101/">FEniCS101</a>
 </li>
             
 <li >
-    <a href="../../tutorials_v3.0.0/2_PoissonDeterministic/">Poisson Deterministic</a>
+    <a href="../2_PoissonDeterministic/">Poisson Deterministic</a>
 </li>
             
 <li >
-    <a href="../../tutorials_v3.0.0/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+    <a href="../3_SubsurfaceBayesian/">Subsurface Bayesian</a>
+</li>
+            
+<li class="active">
+    <a href="./">Advection-Diffusion Bayesian</a>
 </li>
             
 <li >
-    <a href="../../tutorials_v3.0.0/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
-</li>
-            
-<li >
-    <a href="../../tutorials_v3.0.0/5_HessianSpectrum/">Hessian Spectrum</a>
+    <a href="../5_HessianSpectrum/">Hessian Spectrum</a>
 </li>
     </ul>
   </li>
@@ -130,23 +130,23 @@
 </li>
             
 <li >
-    <a href="../1_FEniCS101/">FEniCS101</a>
+    <a href="../../tutorials_v1.6.0/1_FEniCS101/">FEniCS101</a>
 </li>
             
 <li >
-    <a href="../2_PoissonDeterministic/">Poisson Deterministic</a>
+    <a href="../../tutorials_v1.6.0/2_PoissonDeterministic/">Poisson Deterministic</a>
 </li>
             
 <li >
-    <a href="../3_SubsurfaceBayesian/">Subsurface Bayesian</a>
-</li>
-            
-<li class="active">
-    <a href="./">Advection-Diffusion Bayesian</a>
+    <a href="../../tutorials_v1.6.0/3_SubsurfaceBayesian/">Subsurface Bayesian</a>
 </li>
             
 <li >
-    <a href="../5_HessianSpectrum/">Hessian Spectrum</a>
+    <a href="../../tutorials_v1.6.0/4_AdvectionDiffusionBayesian/">Advection-Diffusion Bayesian</a>
+</li>
+            
+<li >
+    <a href="../../tutorials_v1.6.0/5_HessianSpectrum/">Hessian Spectrum</a>
 </li>
     </ul>
   </li>
@@ -196,7 +196,7 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#example-bayesian-initial-condition-inversion-in-an-advection-diffusion-problem">Example: Bayesian initial condition inversion in an advection-diffusion problem</a></li>
+        <li class="main active"><a href="#bayesian-initial-condition-inversion-in-an-advection-diffusion-problem">Bayesian initial condition inversion in an advection-diffusion problem</a></li>
             <li><a href="#the-bayesian-inverse-problem">The Bayesian inverse problem:</a></li>
             <li><a href="#the-forward-problem">The forward problem:</a></li>
             <li><a href="#the-adjoint-problem">The adjoint problem:</a></li>
@@ -207,7 +207,7 @@
             <li><a href="#5-generate-the-synthetic-observations">5. Generate the synthetic observations</a></li>
             <li><a href="#6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</a></li>
             <li><a href="#7-evaluate-the-gradient">7. Evaluate the gradient</a></li>
-            <li><a href="#8-the-gaussian-approximation-of-the-posterior">8. The Gaussian approximation of the posterior</a></li>
+            <li><a href="#8-the-gaussian-posterior">8. The Gaussian posterior</a></li>
             <li><a href="#9-compute-the-map-point">9. Compute the MAP point</a></li>
             <li><a href="#10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</a></li>
             <li><a href="#11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</a></li>
@@ -217,7 +217,7 @@
 
 <p>
 <script type="math/tex">
-\def\D{\mathcal{D}}
+\def\D{\Omega}
 \def\ipar{m}
 \def\R{\mathbb{R}}
 \def\del{\partial}
@@ -227,7 +227,7 @@
 \def\Acal{\mathcal{A}}
 \def\postm{\mu_{\rm{post}}}
 \def\iparpost{\ipar_\text{post}}
-\def\obs{\vec{d}} 
+\def\obs{ {\vec d}} 
 \def\yobs{\obs^{\text{obs}}}
 \def\obsop{\mathcal{B}}
 \def\dd{\vec{\bar{d}}}
@@ -236,7 +236,7 @@
 \def\ncov{\Gamma_{\mathrm{noise}}}
 </script>
 </p>
-<h1 id="example-bayesian-initial-condition-inversion-in-an-advection-diffusion-problem">Example: Bayesian initial condition inversion in an advection-diffusion problem</h1>
+<h1 id="bayesian-initial-condition-inversion-in-an-advection-diffusion-problem">Bayesian initial condition inversion in an advection-diffusion problem</h1>
 <p>In this example we tackle the problem of quantifying the uncertainty in the solution of an inverse problem governed by a parabolic PDE via the Bayesian inference framework. The underlying PDE is a time-dependent advection-diffusion equation in which we seek to infer an unknown initial condition from spatio-temporal point measurements.</p>
 <h3 id="the-bayesian-inverse-problem">The Bayesian inverse problem:</h3>
 <p>Following the Bayesian framework, we utilize 
@@ -253,14 +253,14 @@ problem is the posterior measure, <script type="math/tex">\postm = \mathcal{N}(\
 <script type="math/tex; mode=display">
 \begin{aligned}
 & \mathcal{J}(\ipar) :=
-  \frac{1}{2} \left\| \mathcal{B}u(\ipar) -\obs  \right\|^2_{\ncov^{-1}}
+  \frac{1}{2} \left\| \obsop u(\ipar) -\obs  \right\|^2_{\ncov^{-1}}
   + \frac 12 \left\| \Acal(\ipar - \ipar_0 \right)\|^2_{L^2(\D)},
 \end{aligned}
 </script>
 </p>
 <p>which can also be interpreted as the regularized functional to be
 minimized in deterministic inversion. The observation operator <script type="math/tex">\mathcal{B}</script> extracts the values of the forward solution <script type="math/tex">u</script> on a set of
-locations <script type="math/tex">\{\vec{x}_1, \ldots, \vec{x}_n\} \subset \D</script> at
+locations <script type="math/tex">\{{\vec{x}}_1, \ldots, {\vec{x}}_n\} \subset \D</script> at
 times <script type="math/tex">\{t_1, \ldots, t_N\} \subset [0, T]</script>.</p>
 <ul>
 <li>The posterior covariance <script type="math/tex">\C_{\text{post}}</script> is the inverse of the Hessian of <script type="math/tex">\mathcal{J}(\ipar)</script>, i.e.,</li>
@@ -271,48 +271,49 @@ times <script type="math/tex">\{t_1, \ldots, t_N\} \subset [0, T]</script>.</p>
 </script>
 </p>
 <h3 id="the-forward-problem">The forward problem:</h3>
-<p>The PDE in the parameter-to-observable map <script type="math/tex">\iFF</script> models diffusive transport
-in a domain <script type="math/tex">\D \subset \R^d</script> (<script type="math/tex">d \in \{2, 3\}</script>):</p>
+<p>The parameter-to-observable map <script type="math/tex">\iFF \,\ipar := \obsop\, u(\ipar)</script> maps an initial condition <script type="math/tex">\ipar \in L^2(\D)</script> to pointwise spatiotemporal observations of the concentration field <script type="math/tex">u({\vec x},t)</script> through solution of the advection-diffusion equation given by</p>
 <p>
 <script type="math/tex; mode=display">
 \begin{split}
-u_t - \kappa\Delta u + \bf{v} \cdot \nabla u &= 0     & \quad \text{in } \D\times(0,T),\\
+u_t - \kappa\Delta u + {\vec v} \cdot \nabla u &= 0     & \quad \text{in } \D\times(0,T),\\
                                  u(\cdot, 0) &= \ipar & \quad \text{in } \D,\\
-                \kappa \nabla u\cdot \vec{n} &= 0     & \quad \text{on } \partial\D \times (0,T).
+                \kappa \nabla u\cdot {\vec{n}} &= 0     & \quad \text{on } \partial\D \times (0,T).
 \end{split}
 </script>
 </p>
-<p>Here, <script type="math/tex">\kappa > 0</script> is the diffusion coefficient and <script type="math/tex">T > 0</script> is the final
+<p>Here, <script type="math/tex">\D \subset \R^d</script> (<script type="math/tex">d \in \{2, 3\}</script>) is a bounded domain, <script type="math/tex">\kappa > 0</script> is the diffusion coefficient and <script type="math/tex">T > 0</script> is the final
 time. The velocity field
 <script type="math/tex">\vec{v}</script> is computed by solving the following steady-state
 Navier-Stokes equation with the side walls driving the flow:</p>
 <p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-- \frac{1}{\operatorname{Re}} \Delta \bf{v} + \nabla q + \bf{v} \cdot \nabla \bf{v} &= 0 &\quad&\text{ in }\D,\\
-\nabla \cdot \bf{v} &= 0 &&\text{ in }\D,\\
-\bf{v} &= \bf{g} &&\text{ on } \partial\D.
+- \frac{1}{\operatorname{Re}} \Delta {\vec v} + \nabla q + {\vec v} \cdot \nabla {\vec v} &= 0 &\quad&\text{ in }\D,\\
+\nabla \cdot {\vec v} &= 0 &&\text{ in }\D,\\
+{\vec v} &= {\vec g} &&\text{ on } \partial\D.
 \end{aligned}
 </script>
 </p>
 <p>Here, <script type="math/tex">q</script> is pressure, <script type="math/tex">\text{Re}</script> is the Reynolds number. The Dirichlet boundary data
-<script type="math/tex">\vec{g} \in \R^d</script> is given by 
-<script type="math/tex">\vec{g} = \vec{e}_2</script> on the left wall of the domain, 
-<script type="math/tex">\vec{g}=-\vec{e}_2</script> on the right wall,  and <script type="math/tex">\vec{g} = \vec{0}</script> everywhere else.</p>
+<script type="math/tex">{\vec g} \in \R^d</script> is given by 
+<script type="math/tex">{\vec g} = {\vec e}_2</script> on the left wall of the domain, 
+<script type="math/tex">{\vec g}=-{\vec e}_2</script> on the right wall,  and <script type="math/tex">{\vec g} = {\vec 0}</script> everywhere else.</p>
 <h3 id="the-adjoint-problem">The adjoint problem:</h3>
+<p>The adjoint problem is a final value problem, since <script type="math/tex">p</script> is specified at <script type="math/tex">t = T</script> rather than at <script type="math/tex">t = 0</script>. Thus, it is solved backwards in time, which amounts to the solution of the advection-diffusion equation</p>
 <p>
 <script type="math/tex; mode=display">
 \begin{aligned}
--p_t - \nabla \cdot (p \vec{v}) - \kappa \Delta p  &= -\obsop^* (\obsop u - \obs) & \quad &\text{ in } \D\times (0,T),\\
+-p_t - \nabla \cdot (p {\vec v}) - \kappa \Delta p  &= -\obsop^* (\obsop u - \obs) & \quad &\text{ in } \D\times (0,T),\\
                                       p(\cdot, T) &= 0             &       &\text{ in } \D,\\ 
-(\vec{v}p+\kappa\nabla p)\cdot \vec{n}            &= 0             &       &\text{ on } \partial\D\times (0,T).
+({ \vec{v} }p+\kappa\nabla p)\cdot {\vec{n}}            &= 0             &       &\text{ on } \partial\D\times (0,T).
 \end{aligned}
 </script>
 </p>
+<p>Then, the adjoint of the parameter to observable map <script type="math/tex">\iFF^*</script> is defined by setting <script type="math/tex">\iFF^*\obs = p({\vec x}, 0).</script>
+</p>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code class="python">from __future__ import absolute_import, division, print_function
-
-import dolfin as dl
+<pre><code class="python">import dolfin as dl
+import ufl
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -322,16 +323,12 @@ import os
 sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;../&quot;) )
 from hippylib import *
 sys.path.append( os.environ.get('HIPPYLIB_BASE_DIR', &quot;..&quot;) + &quot;/applications/ad_diff/&quot; )
-from model_ad_diff import TimeDependentAD
-
-import nb
+from model_ad_diff import TimeDependentAD, SpaceTimePointwiseStateObservation
 
 import logging
 logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
 dl.set_log_active(False)
-
-np.random.seed(1)
 </code></pre>
 
 <h2 id="2-construct-the-velocity-field">2. Construct the velocity field</h2>
@@ -344,13 +341,10 @@ def q_boundary(x,on_boundary):
 def computeVelocityField(mesh):
     Xh = dl.VectorFunctionSpace(mesh,'Lagrange', 2)
     Wh = dl.FunctionSpace(mesh, 'Lagrange', 1)
-    if dlversion() &lt;= (1,6,0):
-        XW = dl.MixedFunctionSpace([Xh, Wh])
-    else:
-        mixed_element = dl.MixedElement([Xh.ufl_element(), Wh.ufl_element()])
-        XW = dl.FunctionSpace(mesh, mixed_element)
+    mixed_element = ufl.MixedElement([Xh.ufl_element(), Wh.ufl_element()])
+    XW = dl.FunctionSpace(mesh, mixed_element)
 
-    Re = 1e2
+    Re = dl.Constant(1e2)
 
     g = dl.Expression(('0.0','(x[0] &lt; 1e-14) - (x[0] &gt; 1 - 1e-14)'), degree=1)
     bc1 = dl.DirichletBC(XW.sub(0), g, v_boundary)
@@ -358,14 +352,14 @@ def computeVelocityField(mesh):
     bcs = [bc1, bc2]
 
     vq = dl.Function(XW)
-    (v,q) = dl.split(vq)
+    (v,q) = ufl.split(vq)
     (v_test, q_test) = dl.TestFunctions (XW)
 
     def strain(v):
-        return dl.sym(dl.nabla_grad(v))
+        return ufl.sym(ufl.grad(v))
 
-    F = ( (2./Re)*dl.inner(strain(v),strain(v_test))+ dl.inner (dl.nabla_grad(v)*v, v_test)
-           - (q * dl.div(v_test)) + ( dl.div(v) * q_test) ) * dl.dx
+    F = ( (2./Re)*ufl.inner(strain(v),strain(v_test))+ ufl.inner (ufl.nabla_grad(v)*v, v_test)
+           - (q * ufl.div(v_test)) + ( ufl.div(v) * q_test) ) * ufl.dx
 
     dl.solve(F == 0, vq, bcs, solver_parameters={&quot;newton_solver&quot;:
                                          {&quot;relative_tolerance&quot;:1e-4, &quot;maximum_iterations&quot;:100}})
@@ -384,24 +378,37 @@ def computeVelocityField(mesh):
 <pre><code class="python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
 wind_velocity = computeVelocityField(mesh)
 Vh = dl.FunctionSpace(mesh, &quot;Lagrange&quot;, 1)
-print(&quot;Number of dofs: {0}&quot;.format( Vh.dim() ) )
+print( &quot;Number of dofs: {0}&quot;.format( Vh.dim() ) )
 </code></pre>
 
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_6_1.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_6_0.png" /></p>
 <pre><code>Number of dofs: 2023
 </code></pre>
 <h2 id="4-set-up-model-prior-trueproposed-initial-condition">4. Set up model (prior, true/proposed initial condition)</h2>
-<pre><code class="python">#gamma = 1
-#delta = 10
-#prior = LaplacianPrior(Vh, gamma, delta)
+<pre><code class="python">ic_expr = dl.Expression(
+    'std::min(0.5,std::exp(-100*(std::pow(x[0]-0.35,2) +  std::pow(x[1]-0.7,2))))',
+    element=Vh.ufl_element())
+true_initial_condition = dl.interpolate(ic_expr, Vh).vector()
+gamma = 1.
+delta = 8.
+prior = BiLaplacianPrior(Vh, gamma, delta, robin_bc=True)
 
-gamma = 1
-delta = 8
-prior = BiLaplacianPrior(Vh, gamma, delta)
+prior.mean = dl.interpolate(dl.Constant(0.25), Vh).vector()
 
-prior.mean = dl.interpolate(dl.Constant(0.5), Vh).vector()
-true_initial_condition = dl.interpolate(dl.Expression('min(0.5,exp(-100*(pow(x[0]-0.35,2) +  pow(x[1]-0.7,2))))', degree=5), Vh).vector()
-problem = TimeDependentAD(mesh, [Vh,Vh,Vh], 0., 4., 1., .2, wind_velocity, True, prior)
+t_init         = 0.
+t_final        = 4.
+t_1            = 1.
+dt             = .1
+observation_dt = .2
+
+simulation_times = np.arange(t_init, t_final+.5*dt, dt)
+observation_times = np.arange(t_1, t_final+.5*dt, observation_dt)
+
+targets = np.loadtxt('targets.txt')
+print (&quot;Number of observation points: {0}&quot;.format(targets.shape[0]) )
+misfit = SpaceTimePointwiseStateObservation(Vh, observation_times, targets)
+
+problem = TimeDependentAD(mesh, [Vh,Vh,Vh], prior, misfit, simulation_times, wind_velocity, True)
 
 objs = [dl.Function(Vh,true_initial_condition),
         dl.Function(Vh,prior.mean)]
@@ -410,66 +417,69 @@ nb.multi1_plot(objs, mytitles)
 plt.show()
 </code></pre>
 
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_8_0.png" /></p>
+<pre><code>Number of observation points: 80
+</code></pre>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_8_1.png" /></p>
 <h2 id="5-generate-the-synthetic-observations">5. Generate the synthetic observations</h2>
-<pre><code class="python">rel_noise = 0.001
+<pre><code class="python">rel_noise = 0.01
 utrue = problem.generate_vector(STATE)
 x = [utrue, true_initial_condition, None]
-problem.solveFwd(x[STATE], x, 1e-9)
-MAX = utrue.norm(&quot;linf&quot;, &quot;linf&quot;)
+problem.solveFwd(x[STATE], x)
+misfit.observe(x, misfit.d)
+MAX = misfit.d.norm(&quot;linf&quot;, &quot;linf&quot;)
 noise_std_dev = rel_noise * MAX
-problem.ud.copy(utrue)
-problem.ud.randn_perturb(noise_std_dev)
-problem.noise_variance = noise_std_dev*noise_std_dev
+parRandom.normal_perturb(noise_std_dev,misfit.d)
+misfit.noise_variance = noise_std_dev*noise_std_dev
 
 nb.show_solution(Vh, true_initial_condition, utrue, &quot;Solution&quot;)
 </code></pre>
 
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_10_0.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_10_0.png" /></p>
 <h2 id="6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</h2>
-<pre><code class="python">a0 = true_initial_condition.copy()
-modelVerify(problem, a0, 1e-12, is_quadratic=True)
+<pre><code class="python">m0 = true_initial_condition.copy()
+_ = modelVerify(problem, m0, is_quadratic=True)
 </code></pre>
 
-<pre><code>(yy, H xx) - (xx, H yy) =  -4.75341826113e-14
+<pre><code>(yy, H xx) - (xx, H yy) =  -1.1681934136389683e-13
 </code></pre>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_12_1.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_12_1.png" /></p>
 <h2 id="7-evaluate-the-gradient">7. Evaluate the gradient</h2>
-<pre><code class="python">[u,a,p] = problem.generate_vector()
-problem.solveFwd(u, [u,a,p], 1e-12)
-problem.solveAdj(p, [u,a,p], 1e-12)
+<pre><code class="python">[u,m,p] = problem.generate_vector()
+problem.solveFwd(u, [u,m,p])
+problem.solveAdj(p, [u,m,p])
 mg = problem.generate_vector(PARAMETER)
-grad_norm = problem.evalGradientParameter([u,a,p], mg)
+grad_norm = problem.evalGradientParameter([u,m,p], mg)
 
-print(&quot;(g,g) = &quot;, grad_norm)
+print( &quot;(g,g) = &quot;, grad_norm)
 </code></pre>
 
-<pre><code>(g,g) =  1.66716039169e+12
+<pre><code>(g,g) =  2354159843455358.0
 </code></pre>
-<h2 id="8-the-gaussian-approximation-of-the-posterior">8. The Gaussian approximation of the posterior</h2>
-<pre><code class="python">H = ReducedHessian(problem, 1e-12, gauss_newton_approx=False, misfit_only=True) 
+<h2 id="8-the-gaussian-posterior">8. The Gaussian posterior</h2>
+<pre><code class="python">H = ReducedHessian(problem, misfit_only=True) 
 
 k = 80
 p = 20
-print(&quot;Single Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k,p))
-Omega = np.random.randn(get_local_size(a), k+p)
-d, U = singlePassG(H, prior.R, prior.Rsolver, Omega, k)
+print( &quot;Single Pass Algorithm. Requested eigenvectors: {0}; Oversampling {1}.&quot;.format(k,p) )
+Omega = MultiVector(x[PARAMETER], k+p)
+parRandom.normal(1., Omega)
+lmbda, V = singlePassG(H, prior.R, prior.Rsolver, Omega, k)
 
 
-posterior = GaussianLRPosterior( prior, d, U )
+posterior = GaussianLRPosterior( prior, lmbda, V )
 
-plt.plot(range(0,k), d, 'b*', range(0,k+1), np.ones(k+1), '-r')
+plt.plot(range(0,k), lmbda, 'b*', range(0,k+1), np.ones(k+1), '-r')
 plt.yscale('log')
 plt.xlabel('number')
 plt.ylabel('eigenvalue')
 
-nb.plot_eigenvectors(Vh, U, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,20,30,45,60])
+nb.plot_eigenvectors(Vh, V, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,20,30,45,60])
 </code></pre>
 
 <pre><code>Single Pass Algorithm. Requested eigenvectors: 80; Oversampling 20.
 </code></pre>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_1.png" /></p>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_2.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_1.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_2.png" /></p>
 <h2 id="9-compute-the-map-point">9. Compute the MAP point</h2>
 <pre><code class="python">H.misfit_only = False
 
@@ -478,53 +488,54 @@ solver.set_operator(H)
 solver.set_preconditioner( posterior.Hlr )
 solver.parameters[&quot;print_level&quot;] = 1
 solver.parameters[&quot;rel_tolerance&quot;] = 1e-6
-solver.solve(a, -mg)
-problem.solveFwd(u, [u,a,p], 1e-12)
+solver.solve(m, -mg)
+problem.solveFwd(u, [u,m,p])
 
-total_cost, reg_cost, misfit_cost = problem.cost([u,a,p])
-print(&quot;Total cost {0:5g}; Reg Cost {1:5g}; Misfit {2:5g}&quot;.format(total_cost, reg_cost, misfit_cost))
+total_cost, reg_cost, misfit_cost = problem.cost([u,m,p])
+print( &quot;Total cost {0:5g}; Reg Cost {1:5g}; Misfit {2:5g}&quot;.format(total_cost, reg_cost, misfit_cost) )
 
-posterior.mean = a
+posterior.mean = m
 
 plt.figure(figsize=(7.5,5))
-nb.plot(dl.Function(Vh, a), mytitle=&quot;Initial Condition&quot;)
+nb.plot(dl.Function(Vh, m), mytitle=&quot;Initial Condition&quot;)
 plt.show()
 
-nb.show_solution(Vh, a, u, &quot;Solution&quot;)
+nb.show_solution(Vh, m, u, &quot;Solution&quot;)
 </code></pre>
 
-<pre><code> Iterartion :  0  (B r, r) =  30140.7469425
- Iteration :  1  (B r, r) =  0.0653733954192
- Iteration :  2  (B r, r) =  6.28002367536e-06
- Iteration :  3  (B r, r) =  9.57007003125e-10
+<pre><code> Iterartion :  0  (B r, r) =  1231866.6310868163
+ Iteration :  1  (B r, r) =  66.31734328582567
+ Iteration :  2  (B r, r) =  0.3150082598782035
+ Iteration :  3  (B r, r) =  0.003975346025817018
+ Iteration :  4  (B r, r) =  1.7003714104952925e-05
+ Iteration :  5  (B r, r) =  8.577697903362507e-08
 Relative/Absolute residual less than tol
-Converged in  3  iterations with final norm  3.09355297858e-05
-Total cost 84.2612; Reg Cost 68.8823; Misfit 15.3789
+Converged in  5  iterations with final norm  0.00029287707153962235
+Total cost 782.968; Reg Cost 153.412; Misfit 629.556
 </code></pre>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_1.png" /></p>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_2.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_1.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_2.png" /></p>
 <h2 id="10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</h2>
 <pre><code class="python">compute_trace = True
 if compute_trace:
-    post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=200)
-    print(&quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr))
+    post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=300)
+    print( &quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr) )
 post_pw_variance, pr_pw_variance, corr_pw_variance = posterior.pointwise_variance(method=&quot;Randomized&quot;, r=300)
 
 objs = [dl.Function(Vh, pr_pw_variance),
         dl.Function(Vh, post_pw_variance)]
 mytitles = [&quot;Prior Variance&quot;, &quot;Posterior Variance&quot;]
-nb.multi1_plot(objs, mytitles, logscale=True)
+nb.multi1_plot(objs, mytitles, logscale=False)
 plt.show()
 </code></pre>
 
-<pre><code>Posterior trace 0.000602854; Prior trace 0.0285673; Correction trace 0.0279644
+<pre><code>Posterior trace 0.000268048; Prior trace 0.00809706; Correction trace 0.00782902
 </code></pre>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_20_1.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_20_1.png" /></p>
 <h2 id="11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</h2>
 <pre><code class="python">nsamples = 5
 noise = dl.Vector()
 posterior.init_vector(noise,&quot;noise&quot;)
-noise_size = get_local_size(noise)
 s_prior = dl.Function(Vh, name=&quot;sample_prior&quot;)
 s_post = dl.Function(Vh, name=&quot;sample_post&quot;)
 
@@ -534,7 +545,7 @@ ps_max =  2.5*math.sqrt( post_pw_variance.max() ) + posterior.mean.max()
 ps_min = -2.5*math.sqrt( post_pw_variance.max() ) + posterior.mean.min()
 
 for i in range(nsamples):
-    noise.set_local( np.random.randn( noise_size ) )
+    parRandom.normal(1., noise)
     posterior.sample(noise, s_prior.vector(), s_post.vector())
     plt.figure(figsize=(15,5))
     nb.plot(s_prior, subplot_loc=121,mytitle=&quot;Prior sample&quot;, vmin=pr_min, vmax=pr_max)
@@ -542,13 +553,14 @@ for i in range(nsamples):
     plt.show()
 </code></pre>
 
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_0.png" /></p>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_1.png" /></p>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_2.png" /></p>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_3.png" /></p>
-<p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_4.png" /></p>
-<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
-All Rights reserved.
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_0.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_1.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_2.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_3.png" /></p>
+<p><img alt="png" src="../4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_4.png" /></p>
+<p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.<br>
+Copyright (c) 2019-2020, The University of Texas at Austin, University of California--Merced, Washington University in St. Louis.<br>
+All Rights reserved.<br>
 See file COPYRIGHT for details.</p>
 <p>This file is part of the hIPPYlib library. For more information and source code
 availability see https://hippylib.github.io.</p>
