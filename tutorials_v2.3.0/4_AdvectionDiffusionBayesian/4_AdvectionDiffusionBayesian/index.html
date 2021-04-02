@@ -312,7 +312,7 @@ Navier-Stokes equation with the side walls driving the flow:</p>
 <p>Then, the adjoint of the parameter to observable map <script type="math/tex">\iFF^*</script> is defined by setting <script type="math/tex">\iFF^*\obs = p({\vec x}, 0).</script>
 </p>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code class="python">from __future__ import absolute_import, division, print_function
+<pre><code class="language-python">from __future__ import absolute_import, division, print_function
 
 import dolfin as dl
 import math
@@ -331,9 +331,8 @@ logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
 dl.set_log_active(False)
 </code></pre>
-
 <h2 id="2-construct-the-velocity-field">2. Construct the velocity field</h2>
-<pre><code class="python">def v_boundary(x,on_boundary):
+<pre><code class="language-python">def v_boundary(x,on_boundary):
     return on_boundary
 
 def q_boundary(x,on_boundary):
@@ -377,19 +376,17 @@ def computeVelocityField(mesh):
 
     return v
 </code></pre>
-
 <h2 id="3-set-up-the-mesh-and-finite-element-spaces">3. Set up the mesh and finite element spaces</h2>
-<pre><code class="python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
+<pre><code class="language-python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
 wind_velocity = computeVelocityField(mesh)
 Vh = dl.FunctionSpace(mesh, &quot;Lagrange&quot;, 1)
 print( &quot;Number of dofs: {0}&quot;.format( Vh.dim() ) )
 </code></pre>
-
 <p><img alt="png" src="../output_6_0.png" /></p>
 <pre><code>Number of dofs: 2023
 </code></pre>
 <h2 id="4-set-up-model-prior-trueproposed-initial-condition">4. Set up model (prior, true/proposed initial condition)</h2>
-<pre><code class="python">ic_expr = dl.Expression('min(0.5,exp(-100*(pow(x[0]-0.35,2) +  pow(x[1]-0.7,2))))', element=Vh.ufl_element())
+<pre><code class="language-python">ic_expr = dl.Expression('min(0.5,exp(-100*(pow(x[0]-0.35,2) +  pow(x[1]-0.7,2))))', element=Vh.ufl_element())
 true_initial_condition = dl.interpolate(ic_expr, Vh).vector()
 
 
@@ -420,13 +417,12 @@ mytitles = [&quot;True Initial Condition&quot;, &quot;Prior mean&quot;]
 nb.multi1_plot(objs, mytitles)
 plt.show()
 </code></pre>
-
 <pre><code>Prior regularization: (delta - gamma*Laplacian)^order: delta=8.0, gamma=1.0, order=2
 Number of observation points: 80
 </code></pre>
 <p><img alt="png" src="../output_8_1.png" /></p>
 <h2 id="5-generate-the-synthetic-observations">5. Generate the synthetic observations</h2>
-<pre><code class="python">rel_noise = 0.01
+<pre><code class="language-python">rel_noise = 0.01
 utrue = problem.generate_vector(STATE)
 x = [utrue, true_initial_condition, None]
 problem.solveFwd(x[STATE], x, 1e-9)
@@ -438,18 +434,16 @@ misfit.noise_variance = noise_std_dev*noise_std_dev
 
 nb.show_solution(Vh, true_initial_condition, utrue, &quot;Solution&quot;)
 </code></pre>
-
 <p><img alt="png" src="../output_10_0.png" /></p>
 <h2 id="6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</h2>
-<pre><code class="python">m0 = true_initial_condition.copy()
+<pre><code class="language-python">m0 = true_initial_condition.copy()
 _ = modelVerify(problem, m0, 1e-12, is_quadratic=True)
 </code></pre>
-
 <pre><code>(yy, H xx) - (xx, H yy) =  -1.174447494183385e-13
 </code></pre>
 <p><img alt="png" src="../output_12_1.png" /></p>
 <h2 id="7-evaluate-the-gradient">7. Evaluate the gradient</h2>
-<pre><code class="python">[u,m,p] = problem.generate_vector()
+<pre><code class="language-python">[u,m,p] = problem.generate_vector()
 problem.solveFwd(u, [u,m,p], 1e-12)
 problem.solveAdj(p, [u,m,p], 1e-12)
 mg = problem.generate_vector(PARAMETER)
@@ -457,11 +451,10 @@ grad_norm = problem.evalGradientParameter([u,m,p], mg)
 
 print( &quot;(g,g) = &quot;, grad_norm)
 </code></pre>
-
 <pre><code>(g,g) =  2395071437584061.5
 </code></pre>
 <h2 id="8-the-gaussian-posterior">8. The Gaussian posterior</h2>
-<pre><code class="python">H = ReducedHessian(problem, 1e-12, misfit_only=True) 
+<pre><code class="language-python">H = ReducedHessian(problem, 1e-12, misfit_only=True) 
 
 k = 80
 p = 20
@@ -480,13 +473,12 @@ plt.ylabel('eigenvalue')
 
 nb.plot_eigenvectors(Vh, V, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,20,30,45,60])
 </code></pre>
-
 <pre><code>Single Pass Algorithm. Requested eigenvectors: 80; Oversampling 20.
 </code></pre>
 <p><img alt="png" src="../output_16_1.png" /></p>
 <p><img alt="png" src="../output_16_2.png" /></p>
 <h2 id="9-compute-the-map-point">9. Compute the MAP point</h2>
-<pre><code class="python">H.misfit_only = False
+<pre><code class="language-python">H.misfit_only = False
 
 solver = CGSolverSteihaug()
 solver.set_operator(H)
@@ -507,7 +499,6 @@ plt.show()
 
 nb.show_solution(Vh, m, u, &quot;Solution&quot;)
 </code></pre>
-
 <pre><code> Iterartion :  0  (B r, r) =  1225123.9338492027
  Iteration :  1  (B r, r) =  74.94198007028052
  Iteration :  2  (B r, r) =  0.4132940000407347
@@ -521,7 +512,7 @@ Total cost 782.818; Reg Cost 153.671; Misfit 629.147
 <p><img alt="png" src="../output_18_1.png" /></p>
 <p><img alt="png" src="../output_18_2.png" /></p>
 <h2 id="10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</h2>
-<pre><code class="python">compute_trace = True
+<pre><code class="language-python">compute_trace = True
 if compute_trace:
     post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=300)
     print( &quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr) )
@@ -533,12 +524,11 @@ mytitles = [&quot;Prior Variance&quot;, &quot;Posterior Variance&quot;]
 nb.multi1_plot(objs, mytitles, logscale=False)
 plt.show()
 </code></pre>
-
 <pre><code>Posterior trace 0.000269147; Prior trace 0.00809706; Correction trace 0.00782792
 </code></pre>
 <p><img alt="png" src="../output_20_1.png" /></p>
 <h2 id="11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</h2>
-<pre><code class="python">nsamples = 5
+<pre><code class="language-python">nsamples = 5
 noise = dl.Vector()
 posterior.init_vector(noise,&quot;noise&quot;)
 s_prior = dl.Function(Vh, name=&quot;sample_prior&quot;)
@@ -557,7 +547,6 @@ for i in range(nsamples):
     nb.plot(s_post, subplot_loc=122,mytitle=&quot;Posterior sample&quot;, vmin=ps_min, vmax=ps_max)
     plt.show()
 </code></pre>
-
 <p><img alt="png" src="../output_22_0.png" /></p>
 <p><img alt="png" src="../output_22_1.png" /></p>
 <p><img alt="png" src="../output_22_2.png" /></p>

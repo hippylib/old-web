@@ -310,7 +310,7 @@ Navier-Stokes equation with the side walls driving the flow:</p>
 </script>
 </p>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code class="python">from __future__ import absolute_import, division, print_function
+<pre><code class="language-python">from __future__ import absolute_import, division, print_function
 
 import dolfin as dl
 import math
@@ -333,9 +333,8 @@ dl.set_log_active(False)
 
 np.random.seed(1)
 </code></pre>
-
 <h2 id="2-construct-the-velocity-field">2. Construct the velocity field</h2>
-<pre><code class="python">def v_boundary(x,on_boundary):
+<pre><code class="language-python">def v_boundary(x,on_boundary):
     return on_boundary
 
 def q_boundary(x,on_boundary):
@@ -379,19 +378,17 @@ def computeVelocityField(mesh):
 
     return v
 </code></pre>
-
 <h2 id="3-set-up-the-mesh-and-finite-element-spaces">3. Set up the mesh and finite element spaces</h2>
-<pre><code class="python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
+<pre><code class="language-python">mesh = dl.refine( dl.Mesh(&quot;ad_20.xml&quot;) )
 wind_velocity = computeVelocityField(mesh)
 Vh = dl.FunctionSpace(mesh, &quot;Lagrange&quot;, 1)
 print(&quot;Number of dofs: {0}&quot;.format( Vh.dim() ) )
 </code></pre>
-
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_6_1.png" /></p>
 <pre><code>Number of dofs: 2023
 </code></pre>
 <h2 id="4-set-up-model-prior-trueproposed-initial-condition">4. Set up model (prior, true/proposed initial condition)</h2>
-<pre><code class="python">#gamma = 1
+<pre><code class="language-python">#gamma = 1
 #delta = 10
 #prior = LaplacianPrior(Vh, gamma, delta)
 
@@ -409,10 +406,9 @@ mytitles = [&quot;True Initial Condition&quot;, &quot;Prior mean&quot;]
 nb.multi1_plot(objs, mytitles)
 plt.show()
 </code></pre>
-
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_8_0.png" /></p>
 <h2 id="5-generate-the-synthetic-observations">5. Generate the synthetic observations</h2>
-<pre><code class="python">rel_noise = 0.001
+<pre><code class="language-python">rel_noise = 0.001
 utrue = problem.generate_vector(STATE)
 x = [utrue, true_initial_condition, None]
 problem.solveFwd(x[STATE], x, 1e-9)
@@ -424,18 +420,16 @@ problem.noise_variance = noise_std_dev*noise_std_dev
 
 nb.show_solution(Vh, true_initial_condition, utrue, &quot;Solution&quot;)
 </code></pre>
-
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_10_0.png" /></p>
 <h2 id="6-test-the-gradient-and-the-hessian-of-the-cost-negative-log-posterior">6. Test the gradient and the Hessian of the cost (negative log posterior)</h2>
-<pre><code class="python">a0 = true_initial_condition.copy()
+<pre><code class="language-python">a0 = true_initial_condition.copy()
 modelVerify(problem, a0, 1e-12, is_quadratic=True)
 </code></pre>
-
 <pre><code>(yy, H xx) - (xx, H yy) =  -4.75341826113e-14
 </code></pre>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_12_1.png" /></p>
 <h2 id="7-evaluate-the-gradient">7. Evaluate the gradient</h2>
-<pre><code class="python">[u,a,p] = problem.generate_vector()
+<pre><code class="language-python">[u,a,p] = problem.generate_vector()
 problem.solveFwd(u, [u,a,p], 1e-12)
 problem.solveAdj(p, [u,a,p], 1e-12)
 mg = problem.generate_vector(PARAMETER)
@@ -443,11 +437,10 @@ grad_norm = problem.evalGradientParameter([u,a,p], mg)
 
 print(&quot;(g,g) = &quot;, grad_norm)
 </code></pre>
-
 <pre><code>(g,g) =  1.66716039169e+12
 </code></pre>
 <h2 id="8-the-gaussian-approximation-of-the-posterior">8. The Gaussian approximation of the posterior</h2>
-<pre><code class="python">H = ReducedHessian(problem, 1e-12, gauss_newton_approx=False, misfit_only=True) 
+<pre><code class="language-python">H = ReducedHessian(problem, 1e-12, gauss_newton_approx=False, misfit_only=True) 
 
 k = 80
 p = 20
@@ -465,13 +458,12 @@ plt.ylabel('eigenvalue')
 
 nb.plot_eigenvectors(Vh, U, mytitle=&quot;Eigenvector&quot;, which=[0,1,2,5,10,20,30,45,60])
 </code></pre>
-
 <pre><code>Single Pass Algorithm. Requested eigenvectors: 80; Oversampling 20.
 </code></pre>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_1.png" /></p>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_16_2.png" /></p>
 <h2 id="9-compute-the-map-point">9. Compute the MAP point</h2>
-<pre><code class="python">H.misfit_only = False
+<pre><code class="language-python">H.misfit_only = False
 
 solver = CGSolverSteihaug()
 solver.set_operator(H)
@@ -492,7 +484,6 @@ plt.show()
 
 nb.show_solution(Vh, a, u, &quot;Solution&quot;)
 </code></pre>
-
 <pre><code> Iterartion :  0  (B r, r) =  30140.7469425
  Iteration :  1  (B r, r) =  0.0653733954192
  Iteration :  2  (B r, r) =  6.28002367536e-06
@@ -504,7 +495,7 @@ Total cost 84.2612; Reg Cost 68.8823; Misfit 15.3789
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_1.png" /></p>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_18_2.png" /></p>
 <h2 id="10-prior-and-posterior-pointwise-variance-fields">10. Prior and posterior pointwise variance fields</h2>
-<pre><code class="python">compute_trace = True
+<pre><code class="language-python">compute_trace = True
 if compute_trace:
     post_tr, prior_tr, corr_tr = posterior.trace(method=&quot;Randomized&quot;, r=200)
     print(&quot;Posterior trace {0:5g}; Prior trace {1:5g}; Correction trace {2:5g}&quot;.format(post_tr, prior_tr, corr_tr))
@@ -516,12 +507,11 @@ mytitles = [&quot;Prior Variance&quot;, &quot;Posterior Variance&quot;]
 nb.multi1_plot(objs, mytitles, logscale=True)
 plt.show()
 </code></pre>
-
 <pre><code>Posterior trace 0.000602854; Prior trace 0.0285673; Correction trace 0.0279644
 </code></pre>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_20_1.png" /></p>
 <h2 id="11-draw-samples-from-the-prior-and-posterior-distributions">11. Draw samples from the prior and posterior distributions</h2>
-<pre><code class="python">nsamples = 5
+<pre><code class="language-python">nsamples = 5
 noise = dl.Vector()
 posterior.init_vector(noise,&quot;noise&quot;)
 noise_size = get_local_size(noise)
@@ -541,7 +531,6 @@ for i in range(nsamples):
     nb.plot(s_post, subplot_loc=122,mytitle=&quot;Posterior sample&quot;, vmin=ps_min, vmax=ps_max)
     plt.show()
 </code></pre>
-
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_0.png" /></p>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_1.png" /></p>
 <p><img alt="png" src="./4_AdvectionDiffusionBayesian_files/4_AdvectionDiffusionBayesian_22_2.png" /></p>

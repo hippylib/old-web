@@ -247,7 +247,7 @@ Find the state <script type="math/tex">u \in H^1_{\Gamma_D}(\Omega)</script> and
 </li>
 </ul>
 <h2 id="1-load-modules">1. Load modules</h2>
-<pre><code class="python">import dolfin as dl
+<pre><code class="language-python">import dolfin as dl
 import ufl
 import numpy as np
 import matplotlib.pyplot as plt
@@ -263,9 +263,8 @@ logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
 dl.set_log_active(False)
 </code></pre>
-
 <h2 id="2-the-linear-source-inversion-problem">2. The linear source inversion problem</h2>
-<pre><code class="python">def pde_varf(u,m,p):
+<pre><code class="language-python">def pde_varf(u,m,p):
     return k*ufl.inner(ufl.grad(u), ufl.grad(p))*ufl.dx \
            + ufl.inner(ufl.grad(u), v*p)*ufl.dx \
            + c*u*p*ufl.dx \
@@ -375,9 +374,8 @@ def solve(nx,ny, targets, rel_noise, gamma, delta, verbose=True):
     return lmbda, V, Vh[PARAMETER], solver.iter
 
 </code></pre>
-
 <h2 id="3-solution-of-the-source-inversion-problem">3. Solution of the source inversion problem</h2>
-<pre><code class="python">ndim = 2
+<pre><code class="language-python">ndim = 2
 nx = 32
 ny = 32
 
@@ -395,7 +393,6 @@ c = dl.Constant(0.)
 
 lmbda, V, Vm, nit = solve(nx,ny, targets, rel_noise, gamma, delta)
 </code></pre>
-
 <pre><code>Number of dofs: STATE=1089, PARAMETER=1089, ADJOINT=1089
 Number of observation points: 300
 </code></pre>
@@ -408,7 +405,7 @@ Number of observation points: 300
 <p><img alt="png" src="../5_HessianSpectrum_files/5_HessianSpectrum_6_5.png" /></p>
 <p><img alt="png" src="../5_HessianSpectrum_files/5_HessianSpectrum_6_6.png" /></p>
 <h2 id="4-mesh-independence-of-the-spectrum-of-the-preconditioned-hessian-misfit">4. Mesh independence of the spectrum of the preconditioned Hessian misfit</h2>
-<pre><code class="python">gamma = 70.
+<pre><code class="language-python">gamma = 70.
 delta = 1e-1
 
 k = dl.Constant(1.0)
@@ -432,7 +429,6 @@ nb.plot_eigenvectors(Vm3, V3, mytitle=&quot;Mesh {0} by {1} Eigen&quot;.format(n
 
 plt.show()
 </code></pre>
-
 <pre><code>Number of Iterations:  67 69 68
 </code></pre>
 <p><img alt="png" src="../5_HessianSpectrum_files/5_HessianSpectrum_8_1.png" /></p>
@@ -441,7 +437,7 @@ plt.show()
 <p><img alt="png" src="../5_HessianSpectrum_files/5_HessianSpectrum_8_4.png" /></p>
 <h2 id="5-dependence-on-the-noise-level">5. Dependence on the noise level</h2>
 <p>We solve the problem for different noise levels. The higher the noise level the more important becomes the effect of the regularization.</p>
-<pre><code class="python">gamma = 70.
+<pre><code class="language-python">gamma = 70.
 delta = 1e-1
 
 k = dl.Constant(1.0)
@@ -465,7 +461,6 @@ nb.plot_eigenvectors(Vm3, V3, mytitle=&quot;rel_noise {0:g} Eigen&quot;.format(r
 
 plt.show()
 </code></pre>
-
 <pre><code>Number of Iterations:  185 67 23
 </code></pre>
 <p><img alt="png" src="../5_HessianSpectrum_files/5_HessianSpectrum_10_1.png" /></p>
@@ -475,7 +470,7 @@ plt.show()
 <h2 id="6-dependence-on-the-pde-coefficients">6. Dependence on the PDE coefficients</h2>
 <p>Assume a constant reaction term <script type="math/tex">c = 1</script>, and we consider different values for the diffusivity coefficient <script type="math/tex">k</script>.</p>
 <p>The smaller the value of <script type="math/tex">k</script> the slower the decay in the spectrum.</p>
-<pre><code class="python">rel_noise = 0.01
+<pre><code class="language-python">rel_noise = 0.01
 
 k = dl.Constant(1.0)
 v = dl.Constant((0.0, 0.0))
@@ -499,7 +494,6 @@ nb.plot_eigenvectors(Vm3, V3, mytitle=&quot;k=0.01 Eigen&quot;, which=[0,1,5])
 
 plt.show()
 </code></pre>
-
 <pre><code>Number of Iterations:  79 143 256
 </code></pre>
 <p><img alt="png" src="../5_HessianSpectrum_files/5_HessianSpectrum_12_1.png" /></p>

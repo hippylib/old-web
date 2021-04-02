@@ -266,7 +266,7 @@ u_0(x,y)      = 0 & \text{ on } \Gamma_D, \\
 <p><a href="http://matplotlib.org/">matplotlib</a>: a python package used for plotting the results</p>
 </li>
 </ul>
-<pre><code class="python">from __future__ import absolute_import, division, print_function
+<pre><code class="language-python">from __future__ import absolute_import, division, print_function
 
 from dolfin import *
 
@@ -282,11 +282,10 @@ logging.getLogger('FFC').setLevel(logging.WARNING)
 logging.getLogger('UFL').setLevel(logging.WARNING)
 set_log_active(False)
 </code></pre>
-
 <h2 id="2-define-the-mesh-and-the-finite-element-space">2. Define the mesh and the finite element space</h2>
 <p>We construct a triangulation (mesh) <script type="math/tex">\mathcal{T}_h</script> of the computational domain <script type="math/tex">\Omega := [0, 1]^2</script> with <code>n</code> elements in each direction.</p>
 <p>On the mesh <script type="math/tex">\mathcal{T}_h</script>, we then define the finite element space <script type="math/tex">V_h \subset H^1(\Omega)</script> consisting of globally continuous piecewise polinomials functions. The <code>degree</code> variable defines the polinomial degree.</p>
-<pre><code class="python">n = 16
+<pre><code class="language-python">n = 16
 degree = 1
 mesh = UnitSquareMesh(n, n)
 nb.plot(mesh)
@@ -294,13 +293,12 @@ nb.plot(mesh)
 Vh  = FunctionSpace(mesh, 'Lagrange', degree)
 print(&quot;dim(Vh) = &quot;, Vh.dim())
 </code></pre>
-
 <pre><code>dim(Vh) =  289
 </code></pre>
 <p><img alt="png" src="./1_FEniCS101_files/1_FEniCS101_4_1.png" /></p>
 <h2 id="3-define-boundary-labels">3. Define boundary labels</h2>
 <p>To partition the boundary of <script type="math/tex">\Omega</script> in the subdomains <script type="math/tex">\Gamma_{\rm top}</script>, <script type="math/tex">\Gamma_{\rm bottom}</script>, <script type="math/tex">\Gamma_{\rm left}</script>, <script type="math/tex">\Gamma_{\rm right}</script> we assign a unique label <code>boundary_parts</code> to each of part of <script type="math/tex">\partial \Omega</script>.</p>
-<pre><code class="python">class TopBoundary(SubDomain):
+<pre><code class="language-python">class TopBoundary(SubDomain):
     def inside(self, x, on_boundary):
         return on_boundary and abs(x[1] - 1) &lt; DOLFIN_EPS
 
@@ -328,12 +326,11 @@ Gamma_left.mark(boundary_parts, 3)
 Gamma_right = RightBoundary()
 Gamma_right.mark(boundary_parts, 4)
 </code></pre>
-
 <h2 id="4-define-the-coefficients-of-the-pde-and-the-boundary-conditions">4. Define the coefficients of the PDE and the boundary conditions</h2>
 <p>We first define the coefficients of the PDE using the <code>Constant</code> and <code>Expression</code> classes. <code>Constant</code> is used to define coefficients that do not depend on the space coordinates, <code>Expression</code> is used to define coefficients that are a known function of the space coordinates <code>x[0]</code> (x-axis direction) and <code>x[1]</code> (y-axis direction).</p>
 <p>In the finite element method community, Dirichlet boundary conditions are also known as <em>essential</em> boundary conditions since they are imposed directly in the definition of the finite element space. In FEniCS, we use the class <code>DirichletBC</code> to indicate this type of condition.</p>
 <p>On the other hand, Newman boundary conditions are also known as <em>natural</em> boundary conditions since they are weakly imposed as boundary integrals in the variational formulation (weak form). In FEniCS, we create a new boundary measure <code>ds[i]</code> to integrate over the portion of the boundary marked with label <code>i</code>.</p>
-<pre><code class="python">u_L = Constant(0.)
+<pre><code class="language-python">u_L = Constant(0.)
 u_R = Constant(0.)
 
 sigma_bottom = Expression('-(pi/2.0)*sin(2*pi*x[0])', degree=5)
@@ -346,7 +343,6 @@ bcs = [DirichletBC(Vh, u_L, boundary_parts, 3),
 
 ds = Measure(&quot;ds&quot;, subdomain_data=boundary_parts)
 </code></pre>
-
 <h2 id="5-define-and-solve-the-variational-problem">5. Define and solve the variational problem</h2>
 <p>We also define two special types of functions: the <code>TrialFunction</code> <code>u</code> and the <code>TestFunction</code> <code>v</code>. These special types of function are used by <code>FEniCS</code> to generate the finite element vectors and matrices which stem from the weak formulation of the PDE.</p>
 <p>More specifically, by denoting by <script type="math/tex">\left[{\phi_i(x)}\right]_{i=1}^{{\rm dim}(V_h)}</script> the finite element basis for the space <script type="math/tex">V_h</script>, a function <script type="math/tex">u_h \in V_h</script> can be written as
@@ -382,7 +378,7 @@ where</p>
 <p>the entries of the right hand side b are such that <script type="math/tex">b_i = L(\phi_i)</script>.</p>
 </li>
 </ul>
-<pre><code class="python">u = TrialFunction(Vh)
+<pre><code class="language-python">u = TrialFunction(Vh)
 v = TestFunction(Vh)
 a = inner(nabla_grad(u), nabla_grad(v))*dx
 L = f*v*dx + sigma_top*v*ds(1) + sigma_bottom*v*ds(2)
@@ -395,7 +391,6 @@ solve(A, uh.vector(), b, &quot;cg&quot;)
 
 nb.plot(uh)
 </code></pre>
-
 <p><img alt="png" src="./1_FEniCS101_files/1_FEniCS101_10_2.png" /></p>
 <h2 id="6-compute-the-discretization-error">6. Compute the discretization error</h2>
 <p>For this problem, the exact solution is known.
@@ -404,7 +399,7 @@ We can therefore compute the following norms of the discretization error (i.e. t
 and
 <script type="math/tex; mode=display"> \| u_{\rm ex} - u_h \|_{H^1{\Omega}} := \sqrt{ \int_{\Omega} (u_{\rm ex} - u_h)^2 \, dx + \int_{\Omega} |\nabla u_{\rm ex} - \nabla u_h|^2 \, dx}. </script>
 </p>
-<pre><code class="python">u_e = Expression('sin(2*pi*x[0])*sin((pi/2.0)*x[1])', degree=5)
+<pre><code class="language-python">u_e = Expression('sin(2*pi*x[0])*sin((pi/2.0)*x[1])', degree=5)
 grad_u_e = Expression( ('2*pi*cos(2*pi*x[0])*sin((pi/2.0)*x[1])', 'pi/2.0*sin(2*pi*x[0])*cos((pi/2.0)*x[1])'), degree=5)
 
 err_L2 = sqrt( assemble( (uh-u_e)**2*dx ) )
@@ -414,7 +409,6 @@ err_H1 = sqrt( err_L2**2 + err_grad**2)
 print(&quot;|| u_h - u_e ||_L2 = &quot;, err_L2)
 print(&quot;|| u_h - u_e ||_H1 = &quot;, err_H1)
 </code></pre>
-
 <pre><code>|| u_h - u_e ||_L2 =  0.00880525372208
 || u_h - u_e ||_H1 =  0.396718952514
 </code></pre>
@@ -433,7 +427,7 @@ print(&quot;|| u_h - u_e ||_H1 = &quot;, err_H1)
 <p>for piecewise quadratic finite element P2 we observe second order convergence in the <script type="math/tex">H^1</script>-norm and third order convergence in the <script type="math/tex">L^2</script>-norm.</p>
 </li>
 </ul>
-<pre><code class="python">def compute(n, degree):
+<pre><code class="language-python">def compute(n, degree):
     mesh = UnitSquareMesh(n, n)
     Vh  = FunctionSpace(mesh, 'Lagrange', degree)
     boundary_parts = FacetFunction(&quot;size_t&quot;, mesh)
@@ -501,7 +495,6 @@ plt.legend(loc='lower right')
 
 plt.show()
 </code></pre>
-
 <p><img alt="png" src="./1_FEniCS101_files/1_FEniCS101_14_0.png" /></p>
 <p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
 All Rights reserved.

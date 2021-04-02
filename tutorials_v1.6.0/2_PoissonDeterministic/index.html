@@ -387,7 +387,7 @@ The discretized Newton step: denote the vectors corresponding to the discretizat
 </ul>
 <h2 id="set-up">Set up</h2>
 <h3 id="import-dependencies">Import dependencies</h3>
-<pre><code class="python">from __future__ import absolute_import, division, print_function
+<pre><code class="language-python">from __future__ import absolute_import, division, print_function
 
 from dolfin import *
 
@@ -410,10 +410,9 @@ set_log_active(False)
 
 np.random.seed(seed=1)
 </code></pre>
-
 <h3 id="model-set-up">Model set up:</h3>
 <p>As in the introduction, the first thing we need to do is set up the numerical model.  In this cell, we set the mesh, the finite element functions <script type="math/tex">u, p, g</script> corresponding to state, adjoint and coefficient/gradient variables, and the corresponding test functions and the parameters for the optimization.</p>
-<pre><code class="python"># create mesh and define function spaces
+<pre><code class="language-python"># create mesh and define function spaces
 nx = 64
 ny = 64
 mesh = UnitSquareMesh(nx, ny)
@@ -442,16 +441,14 @@ nb.plot(mesh,subplot_loc=121, mytitle=&quot;Mesh&quot;, show_axis='on')
 nb.plot(atrue,subplot_loc=122, mytitle=&quot;True parameter field&quot;)
 plt.show()
 </code></pre>
-
 <p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_4_1.png" /></p>
-<pre><code class="python"># set up dirichlet boundary conditions
+<pre><code class="language-python"># set up dirichlet boundary conditions
 def boundary(x,on_boundary):
     return on_boundary
 
 bc_state = DirichletBC(Vu, u0, boundary)
 bc_adj = DirichletBC(Vu, Constant(0.), boundary)
 </code></pre>
-
 <h3 id="set-up-synthetic-observations">Set up synthetic observations:</h3>
 <ul>
 <li>Propose a coefficient field <script type="math/tex">a_{\text true}</script> shown above</li>
@@ -464,7 +461,7 @@ bc_adj = DirichletBC(Vu, Constant(0.), boundary)
 </p>
 </li>
 </ul>
-<pre><code class="python"># noise level
+<pre><code class="language-python"># noise level
 noise_level = 0.05
 
 # weak form for setting up the synthetic observations
@@ -494,7 +491,6 @@ ud.vector().axpy(1., noise)
 nb.multi1_plot([utrue, ud], [&quot;State solution with atrue&quot;, &quot;Synthetic observations&quot;])
 plt.show()
 </code></pre>
-
 <p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_7_0.png" /></p>
 <h3 id="the-cost-function-evaluation">The cost function evaluation:</h3>
 <p>
@@ -503,7 +499,7 @@ J(a):=\underbrace{\frac{1}{2}\int_\Omega (u-u_d)^2\, dx}_{\text misfit} + \under
 </script>
 </p>
 <p>In the code below, <script type="math/tex">W</script> and <script type="math/tex">R</script> are symmetric positive definite matrices that stem from finite element discretization of the misfit and regularization component of the cost functional, respectively.</p>
-<pre><code class="python"># regularization parameter
+<pre><code class="language-python"># regularization parameter
 gamma = 1e-8
 
 # weak for for setting up the misfit and regularization compoment of the cost
@@ -520,7 +516,6 @@ def cost(u, ud, a, W, R):
     misfit = 0.5 * diff.inner(W * diff)
     return [reg + misfit, misfit, reg]
 </code></pre>
-
 <h3 id="setting-up-the-state-equations-right-hand-side-for-the-adjoint-and-the-necessary-matrices">Setting up the state equations, right hand side for the adjoint and the necessary matrices:</h3>
 <p>
 <script type="math/tex; mode=display">
@@ -539,7 +534,7 @@ def cost(u, ud, a, W, R):
   \end{array}
 </script>
 </p>
-<pre><code class="python"># weak form for setting up the state equation
+<pre><code class="language-python"># weak form for setting up the state equation
 a_state = inner(exp(a) * nabla_grad(u_trial), nabla_grad(u_test)) * dx
 L_state = f * u_test * dx
 
@@ -557,10 +552,9 @@ M_equ   = inner(a_trial, a_test) * dx
 # assemble matrix M
 M = assemble(M_equ)
 </code></pre>
-
 <h3 id="initial-guess">Initial guess</h3>
 <p>We solve the state equation and compute the cost functional for the initial guess of the parameter <code>a_ini</code></p>
-<pre><code class="python"># solve state equation
+<pre><code class="language-python"># solve state equation
 state_A, state_b = assemble_system (a_state, L_state, bc_state)
 solve (state_A, u.vector(), state_b)
 
@@ -573,7 +567,6 @@ nb.plot(a,subplot_loc=121, mytitle=&quot;a_ini&quot;, vmin=atrue.vector().min(),
 nb.plot(u,subplot_loc=122, mytitle=&quot;u(a_ini)&quot;)
 plt.show()
 </code></pre>
-
 <p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_13_0.png" /></p>
 <h3 id="the-reduced-hessian-apply-to-a-vector-v">The reduced Hessian apply to a vector v:</h3>
 <p>Here we describe how to apply the reduced Hessian operator to a vector v. For an opportune choice of the regularization, the reduced Hessian operator evaluated in a neighborhood of the solution is positive define, whereas far from the solution the reduced Hessian may be indefinite. On the constrary, the Gauss-Newton approximation of the Hessian is always positive defined.</p>
@@ -597,7 +590,7 @@ plt.show()
 \end{align}
 </script>
 </p>
-<pre><code class="python"># Class HessianOperator to perform Hessian apply to a vector
+<pre><code class="language-python"># Class HessianOperator to perform Hessian apply to a vector
 class HessianOperator():
     cgiter = 0
     def __init__(self, R, Raa, C, A, adj_A, W, Wua, use_gaussnewton=False):
@@ -679,7 +672,6 @@ class HessianOperator():
         self.Wua.transpmult(self.du, self.Wua_du)
         y.axpy(1., self.Wua_du)
 </code></pre>
-
 <h2 id="the-inexact-newton-cg-optimization-with-armijo-line-search">The inexact Newton-CG optimization with Armijo line search:</h2>
 <p>We solve the constrained optimization problem using the inexact Newton-CG method with Armijo line search.</p>
 <p>The stopping criterion is based on a relative reduction of the norm of the gradient (i.e. <script type="math/tex">\frac{\|g_{n}\|}{\|g_{0}\|} \leq \tau</script>).</p>
@@ -692,7 +684,7 @@ The Newton system is solved inexactly by early termination of conjugate gradient
 More specifically, we use backtracking to find <script type="math/tex">\alpha</script> such that:
 <script type="math/tex; mode=display">J( a + \alpha \delta a ) \leq J(a) + \alpha c_{\rm armijo} (\delta a,g). </script>
 </p>
-<pre><code class="python"># define parameters for the optimization
+<pre><code class="language-python"># define parameters for the optimization
 tol = 1e-8
 c = 1e-4
 maxiter = 12
@@ -805,7 +797,6 @@ while iter &lt;  maxiter and not converged:
 if not converged:
     print(&quot;Newton's method did not converge in &quot;, maxiter, &quot; iterations&quot;)
 </code></pre>
-
 <pre><code>Nit   CGit   cost          misfit        reg           sqrt(-G*D)    ||grad||       alpha  tolcg
  1     1     1.12708e-05   1.12708e-05   1.33979e-11   1.56540e-02   3.79427e-04    1.00   5.000e-01
  2     1     7.79732e-07   7.79695e-07   3.67737e-11   4.68278e-03   5.35002e-05    1.00   3.755e-01
@@ -818,11 +809,10 @@ if not converged:
 Newton's method converged in  8   iterations
 Total number of CG iterations:  41
 </code></pre>
-<pre><code class="python">nb.multi1_plot([atrue, a], [&quot;atrue&quot;, &quot;a&quot;])
+<pre><code class="language-python">nb.multi1_plot([atrue, a], [&quot;atrue&quot;, &quot;a&quot;])
 nb.multi1_plot([u,p], [&quot;u&quot;,&quot;p&quot;], same_colorbar=False)
 plt.show()
 </code></pre>
-
 <p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_18_0.png" /></p>
 <p><img alt="png" src="./2_PoissonDeterministic_files/2_PoissonDeterministic_18_1.png" /></p>
 <p>Copyright (c) 2016-2018, The University of Texas at Austin &amp; University of California, Merced.
